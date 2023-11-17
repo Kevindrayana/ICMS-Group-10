@@ -7,11 +7,11 @@ video_capture = cv2.VideoCapture(0)
 video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 840)
 video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 840)
 
-# Specify the `user_name` and `NUM_IMGS` here.
-user_name = "Bryan"
+# Specify the `uid` and `NUM_IMGS` here.
+uid = "3035869209"
 NUM_IMGS = 200
-if not os.path.exists('data/{}'.format(user_name)):
-    os.mkdir('data/{}'.format(user_name))
+if not os.path.exists('data/{}'.format(uid)):
+    os.mkdir('data/{}'.format(uid))
 
 cnt = 1
 font = cv2.FONT_HERSHEY_SIMPLEX
@@ -40,7 +40,7 @@ while cnt <= NUM_IMGS:
     for (x, y, w, h) in faces:
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-    msg = "Saving {}'s Face Data [{}/{}]".format(user_name, cnt, NUM_IMGS)
+    msg = "Saving {}'s Face Data [{}/{}]".format(uid, cnt, NUM_IMGS)
     cv2.putText(frame, msg,
                 bottomLeftCornerOfText,
                 font,
@@ -52,7 +52,7 @@ while cnt <= NUM_IMGS:
     # Display the resulting frame
     cv2.imshow('Video', frame)
     # Store the captured images in `data/Jack`
-    cv2.imwrite("data/{}/{}{:03d}.jpg".format(user_name, user_name, cnt), frame)
+    cv2.imwrite("data/{}/{}{:03d}.jpg".format(uid, uid, cnt), frame)
     cnt += 1
 
     key = cv2.waitKey(100)
