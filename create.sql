@@ -16,8 +16,7 @@ CREATE TABLE Student (
     password VARCHAR(255),
     name VARCHAR(255),
     email VARCHAR(255),
-    login_time TIME,
-    login_date DATE
+    login_time DATETIME
 );
 CREATE TABLE Course (
     course_code VARCHAR(255) PRIMARY KEY,
@@ -85,32 +84,28 @@ INSERT INTO Student (
         password,
         name,
         email,
-        login_time,
-        login_date
+        login_time
     )
 VALUES (
         '3035000001',
         '1234',
         'John Doe',
         'john.doe@gmail.com',
-        '09:00:00',
-        '2023-10-01'
+        '2023-10-01 09:00:00'
     ),
     (
         '3035000002',
         '1234',
         'Jane Smith',
         'jane.smith@gmail.com',
-        '14:30:00',
-        '2023-10-02'
+        '2023-10-02 14:30:00'
     ),
     (
         '3035000003',
         '1234',
         'Alice Johnson',
         'alice.johnson@gmail.com',
-        '10:15:00',
-        '2023-10-03'
+        '2023-10-03 10:15:00'
     );
 INSERT INTO Course (course_code, semester)
 VALUES ('CSE101', 1),
