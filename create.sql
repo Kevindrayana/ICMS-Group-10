@@ -35,7 +35,8 @@ CREATE TABLE Lecture (
     course_code VARCHAR(255),
     notes TEXT,
     classroom_address VARCHAR(255),
-    timeslot VARCHAR(255),
+    start_time TIME,
+    end_time TIME,
     FOREIGN KEY (course_code) REFERENCES Course(course_code)
 );
 CREATE TABLE Tutorial (
@@ -43,7 +44,8 @@ CREATE TABLE Tutorial (
     course_code VARCHAR(255),
     notes TEXT,
     classroom_address VARCHAR(255),
-    timeslot VARCHAR(255),
+    start_time TIME,
+    end_time TIME,
     FOREIGN KEY (course_code) REFERENCES Course(course_code)
 );
 CREATE TABLE Teaching_Staff (
@@ -125,56 +127,64 @@ INSERT INTO Lecture (
         course_code,
         notes,
         classroom_address,
-        timeslot
+        start_time,
+        end_time
     )
 VALUES (
         'L01',
         'CSE101',
-        'Introduction to Computer Science',
+        'https://moodle.hku.hk/mod/resource/view.php?id=3081960',
         'Room A101',
-        '09:00-10:30'
+        '09:00:00',
+        '10:30:00'
     ),
     (
         'L02',
         'MATH202',
-        'Calculus II',
+        'https://moodle.hku.hk/mod/resource/view.php?id=3088157',
         'Room B202',
-        '11:00-12:30'
+        '11:00:00',
+        '12:30:00'
     ),
     (
         'L03',
         'PHYS101',
-        'Mechanics and Waves',
+        'https://moodle.hku.hk/mod/resource/view.php?id=3095353',
         'Room C303',
-        '10:00-11:30'
+        '10:00:00',
+        '11:30:00'
     );
 INSERT INTO Tutorial (
         tutorial_id,
         course_code,
         notes,
         classroom_address,
-        timeslot
+        start_time,
+        end_time
     )
 VALUES (
         1,
         'CSE101',
-        'Lab session for programming practice',
+        'https://moodle.hku.hk/mod/resource/view.php?id=3067672',
         'Lab A',
-        '14:00-16:00'
+        '14:00:00',
+        '16:00:00'
     ),
     (
         2,
         'MATH202',
-        'Problem-solving session',
+        'https://moodle.hku.hk/mod/resource/view.php?id=3118496',
         'Room B101',
-        '13:00-15:00'
+        '13:00:00',
+        '15:00:00'
     ),
     (
         3,
         'PHYS101',
-        'Experiment demonstration',
+        'https://moodle.hku.hk/mod/resource/view.php?id=3081895',
         'Lab C',
-        '15:00-17:00'
+        '15:00:00',
+        '17:00:00'
     );
 INSERT INTO Teaching_Staff (staff_id, name)
 VALUES ('9035000001', 'Dr. Robert Johnson'),
