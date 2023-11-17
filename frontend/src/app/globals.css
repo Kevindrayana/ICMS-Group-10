@@ -3,6 +3,8 @@
   color: #FFFFFF;
 }
 
-/* .MuiButton-contained:hover {
-
-} */
+.MuiButton-contained:hover {
+  background-color: #FFFFFF;
+  border: 2px solid #48A8BC;
+  color: #48A8BC;
+}

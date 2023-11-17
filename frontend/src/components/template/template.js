@@ -11,7 +11,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 export default function Template({ children }) {
-
+    const [hide, setHide] = useState(true);
     const [active, setActive] = useState(0);
     // i want to create something to store name, position, year, major and put it in the data structure, which data structure is the best
     const [person, setPerson] = useState({
@@ -20,26 +20,59 @@ export default function Template({ children }) {
         year: "Year 3",
         major: 'BEng CompSc'
     });
-    const [loginHistory, setLoginHistory] = useState([
+    const [loginHistory, setLoginHistory] = useState(
         {
             date: "2021-10-03",
             loginTime: "10:00",
             logoutTime: "12:00",
             Duration: "2 hours",
+        }
+    );
+    const [latestAnnouncement, setLatestAnnouncement] = useState([
+        {
+            time: "2021-10-03",
+            content: "This is the first announcementhud saihasiudhsua hdauihduiahdu iadhuashuasihdiusad dsahudiahud haud shduisa hduiash duisahd uiadh uasidh uaid huaihd uahduaisdh i",
+            course: "COMP 3278",
+            instructor: "Dr. Luo Ping"
         },
         {
-            date: "2021-10-02",
-            loginTime: "10:00",
-            logoutTime: "12:00",
-            Duration: "2 hours",
+            time: "2021-10-03",
+            content: "This is the first announcement",
+            course: "COMP 3278",
+            instructor: "Dr. Luo Ping"
         },
         {
-            date: "2021-10-01",
-            loginTime: "10:00",
-            logoutTime: "12:00",
-            Duration: "2 hours",
+            time: "2021-10-03",
+            content: "This is the first announcement",
+            course: "COMP 3278",
+            instructor: "Dr. Luo Ping"
         },
-    ]);
+        {
+            time: "2021-10-03",
+            content: "This is the first announcement",
+            course: "COMP 3278",
+            instructor: "Dr. Luo Ping"
+        },
+        {
+            time: "2021-10-03",
+            content: "This is the first announcement",
+            course: "COMP 3278",
+            instructor: "Dr. Luo Ping"
+        },
+        {
+            time: "2021-10-03",
+            content: "This is the first announcement",
+            course: "COMP 3278",
+            instructor: "Dr. Luo Ping"
+        },
+        {
+            time: "2021-10-03",
+            content: "This is the first announcement",
+            course: "COMP 3278",
+            instructor: "Dr. Luo Ping"
+        },
+    ]
+    );
     const handleClick = (index) => {
         setActive(index);
     }
@@ -52,6 +85,7 @@ export default function Template({ children }) {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
+
         }}>
             <div style={{
                 width: "265px",
@@ -60,6 +94,7 @@ export default function Template({ children }) {
                 flexDirection: "column",
                 justifyContent: "space-between",
                 minHeight: "100vh",
+                overflow: "auto !important",
                 // alignItems: "left",
             }}
             >
@@ -195,40 +230,41 @@ export default function Template({ children }) {
             {/* sidebar */}
             <div style={{
                 padding: "32px",
+                overflow: "hidden"
+
             }}>
                 {children}
             </div>
             <div style={{
                 width: "382px",
                 padding: "32px",
+                overflow: "auto !important",
+
             }}>
                 <div>
                     <div style={{
                         fontSize: "24px",
                         color: "#48A8BC",
                         marginBottom: "10px",
-                    }}>Login History</div>
+                    }}>Latest Announcement</div>
                     <Box sx={{
-                        boxShadow: 3,
+                        boxShadow: 1,
                         borderRadius: 2,
                         padding: "20px",
                     }}>
-                        {loginHistory.map((item, index) => (
+                            {hide?
                             <div style={{
                                 display: "flex",
                                 flexDirection: "column",
                                 justifyContent: "space-between",
                                 marginBottom: "5px",
                                 paddingBottom: "5px",
-                                // borderBottom: "1px solid #E9E9E9",
-                                // if index is the last one, dont show the border
-                                borderBottom: index === loginHistory.length - 1 ? "none" : "1px solid #E9E9E9",
                             }}>
                                 <div style={{
                                     fontSize: "17px",
                                     display: "flex",
                                     flexDirection: "row",
-                                    justifyContent: "left",
+                                    justifyContent: "space-between",
                                     color: "#BCBCBC"
 
 
@@ -236,72 +272,90 @@ export default function Template({ children }) {
                                     width: "120px",
                                     color: "#76989F"
                                 }}>
-                                        Date
+                                        {latestAnnouncement[0].course}
                                     </div>
                                     <div>
-                                        {item.date}
+                                        {latestAnnouncement[0].time}
                                     </div></div>
                                 <div style={{
                                     fontSize: "17px",
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    justifyContent: "left",
-                                    color: "#BCBCBC"
+                                    color: "#78C2D2",
 
                                 }}>
-                                    <div style={{
-                                        width: "120px",
-                                        color: "#76989F"
-
-
-                                    }}>
-                                        Login Time
-                                    </div>
-                                    <div>
-                                        {item.loginTime}
-                                    </div>
+                                        {latestAnnouncement[0].instructor} - Course Instructor
                                 </div>
+                                <div style={{
+                                    fontSize: "17px",
+                                    color: "#BCBCBC",
+                                    marginTop: "10px",
+                                    maxWidth: "300px",
+                                    //make the gap between the two lines smaller
+                                    lineHeight: "1.2",
+                                }}>
+                                        {latestAnnouncement[0].content}
+                                        </div>
+                            </div> : <>
+                        {latestAnnouncement.map((item, index) => (
+
+                            <div style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "space-between",
+                                marginBottom: "5px",
+                                paddingBottom: "5px",
+                                borderBottom: index === latestAnnouncement.length - 1 ? "none" : "1px solid #E9E9E9",
+                            }}>
                                 <div style={{
                                     fontSize: "17px",
                                     display: "flex",
                                     flexDirection: "row",
-                                    justifyContent: "left",
+                                    justifyContent: "space-between",
                                     color: "#BCBCBC"
 
-                                }}>
-                                    <div style={{
-                                        width: "120px",
-                                        color: "#76989F"
 
-                                    }}>
-                                        Logout Time
+                                }}><div style={{
+                                    width: "120px",
+                                    color: "#76989F"
+                                }}>
+                                        {item.course}
                                     </div>
                                     <div>
-                                        {item.logoutTime}
-                                    </div>
+                                        {item.time}
+                                    </div></div>
+                                <div style={{
+                                    fontSize: "17px",
+                                    color: "#78C2D2"
+
+                                }}>
+                                        {item.instructor} - Course Instructor
                                 </div>
                                 <div style={{
                                     fontSize: "17px",
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    justifyContent: "left",
-                                    color: "#BCBCBC"
+                                    color: "#BCBCBC",
+                                    marginTop: "10px",
+                                    maxWidth: "300px",
+                                    //make the gap between the two lines smaller
+                                    lineHeight: "1.2",
                                 }}>
-                                    <div style={{
-                                        width: "120px",
-                                        color: "#76989F",
-
-                                    }}>
-                                        Duration
-                                    </div>
-                                    <div>
-                                        {item.Duration}
-                                    </div>
-                                </div>
+                                        {item.content}
+                                        </div>
                             </div>
                         ))}
+                        </>
+                        }
                     </Box>
+                    <div style={{
+                        fontSize: "14px",
+                        color: "#48A8BC",
+                        cursor: "pointer",
+                        marginTop: "10px",
+                    }}
+                        onClick={() => setHide(!hide)}
+                    >{hide ? "See More ->" : "<- See Less"}</div>
+
                 </div>
+                {hide ?
+                <>
                 <div style={{
                     marginTop: "20px",
                 }}>
@@ -312,17 +366,69 @@ export default function Template({ children }) {
                     }}>Calendar</div>
                     <Box sx={{
                         //use shadow
-                        boxShadow: 3,
+                        boxShadow: 1,
                         borderRadius: 2,
 
                     }}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DateCalendar sx={{
                                 color: "#2B7099",
-                            }}/>
+                            }} />
                         </LocalizationProvider>
                     </Box>
                 </div>
+                <div style={{
+                    marginTop: "20px",
+                }}>
+                    <div style={{
+                        fontSize: "24px",
+                        color: "#48A8BC",
+                        marginBottom: "10px",
+                    }}>Last Login</div>
+                    <Box sx={{
+                        //use shadow
+                        boxShadow: 1,
+                        borderRadius: 2,
+                        padding: "20px",
+                    }}>
+                        <div style={{
+                            fontSize: "17px",
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "left",
+                            color: "#BCBCBC"
+
+
+                        }}><div style={{
+                            width: "120px",
+                            color: "#76989F"
+                        }}>
+                                Date
+                            </div>
+                            <div>
+                                {loginHistory.date}
+                            </div></div>
+                        <div style={{
+                            fontSize: "17px",
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "left",
+                            color: "#BCBCBC"
+
+
+                        }}><div style={{
+                            width: "120px",
+                            color: "#76989F"
+                        }}>
+                                Login Time
+                            </div>
+                            <div>
+                                {loginHistory.loginTime}
+                            </div></div>
+                    </Box>
+                </div>
+                </>
+                : <></>}
             </div>
         </div>)
 }

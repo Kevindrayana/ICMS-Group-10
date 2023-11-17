@@ -22,7 +22,9 @@ export default function SignIn() {
     router.push('/dashboard')
 
   };
-
+  const handleFaceRecognition = () => {
+    // handle
+  }
   return (
     <Container component="main" maxWidth="sm">
       <Box
@@ -70,6 +72,15 @@ export default function SignIn() {
             Sign In
           </Button>
         </Box>
+        <Button
+          onClick={()=> {
+            handleFaceRecognition()
+          }}
+          sx={{
+            mt: 2,
+          }}
+          fullWidth
+          >Login Via Face Recognition</Button>
       </Box>
     </Container>
   );
