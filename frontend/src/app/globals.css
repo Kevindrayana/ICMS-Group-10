@@ -8,3 +8,16 @@
   border: 2px solid #48A8BC;
   color: #48A8BC;
 }
+html, body {
+  margin:0;
+  overflow: hidden;
+}
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.content {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

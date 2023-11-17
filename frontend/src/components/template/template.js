@@ -88,11 +88,13 @@ export default function Template({ children }) {
 
         }}>
             <div style={{
-                width: "265px",
+                width: "17%",
                 padding: "32px",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
+                // minHeight: "90vh",
+                height: "0px",
                 minHeight: "100vh",
                 overflow: "auto !important",
                 // alignItems: "left",
@@ -228,16 +230,22 @@ export default function Template({ children }) {
 
             </div>
             {/* sidebar */}
-            <div style={{
+            <div className="content" style={{
                 padding: "32px",
-                overflow: "hidden"
-
+                width: "58%",
+                overflow: "auto",
+                height: "0px",
+                minHeight: "100vh",
             }}>
                 {children}
             </div>
             <div style={{
-                width: "382px",
+                width: "25%",
+                maxWidth: "400px",
+
                 padding: "32px",
+                height: "0px",
+                minHeight: "100vh",
                 overflow: "auto !important",
 
             }}>
