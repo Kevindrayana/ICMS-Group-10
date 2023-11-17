@@ -31,7 +31,7 @@ def login():
     password = data['password']
 
     if request.method == 'POST':
-        cursor.execute("SELECT * FROM Student WHERE student_id = %s AND password = %s", (student_id, password))
+        cursor.execute("SELECT * FROM Student WHERE student_id = %s AND password = %s;", (student_id, password))
         values = cursor.fetchone()
 
         if values:
@@ -53,7 +53,7 @@ def login():
 
     if response['signin'] == True:
         print("Updating login_time...")
-        cursor.execute("UPDATE Student SET login_time = NOW() WHERE student_id = %s", (student_id,))
+        cursor.execute("UPDATE Student SET login_time = NOW() WHERE student_id = %s;", (student_id,))
         conn.commit()
 
     # JSONify the response
@@ -77,7 +77,46 @@ def signout():
 
 @app.route("/timetable", methods=['GET'])
 def timetable():
-    return "<p>Timetable</p>"
+    student_id = request.args.get('uid')
+    if not student_id:
+        return Response(status=400)
+    
+    query_lec = f"SELECT * FROM Lecture WHERE course_code IN (\
+    SELECT course_code FROM Student_asoc_course\
+    WHERE student_id = {student_id});"
+    cursor.execute(query_lec)
+    values_lec = cursor.fetchall()
+
+    query_tut = f"SELECT * FROM Tutorial WHERE course_code IN (\
+    SELECT course_code FROM Student_asoc_course\
+    WHERE student_id = {student_id});"
+    cursor.execute(query_tut)
+    values_tut = cursor.fetchall()
+
+
+    # JSONify the response
+    response_dict = {
+        "lecture_results": values_lec,
+        "tutorial_results": values_tut
+    }
+
+    # JSONify the response dictionary
+    response = Response(json.dumps(response_dict, cls=CustomJSONEncoder), mimetype='application/json')
+    return response
+
+@app.route("/latest-login", methods=['GET'])
+def latest_login():
+    student_id = request.args.get('uid')
+    if not student_id:
+        return Response(status=400)
+
+    query = f"SELECT student_id, login_time FROM Student WHERE student_id = {student_id};"
+    cursor.execute(query)
+    values = cursor.fetchone()
+
+    # JSONify the response
+    response = Response(json.dumps(values, cls=CustomJSONEncoder), mimetype='application/json')
+    return response
 
 @app.route("/class", methods=['GET'])
 def class_():
