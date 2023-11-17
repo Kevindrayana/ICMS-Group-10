@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS Student_asoc_course;
 DROP TABLE IF EXISTS Course;
 DROP TABLE IF EXISTS Student;
 CREATE TABLE Student (
-    student_id INT PRIMARY KEY,
+    student_id VARCHAR(255) PRIMARY KEY,
     password VARCHAR(255),
     name VARCHAR(255),
     email VARCHAR(255),
@@ -24,7 +24,7 @@ CREATE TABLE Course (
     semester INT
 );
 CREATE TABLE Student_asoc_course (
-    student_id INT,
+    student_id VARCHAR(255),
     course_code VARCHAR(255),
     PRIMARY KEY (student_id, course_code),
     FOREIGN KEY (student_id) REFERENCES Student(student_id),
@@ -47,26 +47,26 @@ CREATE TABLE Tutorial (
     FOREIGN KEY (course_code) REFERENCES Course(course_code)
 );
 CREATE TABLE Teaching_Staff (
-    staff_id INT PRIMARY KEY,
+    staff_id VARCHAR(255) PRIMARY KEY,
     name VARCHAR(255)
 );
 CREATE TABLE Professor (
-    staff_id INT PRIMARY KEY,
+    staff_id VARCHAR(255) PRIMARY KEY,
     name VARCHAR(255)
 );
 CREATE TABLE Professor_asoc_lecture (
-    staff_id INT,
+    staff_id VARCHAR(255),
     course_code VARCHAR(255),
     PRIMARY KEY (staff_id, course_code),
     FOREIGN KEY (staff_id) REFERENCES Professor(staff_id),
     FOREIGN KEY (course_code) REFERENCES Lecture(course_code)
 );
 CREATE TABLE Tutor (
-    staff_id INT PRIMARY KEY,
+    staff_id VARCHAR(255) PRIMARY KEY,
     name VARCHAR(255)
 );
 CREATE TABLE Tutor_asoc_tutorial (
-    staff_id INT,
+    staff_id VARCHAR(255),
     course_code VARCHAR(255),
     PRIMARY KEY (staff_id, course_code),
     FOREIGN KEY (staff_id) REFERENCES Tutor(staff_id),
@@ -74,7 +74,7 @@ CREATE TABLE Tutor_asoc_tutorial (
 );
 CREATE TABLE Message (
     message_id INT PRIMARY KEY AUTO_INCREMENT,
-    staff_id INT,
+    staff_id VARCHAR(255),
     content TEXT,
     FOREIGN KEY (staff_id) REFERENCES Teaching_Staff(staff_id)
 );
@@ -87,7 +87,7 @@ INSERT INTO Student (
         login_date
     )
 VALUES (
-        1,
+        '3035000001',
         '1234',
         'John Doe',
         'john.doe@gmail.com',
@@ -95,7 +95,7 @@ VALUES (
         '2023-10-01'
     ),
     (
-        2,
+        '3035000002',
         '1234',
         'Jane Smith',
         'jane.smith@gmail.com',
@@ -103,7 +103,7 @@ VALUES (
         '2023-10-02'
     ),
     (
-        3,
+        '3035000003',
         '1234',
         'Alice Johnson',
         'alice.johnson@gmail.com',
@@ -115,11 +115,11 @@ VALUES ('CSE101', 1),
     ('MATH202', 2),
     ('PHYS101', 1);
 INSERT INTO Student_asoc_course (student_id, course_code)
-VALUES (1, 'CSE101'),
-    (2, 'MATH202'),
-    (2, 'PHYS101'),
-    (3, 'CSE101'),
-    (3, 'PHYS101');
+VALUES ('3035000001', 'CSE101'),
+    ('3035000002', 'MATH202'),
+    ('3035000002', 'PHYS101'),
+    ('3035000003', 'CSE101'),
+    ('3035000003', 'PHYS101');
 INSERT INTO Lecture (
         sub_class,
         course_code,
@@ -177,26 +177,31 @@ VALUES (
         '15:00-17:00'
     );
 INSERT INTO Teaching_Staff (staff_id, name)
-VALUES (1, 'Dr. Robert Johnson'),
-    (2, 'Prof. Emily Wilson'),
-    (3, 'Dr. Michael Thompson');
+VALUES ('9035000001', 'Dr. Robert Johnson'),
+    ('9035000002', 'Prof. Emily Wilson'),
+    ('9035000003', 'Dr. Michael Thompson');
 INSERT INTO Professor (staff_id, name)
-VALUES (1, 'Dr. Robert Johnson'),
-    (2, 'Prof. Emily Wilson');
+VALUES ('9035000001', 'Dr. Robert Johnson'),
+    ('9035000002', 'Prof. Emily Wilson');
 INSERT INTO Professor_asoc_lecture (staff_id, course_code)
-VALUES (1, 'CSE101'),
-    (2, 'MATH202'),
-    (2, 'PHYS101');
+VALUES ('9035000001', 'CSE101'),
+    ('9035000002', 'MATH202'),
+    ('9035000002', 'PHYS101');
 INSERT INTO Tutor (staff_id, name)
-VALUES (3, 'Dr. Michael Thompson');
+VALUES ('9035000003', 'Dr. Michael Thompson');
 INSERT INTO Tutor_asoc_tutorial (staff_id, course_code)
-VALUES (3, 'CSE101'),
-    (3, 'PHYS101');
+VALUES ('9035000003', 'CSE101'),
+    ('9035000003', 'PHYS101');
 INSERT INTO Message (staff_id, content)
 VALUES (
-        1,
+        '9035000001',
         'Reminder: Assignment submission due next week.'
     ),
-    (2, 'Today''s lecture has been canceled.'),
-    (3, 'Tutorial rescheduled to tomorrow.');
--- get course information, classroom address, teacher's message, links of zoom, tutorial/lecture notes, other course materials within one hour before the class
+    (
+        '9035000002',
+        'Today''s lecture has been canceled.'
+    ),
+    (
+        '9035000003',
+        'Tutorial rescheduled to tomorrow.'
+    );

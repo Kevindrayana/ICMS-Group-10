@@ -3,6 +3,7 @@
 COMP3278 Intelligent Course Management System Project
 
 ## Getting Started
+
 ```
 # create venv
 $ python3 -m venv icms
@@ -22,7 +23,8 @@ $ flask run
 
 ## importing the database
 
-cd to the project directory and run the following commands: 
+cd to the project directory and run the following commands:
+
 ```
 # login the mysql command
 mysql -u root –p
@@ -39,4 +41,5 @@ mysql> SHOW tables;
 ```
 
 ## draw.io link for ERD
+
 https://app.diagrams.net/#G1gjgNTLW7gVZwNqp7VPQu2kE5qAabhGFR
