@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, Response
+from flask import Flask, jsonify, request, Response, session
 import mysql.connector
 import os
 import json
@@ -15,6 +15,7 @@ class CustomJSONEncoder(json.JSONEncoder):
         return super().default(obj)
 
 app = Flask(__name__)
+app.secret_key = "hello"
 load_dotenv()
 conn = mysql.connector.connect(user='root', password=os.getenv('SQL_PASSWORD'), database='icms')
 cursor = conn.cursor()
@@ -23,9 +24,31 @@ cursor = conn.cursor()
 def hello_world():
     return "<p>Hello, World!</p>"
 
-@app.route("/login", methods=['POST'])
+@app.route("/login", methods=['POST', 'GET'])
 def login():
-    return "<p>Login</p>"
+    data = request.get_json()
+    student_id = data['username']
+    password = data['password']
+
+    if request.method == 'POST':
+        cursor.execute("SELECT * FROM Student WHERE student_id = %s AND password = %s", (student_id, password))
+        values = cursor.fetchone()
+
+        if values:
+            # Store username in session
+            session.permanent = True
+            session['student_id'] = values[2]
+            response = {'signin': True}
+        else:
+            response = {'signin': False}
+    else:
+        if 'student_id' in session:
+            response = {'signin': True}
+
+    # JSONify the response
+    # response = Response(json.dumps(values, cls=CustomJSONEncoder), mimetype='application/json')
+    return jsonify(response)
+    
 
 @app.route("/logout", methods=['GET'])
 def logout():
@@ -34,6 +57,7 @@ def logout():
 @app.route("/signin", methods=['POST'])
 def signin():
     return "<p>Signin</p>"
+    
 
 @app.route("/signout", methods=['GET'])
 def signout():
