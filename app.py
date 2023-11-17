@@ -37,13 +37,24 @@ def login():
         if values:
             # Store username in session
             session.permanent = True
-            session['student_id'] = values[2]
-            response = {'signin': True}
+            session['student_id'] = values[0]
+            response = {
+                'signin': True,
+                'student_id': student_id
+            }
         else:
             response = {'signin': False}
     else:
         if 'student_id' in session:
-            response = {'signin': True}
+            response = {
+                'signin': True,
+                'student_id': student_id
+            }
+
+    if response['signin'] == True:
+        print("Updating login_time...")
+        cursor.execute("UPDATE Student SET login_time = NOW() WHERE student_id = %s", (student_id,))
+        conn.commit()
 
     # JSONify the response
     # response = Response(json.dumps(values, cls=CustomJSONEncoder), mimetype='application/json')
