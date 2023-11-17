@@ -46,9 +46,20 @@ def timetable():
 
 @app.route("/class", methods=['GET'])
 def class_():
-    # TODO: change name to use session
-    name = 'John Doe'
-    cursor.execute("SELECT * FROM Student")
+    uid = '3035000001'
+    query = f"SELECT sac.student_id, sac.course_code, l.notes as lecture_notes, l.start_time as lecture_start, l.end_time as lecture_end, t.notes as tutorial_notes, t.start_time as tutorial_start, t.end_time as tutorial_end\
+ FROM Student_asoc_course as sac\
+ LEFT JOIN Lecture as l\
+ ON sac.course_code = l.course_code\
+ LEFT JOIN Tutorial as t\
+ ON sac.course_code = t.course_code\
+ WHERE sac.student_id = {uid} AND\
+ (\
+ (l.start_time <= DATE_ADD(NOW(), INTERVAL 1 HOUR) AND L.start_time >= NOW())\
+ OR\
+ (t.start_time <= DATE_ADD(NOW(), INTERVAL 1 HOUR) AND L.start_time >= NOW())\
+ );"
+    cursor.execute(query)
     values = cursor.fetchall()
 
     # JSONify the response
