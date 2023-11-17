@@ -143,7 +143,7 @@ def login():
         conn.commit()
 
     # JSONify the response
-    # response = Response(json.dumps(values, cls=CustomJSONEncoder), mimetype='application/json')
+    response = Response(json.dumps(values, cls=CustomJSONEncoder), mimetype='application/json')
     return jsonify(response)
     
 
