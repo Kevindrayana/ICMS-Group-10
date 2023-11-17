@@ -2,7 +2,7 @@
 
 COMP3278 Intelligent Course Management System Project
 
-## Init
+## Getting Started
 ```
 # create venv
 $ python3 -m venv icms
@@ -12,6 +12,9 @@ $ source icms/bin/activate
 
 # install requirements
 $ pip3 install -r requirements.txt
+
+# create .env file in root, write your sql password as such:
+SQL_PASSWORD=****
 
 # start flask backend
 $ flask run
