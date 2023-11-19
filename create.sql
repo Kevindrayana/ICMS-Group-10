@@ -36,6 +36,7 @@ CREATE TABLE Lecture (
     classroom_address VARCHAR(255),
     start_time TIME,
     end_time TIME,
+    zoom_link VARCHAR(255),
     FOREIGN KEY (course_code) REFERENCES Course(course_code)
 );
 CREATE TABLE Tutorial (
@@ -45,6 +46,7 @@ CREATE TABLE Tutorial (
     classroom_address VARCHAR(255),
     start_time TIME,
     end_time TIME,
+    zoom_link VARCHAR(255),
     FOREIGN KEY (course_code) REFERENCES Course(course_code)
 );
 CREATE TABLE Teaching_Staff (
@@ -123,7 +125,8 @@ INSERT INTO Lecture (
         notes,
         classroom_address,
         start_time,
-        end_time
+        end_time,
+        zoom_link
     )
 VALUES (
         'L01',
@@ -131,7 +134,8 @@ VALUES (
         'https://moodle.hku.hk/mod/resource/view.php?id=3081960',
         'Room A101',
         '09:00:00',
-        '10:30:00'
+        '10:30:00',
+        'https://hku.zoom.us/j/123456789'
     ),
     (
         'L02',
@@ -139,7 +143,8 @@ VALUES (
         'https://moodle.hku.hk/mod/resource/view.php?id=3088157',
         'Room B202',
         '11:00:00',
-        '12:30:00'
+        '12:30:00',
+        'https://hku.zoom.us/j/987654321'
     ),
     (
         'L03',
@@ -147,7 +152,8 @@ VALUES (
         'https://moodle.hku.hk/mod/resource/view.php?id=3095353',
         'Room C303',
         '10:00:00',
-        '11:30:00'
+        '11:30:00',
+        'https://hku.zoom.us/j/123456789'
     );
 INSERT INTO Tutorial (
         tutorial_id,
@@ -155,7 +161,8 @@ INSERT INTO Tutorial (
         notes,
         classroom_address,
         start_time,
-        end_time
+        end_time,
+        zoom_link
     )
 VALUES (
         1,
@@ -163,7 +170,8 @@ VALUES (
         'https://moodle.hku.hk/mod/resource/view.php?id=3067672',
         'Lab A',
         '14:00:00',
-        '16:00:00'
+        '16:00:00',
+        'https://hku.zoom.us/j/123456789'
     ),
     (
         2,
@@ -171,7 +179,8 @@ VALUES (
         'https://moodle.hku.hk/mod/resource/view.php?id=3118496',
         'Room B101',
         '13:00:00',
-        '15:00:00'
+        '15:00:00',
+        'https://hku.zoom.us/j/987654321'
     ),
     (
         3,
@@ -179,7 +188,8 @@ VALUES (
         'https://moodle.hku.hk/mod/resource/view.php?id=3081895',
         'Lab C',
         '15:00:00',
-        '17:00:00'
+        '17:00:00',
+        'https://hku.zoom.us/j/123456789'
     );
 INSERT INTO Teaching_Staff (staff_id, name)
 VALUES ('9035000001', 'Dr. Robert Johnson'),
