@@ -75,7 +75,7 @@ export default function Dashboard() {
             "T01",
             "Room G02, Haking Wong Building",
             "15:00:00",
-            "16:30:00",
+            "17:20:00",
             "https://zoom.us/comp101-tutorial",
             "COMP101",
             "2023/11/20"
@@ -93,7 +93,7 @@ export default function Dashboard() {
         [
             "T02",
             "Room 202, Knowles Building",
-            "17:00:00",
+            "17:30:00",
             "18:30:00",
             "https://zoom.us/math202-tutorial",
             "MATH202",
@@ -132,8 +132,22 @@ export default function Dashboard() {
             >
                 <Scheduler
                     view="week"
-                    style={{ height: "500px" }}
+                    height={600}
                     events={convert(timetable_schedule)}
+                    deletable={false}
+                    week={{
+                        weekDays: [0, 1, 2, 3, 4, 5, 6],
+                        weekStartOn: 6,
+                        startHour: 9,
+                        endHour: 21,
+                        step: 60,
+                    }}
+                    day={{
+                        startHour: 9,
+                        endHour: 21,
+                        step: 60,
+                    }}
+                    editable={false}
                 />
             </div>
         </Template>

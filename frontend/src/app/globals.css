@@ -53,3 +53,9 @@ html, body {
 .timetable .MuiTypography-root {
   color: #48A8BC
 }
+.timetable .rs__multi_day .MuiButtonBase-root {
+  background-color: #48A8BC !important;
+}
+.timetable .rs__multi_day .MuiButtonBase-root .MuiTypography-root{
+  color: white !important
+}

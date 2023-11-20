@@ -268,6 +268,19 @@ export default function Dashboard() {
                         view="week"
                         style={{ height: "500px" }}
                         events={convert(timetable_schedule)}
+                        deletable={false}
+                        week={{ 
+                            weekDays: [0, 1, 2, 3, 4, 5, 6], 
+                            weekStartOn: 6, 
+                            startHour: 9, 
+                            endHour: 21,
+                            step: 60,
+                             }}
+                        day={{
+                            startHour: 9, 
+                            endHour: 21, 
+                            step: 60,
+                             }}
                     />
                 </div>
                 </div>

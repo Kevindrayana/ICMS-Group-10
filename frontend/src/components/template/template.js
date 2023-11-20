@@ -13,15 +13,13 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 
 export default function Template({ sidebar_index, children }) {
     const [hide, setHide] = useState(true);
-    
+
     const [active, setActive] = useState(sidebar_index);
     // setActive(sidebar_index);
     useEffect(() => {
-        console.log('sidebar_index changed:', sidebar_index);
         setActive(sidebar_index);
     }, [sidebar_index]);
 
-    console.log('Rendering with active state:', active);
 
     // i want to create something to store name, position, year, major and put it in the data structure, which data structure is the best
     const [person, setPerson] = useState({
@@ -99,7 +97,8 @@ export default function Template({ sidebar_index, children }) {
         }
     }
     const handleLogout = () => {
-        //logout
+        window.location.href = "/"
+
     }
 
     return (
@@ -259,6 +258,7 @@ export default function Template({ sidebar_index, children }) {
                 overflow: "auto",
                 height: "0px",
                 minHeight: "100vh",
+                minWidth: "400px"
             }}>
                 {children}
             </div>
@@ -274,7 +274,7 @@ export default function Template({ sidebar_index, children }) {
                 overflow: "auto !important",
 
             }}
-            className="right-sidebar"
+                className="right-sidebar"
             >
                 <div>
                     <div style={{
@@ -286,10 +286,10 @@ export default function Template({ sidebar_index, children }) {
                         boxShadow: 1,
                         borderRadius: 2,
                         padding: "20px",
-                minWidth: "320px",
+                        minWidth: "320px",
 
                     }}>
-                            {hide?
+                        {hide ?
                             <div style={{
                                 display: "flex",
                                 flexDirection: "column",
@@ -308,7 +308,7 @@ export default function Template({ sidebar_index, children }) {
                                 }}><div style={{
                                     width: "120px",
                                     color: "#76989F"
-                                    
+
                                 }}>
                                         {latestAnnouncement[0].course}
                                     </div>
@@ -322,7 +322,7 @@ export default function Template({ sidebar_index, children }) {
                                     color: "#78C2D2",
 
                                 }}>
-                                        {latestAnnouncement[0].instructor} - Course Instructor
+                                    {latestAnnouncement[0].instructor} - Course Instructor
                                 </div>
                                 <div style={{
                                     fontSize: "14px",
@@ -332,58 +332,58 @@ export default function Template({ sidebar_index, children }) {
                                     //make the gap between the two lines smaller
                                     lineHeight: "1.2",
                                 }}>
-                                        {latestAnnouncement[0].content}
-                                        </div>
+                                    {latestAnnouncement[0].content}
+                                </div>
                             </div> : <>
-                        {latestAnnouncement.slice(0, 7).map((item, index) => (
+                                {latestAnnouncement.slice(0, 7).map((item, index) => (
 
-                            <div style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "space-between",
-                                marginBottom: "5px",
-                                paddingBottom: "5px",
-                                borderBottom: index === latestAnnouncement.length - 1 ? "none" : "1px solid #E9E9E9",
-                            }}>
-                                <div style={{
-                                    fontSize: "17px",
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    justifyContent: "space-between",
-                                    color: "#BCBCBC"
-
-
-                                }}><div style={{
-                                    width: "120px",
-                                    color: "#76989F"
-                                }}>
-                                        {item.course}
-                                    </div>
                                     <div style={{
-                                        fontSize: "12px",
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "space-between",
+                                        marginBottom: "5px",
+                                        paddingBottom: "5px",
+                                        borderBottom: index === latestAnnouncement.length - 1 ? "none" : "1px solid #E9E9E9",
                                     }}>
-                                        {item.time.split(" ")[0]}
-                                    </div></div>
-                                <div style={{
-                                    fontSize: "17px",
-                                    color: "#78C2D2"
+                                        <div style={{
+                                            fontSize: "17px",
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            justifyContent: "space-between",
+                                            color: "#BCBCBC"
 
-                                }}>
-                                        {item.instructor} - Course Instructor
-                                </div>
-                                <div style={{
-                                    fontSize: "14px",
-                                    color: "#BCBCBC",
-                                    marginTop: "10px",
-                                    maxWidth: "300px",
-                                    //make the gap between the two lines smaller
-                                    lineHeight: "1.2",
-                                }}>
-                                        {item.content}
+
+                                        }}><div style={{
+                                            width: "120px",
+                                            color: "#76989F"
+                                        }}>
+                                                {item.course}
+                                            </div>
+                                            <div style={{
+                                                fontSize: "12px",
+                                            }}>
+                                                {item.time.split(" ")[0]}
+                                            </div></div>
+                                        <div style={{
+                                            fontSize: "17px",
+                                            color: "#78C2D2"
+
+                                        }}>
+                                            {item.instructor} - Course Instructor
                                         </div>
-                            </div>
-                        ))}
-                        </>
+                                        <div style={{
+                                            fontSize: "14px",
+                                            color: "#BCBCBC",
+                                            marginTop: "10px",
+                                            maxWidth: "300px",
+                                            //make the gap between the two lines smaller
+                                            lineHeight: "1.2",
+                                        }}>
+                                            {item.content}
+                                        </div>
+                                    </div>
+                                ))}
+                            </>
                         }
                     </Box>
                     <div style={{
@@ -397,91 +397,91 @@ export default function Template({ sidebar_index, children }) {
                     }}
                         onClick={() => setHide(!hide)}
                     >{hide ? "See More ->" : <>
-                    <div>&lt;- See Less</div>
-                    <div onClick={()=> {
-                        window.location.href = "/message"
-                    }}>View more</div>
+                        <div>&lt;- See Less</div>
+                        <div onClick={() => {
+                            window.location.href = "/message"
+                        }}>View more</div>
                     </>}</div>
 
                 </div>
                 {hide ?
-                <>
-                <div style={{
-                    marginTop: "20px",
-                }}>
-                    <div style={{
-                        fontSize: "24px",
-                        color: "#48A8BC",
-                        marginBottom: "10px",
-                    }}>Calendar</div>
-                    <Box sx={{
-                        //use shadow
-                        boxShadow: 1,
-                        borderRadius: 2,
-                        minWidth: "320px",
-
-                    }}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DateCalendar sx={{
-                                color: "#2B7099",
-                                maxWidth: "320px",
-                            }} />
-                        </LocalizationProvider>
-                    </Box>
-                </div>
-                <div style={{
-                    marginTop: "20px",
-                }}>
-                    <div style={{
-                        fontSize: "24px",
-                        color: "#48A8BC",
-                        marginBottom: "10px",
-                    }}>Last Login</div>
-                    <Box sx={{
-                        //use shadow
-                        boxShadow: 1,
-                        borderRadius: 2,
-                        padding: "20px",
-                minWidth: "320px",
-                fontSize: "14px",
-
-                    }}>
+                    <>
                         <div style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "left",
-                            color: "#BCBCBC"
-
-
-                        }}><div style={{
-                            width: "120px",
-                            color: "#76989F"
+                            marginTop: "20px",
                         }}>
-                                Date
-                            </div>
-                            <div>
-                                {loginHistory.date}
-                            </div></div>
+                            <div style={{
+                                fontSize: "24px",
+                                color: "#48A8BC",
+                                marginBottom: "10px",
+                            }}>Calendar</div>
+                            <Box sx={{
+                                //use shadow
+                                boxShadow: 1,
+                                borderRadius: 2,
+                                minWidth: "320px",
+
+                            }}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DateCalendar sx={{
+                                        color: "#2B7099",
+                                        maxWidth: "320px",
+                                    }} />
+                                </LocalizationProvider>
+                            </Box>
+                        </div>
                         <div style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "left",
-                            color: "#BCBCBC"
-
-
-                        }}><div style={{
-                            width: "120px",
-                            color: "#76989F"
+                            marginTop: "20px",
                         }}>
-                                Login Time
-                            </div>
-                            <div>
-                                {loginHistory.loginTime}
-                            </div></div>
-                    </Box>
-                </div>
-                </>
-                : <></>}
+                            <div style={{
+                                fontSize: "24px",
+                                color: "#48A8BC",
+                                marginBottom: "10px",
+                            }}>Last Login</div>
+                            <Box sx={{
+                                //use shadow
+                                boxShadow: 1,
+                                borderRadius: 2,
+                                padding: "20px",
+                                minWidth: "320px",
+                                fontSize: "14px",
+
+                            }}>
+                                <div style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "left",
+                                    color: "#BCBCBC"
+
+
+                                }}><div style={{
+                                    width: "120px",
+                                    color: "#76989F"
+                                }}>
+                                        Date
+                                    </div>
+                                    <div>
+                                        {loginHistory.date}
+                                    </div></div>
+                                <div style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "left",
+                                    color: "#BCBCBC"
+
+
+                                }}><div style={{
+                                    width: "120px",
+                                    color: "#76989F"
+                                }}>
+                                        Login Time
+                                    </div>
+                                    <div>
+                                        {loginHistory.loginTime}
+                                    </div></div>
+                            </Box>
+                        </div>
+                    </>
+                    : <></>}
             </div>
         </div>)
 }
