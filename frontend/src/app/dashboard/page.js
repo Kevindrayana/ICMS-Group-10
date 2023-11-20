@@ -8,10 +8,99 @@
 //     end_time TIME,
 //     FOREIGN KEY (course_code) REFERENCES Course(course_code)
 // );
+// [
+//     [
+//         "L01",
+//         "Room G01, Haking Wong Building",
+//         "9:00:00",
+//         "10:30:00",
+//         "https://zoom.us/comp101-lecture",
+//         "COMP101"
+//     ],
+//     [
+//         "T01",
+//         "Room G02, Haking Wong Building",
+//         "15:00:00",
+//         "16:30:00",
+//         "https://zoom.us/comp101-tutorial",
+//         "COMP101"
+//     ],
+//     [
+//         "L02",
+//         "Room 201, K.K. Leung Building",
+//         "11:00:00",
+//         "12:30:00",
+//         "https://zoom.us/math202-lecture",
+//         "MATH202"
+//     ],
+//     [
+//         "T02",
+//         "Room 202, Knowles Building",
+//         "17:00:00",
+//         "18:30:00",
+//         "https://zoom.us/math202-tutorial",
+//         "MATH202"
+//     ]
+// ]
+// create a converter from temp to temp2
+const convert = (temp) => {
+    let result = []
+    for (let i = 0; i < temp.length; i++) {
+        result.push({
+            title: temp[i][5],
+            start: new Date(temp[i][6] + " " + temp[i][2]),
+            end: new Date(temp[i][6] + " " + temp[i][3]),
+
+        })
+    }
+    return result
+}
+
 import { Template } from "src/components/template";
 import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
+import { Scheduler } from "@aldabil/react-scheduler";
 export default function Dashboard() {
+    const [timetable_schedule, setTimetable_schedule] = useState([
+        [
+            "L01",
+            "Room G01, Haking Wong Building",
+            "9:00:00",
+            "10:30:00",
+            "https://zoom.us/comp101-lecture",
+            "COMP101",
+            "2023/11/20"
+        ],
+        [
+            "T01",
+            "Room G02, Haking Wong Building",
+            "15:00:00",
+            "16:30:00",
+            "https://zoom.us/comp101-tutorial",
+            "COMP101",
+            "2023/11/20"
+    
+        ],
+        [
+            "L02",
+            "Room 201, K.K. Leung Building",
+            "11:00:00",
+            "12:30:00",
+            "https://zoom.us/math202-lecture",
+            "MATH202",
+            "2023/11/19"
+        ],
+        [
+            "T02",
+            "Room 202, Knowles Building",
+            "17:00:00",
+            "18:30:00",
+            "https://zoom.us/math202-tutorial",
+            "MATH202",
+            "2023/11/20"
+    
+        ]
+    ]);
     const [upComingClass, setUpComingClass] = useState({
         name: "Introduction to Database Management System",
         course_code: "COMP3278",
@@ -155,9 +244,9 @@ export default function Dashboard() {
                         color: "#48A8BC",
                         fontWeight: "500",
                         fontSize: "24px",
-                        marginTop:"40px"
+                        marginTop: "40px"
                     }}>Class Timetable</div>
-                                        <div style={{
+                    <div style={{
                         display: "flex",
                         flexDirection: "row",
                         marginTop: "20px",
@@ -169,7 +258,18 @@ export default function Dashboard() {
                         <Button >Edit Reminder</Button>
 
                     </div>
-                        {/* timetable */}
+                    {/* timetable */}
+                    <div style={{
+                        marginTop: "20px"
+                    }}
+                    className="timetable"
+                    >
+                    <Scheduler
+                        view="week"
+                        style={{ height: "500px" }}
+                        events={convert(timetable_schedule)}
+                    />
+                </div>
                 </div>
             </div>
         </Template>
