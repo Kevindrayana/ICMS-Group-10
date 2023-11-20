@@ -25,6 +25,7 @@ class CustomJSONEncoder(json.JSONEncoder):
         return super().default(obj)
 
 app = Flask(__name__)
+app.secret_key = "Hello"
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 load_dotenv() # Load environment variables from .env file
