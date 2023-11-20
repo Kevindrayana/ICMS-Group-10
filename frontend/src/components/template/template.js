@@ -10,11 +10,14 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
-import { uid } from "@/app/page";
+//import { uid } from "@/app/page";
 import axios from "axios";
+
+const uid = sessionStorage.getItem("uid");
 
 export default function Template({ sidebar_index, children }) {
   const [hide, setHide] = useState(true);
+  //const [uid, setUid] = useState("");
 
   const [active, setActive] = useState(sidebar_index);
   useEffect(() => {
@@ -91,7 +94,7 @@ export default function Template({ sidebar_index, children }) {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:5000/latest-login?uid=3035000001")
+      .get(`http://127.0.0.1:5000/latest-login?uid=${uid}`)
       .then((response) => {
         setLoginHistory([
           response.data.login_time.slice(0, 10),
