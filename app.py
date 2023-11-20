@@ -189,27 +189,14 @@ def timetable():
     if not student_id:
         return Response(status=400)
     
-    query_lec = f"SELECT * FROM Lecture WHERE course_code IN (\
+    query = f"SELECT * FROM Lesson WHERE course_code IN (\
     SELECT course_code FROM Student_asoc_course\
     WHERE student_id = {student_id});"
-    cursor.execute(query_lec)
-    values_lec = cursor.fetchall()
-
-    query_tut = f"SELECT * FROM Tutorial WHERE course_code IN (\
-    SELECT course_code FROM Student_asoc_course\
-    WHERE student_id = {student_id});"
-    cursor.execute(query_tut)
-    values_tut = cursor.fetchall()
-
-
-    # JSONify the response
-    response_dict = {
-        "lecture_results": values_lec,
-        "tutorial_results": values_tut
-    }
+    cursor.execute(query)
+    values = cursor.fetchall()
 
     # JSONify the response dictionary
-    response = Response(json.dumps(response_dict, cls=CustomJSONEncoder), mimetype='application/json')
+    response = Response(json.dumps(values, cls=CustomJSONEncoder), mimetype='application/json')
     return response
 
 @app.route("/latest-login", methods=['GET'])
