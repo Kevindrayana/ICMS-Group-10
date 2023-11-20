@@ -25,10 +25,20 @@ class CustomJSONEncoder(json.JSONEncoder):
         return super().default(obj)
 
 app = Flask(__name__)
-CORS(app)
-app.secret_key = "hello"
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 load_dotenv() # Load environment variables from .env file
-conn = mysql.connector.connect(user='root', password=os.getenv('SQL_PASSWORD'), database='icms') # Connect to MySQL database
+
+config = {
+    'user': 'root',
+    'password': os.getenv('SQL_PASSWORD'),
+    'host': '127.0.0.1',
+    'port': 3306,
+    'database': 'icms',
+    'ssl_disabled': True  # Disable SSL/TLS
+}
+
+conn = mysql.connector.connect(**config) # Connect to MySQL database
 cursor = conn.cursor()
 
 @app.route("/")
@@ -37,11 +47,7 @@ def hello_world():
 
 @app.route("/start-face-recognition", methods=['GET'])
 def start_face_recognition():
-
-
     result = start_face_recognition_process()
-
-
     return jsonify(result)
 
 def start_face_recognition_process():
@@ -214,15 +220,15 @@ def latest_login():
     return response
 
 @app.route("/class", methods=['GET'])
-def class_():
-    # get the student_id from the request parameter
-    student_id = request.args.get('uid')
+def get_class():
+    # get the student_id from session
+    student_id = session['student_id']
     if not student_id:
         return Response(status=400)
 
     # get the class info for the student
     query = f'''
-    SELECT c.course_code, c.course_name, l.start_time, l.end_time, l.classroom_address, l.zoom_link, m.content AS last_message
+    SELECT c.course_code, c.course_name, c.course_link, l.start_time, l.end_time, l.classroom_address, l.zoom_link, m.content AS last_message
     FROM Course c
     JOIN Student_asoc_course sac ON sac.course_code = c.course_code
     JOIN Lesson l ON l.course_code = c.course_code
@@ -235,17 +241,35 @@ def class_():
             GROUP BY course_code
         )
     ) m ON m.course_code = c.course_code
-    WHERE sac.student_id = {student_id}
-    AND l.start_time BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 HOUR);
+    WHERE sac.student_id = {student_id} 
+    AND l.start_time BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 HOUR)
+    ORDER BY ABS(TIMEDIFF(l.start_time, NOW()))
+    LIMIT 1;
     '''
     cursor.execute(query)
-    values = cursor.fetchall()
+    result = cursor.fetchall()
+    if not result:
+        return {"success": False}
+
+    result = result[0] # only one result is returned
+    response = {
+        "success": True,
+        "course_code": result[0],
+        "course_name": result[1],
+        "course_link": result[2],
+        "start_time": result[3],
+        "end_time": result[4],
+        "venue": result[5],
+        "zoom_link": result[6],
+        "latest_announcement": result[7]
+    }
 
     # JSONify the response
-    response = Response(json.dumps(values, cls=CustomJSONEncoder), mimetype='application/json') 
+    response = Response(json.dumps(response, cls=CustomJSONEncoder), mimetype='application/json')
+
     return response
 
-@app.route("/mail", methods=['POST'])
+@app.route("/mail", methods=['GET'])
 def mail():
     # get student id from session
     student_id = session['student_id']
