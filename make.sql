@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS Lesson;
 DROP TABLE IF EXISTS Course;
 DROP TABLE IF EXISTS Student;
 CREATE TABLE Student (
-    student_id INT PRIMARY KEY,
+    student_id VARCHAR(10) PRIMARY KEY,
     name VARCHAR(255),
     login_time DATETIME,
     email VARCHAR(255),
@@ -15,7 +15,8 @@ CREATE TABLE Student (
 );
 CREATE TABLE Course (
     course_code VARCHAR(255) PRIMARY KEY,
-    semester INT
+    semester INT,
+    course_link VARCHAR(255)
 );
 CREATE TABLE Lesson (
     lesson_id VARCHAR(3),
@@ -34,18 +35,18 @@ CREATE TABLE Lesson_Notes (
     FOREIGN KEY (lesson_id) REFERENCES Lesson(lesson_id)
 );
 CREATE TABLE Teaching_Staff (
-    staff_id INT PRIMARY KEY,
+    staff_id VARCHAR(10) PRIMARY KEY,
     name VARCHAR(255)
 );
 CREATE TABLE Student_asoc_course (
-    student_id INT,
+    student_id VARCHAR(10),
     course_code VARCHAR(255),
     PRIMARY KEY (student_id, course_code),
     FOREIGN KEY (student_id) REFERENCES Student(student_id),
     FOREIGN KEY (course_code) REFERENCES Course(course_code)
 );
 CREATE TABLE Teaching_Staff_asoc_lesson (
-    staff_id INT,
+    staff_id VARCHAR(10),
     lesson_id VARCHAR(3),
     course_code VARCHAR(255),
     role VARCHAR(255),
@@ -55,55 +56,74 @@ CREATE TABLE Teaching_Staff_asoc_lesson (
 );
 CREATE TABLE Message (
     message_id INT PRIMARY KEY,
-    staff_id INT,
+    staff_id VARCHAR(10),
     content VARCHAR(255),
     course_code VARCHAR(255),
     FOREIGN KEY (staff_id) REFERENCES Teaching_Staff(staff_id),
     FOREIGN KEY (course_code) REFERENCES Course(course_code)
 );
-
 INSERT INTO Student (student_id, name, login_time, email, password)
 VALUES (
-        1,
+        '3035000001',
         'John Chan',
         '2023-11-20 08:00:00',
         'johnchan@hku.hk',
         'password1'
     ),
     (
-        2,
+        '3035000002',
         'Emma Lee',
         '2023-11-20 09:30:00',
         'emmalee@hku.hk',
         'password2'
     ),
     (
-        3,
+        '3035000003',
         'Michael Wong',
         '2023-11-20 10:45:00',
         'michaelwong@hku.hk',
         'password3'
     ),
     (
-        4,
+        '3035000004',
         'Sophia Cheung',
         '2023-11-20 12:15:00',
         'sophiacheung@hku.hk',
         'password4'
     ),
     (
-        5,
+        '3035000005',
         'Daniel Ng',
         '2023-11-20 14:00:00',
         'danielng@hku.hk',
         'password5'
     );
-INSERT INTO Course (course_code, semester)
-VALUES ('COMP101', 1),
-    ('MATH202', 1),
-    ('PHYS301', 1),
-    ('CHEM201', 1),
-    ('ENGL101', 1);
+INSERT INTO Course (course_code, semester, course_link)
+VALUES (
+        'COMP101',
+        1,
+        'https://moodle.hku.hk/course/view.php?id=98713'
+    ),
+    (
+        'MATH202',
+        1,
+        'https://moodle.hku.hk/course/view.php?id=90458'
+    ),
+    (
+        'PHYS301',
+        1,
+        'https://moodle.hku.hk/course/view.php?id=85655'
+    ),
+    (
+        'CHEM201',
+        1,
+        'https://moodle.hku.hk/course/view.php?id=86603'
+    ),
+    (
+        'ENGL101',
+        1,
+        'https://moodle.hku.hk/course/view.php?id=91913'
+    );
 INSERT INTO Lesson (
         lesson_id,
         classroom_address,
@@ -174,27 +194,31 @@ VALUES (
         'https://moodle.hku.hk/mod/resource/view.php?id=3067676'
     );
 INSERT INTO Student_asoc_course (student_id, course_code)
-VALUES (1, 'COMP101'),
-    (1, 'MATH202'),
-    (2, 'MATH202'),
-    (2, 'PHYS301'),
-    (2, 'COMP101'),
-    (3, 'COMP101'),
-    (3, 'MATH202'),
-    (4, 'MATH202'),
-    (4, 'PHYS301'),
-    (5, 'COMP101'),
-    (5, 'MATH202'),
-    (5, 'PHYS301');
+VALUES ('3035000001', 'COMP101'),
+    ('3035000001', 'MATH202'),
+    ('3035000002', 'MATH202'),
+    ('3035000002', 'PHYS301'),
+    ('3035000002', 'COMP101'),
+    ('3035000003', 'COMP101'),
+    ('3035000003', 'MATH202'),
+    ('3035000004', 'MATH202'),
+    ('3035000004', 'PHYS301'),
+    ('3035000005', 'COMP101'),
+    ('3035000005', 'MATH202'),
+    ('3035000005', 'PHYS301');
 INSERT INTO Teaching_Staff (staff_id, name)
-VALUES (1, 'Dr. Chan Tai Man'),
-    (2, 'Prof. Emily Wong'),
-    (3, 'Dr. Michael Li'),
-    (4, 'Prof. Sophia Lam'),
-    (5, 'Dr. Daniel Kwok');
+VALUES ('9999000001', 'Dr. Chan Tai Man'),
+    ('9999000002', 'Prof. Emily Wong'),
+    ('9999000003', 'Dr. Michael Li'),
+    ('9999000004', 'Prof. Sophia Lam'),
+    ('9999000005', 'Dr. Daniel Kwok');
 INSERT INTO Teaching_Staff_asoc_lesson (staff_id, lesson_id, course_code, role)
-VALUES (1, 'L01', 'COMP101', 'professor'),
-    (2, 'L02', 'MATH202', 'professor'),
-    (3, 'L03', 'PHYS301', 'professor'),
-    (4, 'T01', 'COMP101', 'tutor'),
-    (5, 'T02', 'MATH202', 'tutor');
+VALUES ('9999000001', 'L01', 'COMP101', 'professor'),
+    ('9999000002', 'L02', 'MATH202', 'professor'),
+    ('9999000003', 'L03', 'PHYS301', 'professor'),
+    ('9999000004', 'T01', 'COMP101', 'tutor');
+INSERT INTO Message (message_id, staff_id, content, course_code)
+VALUES (1, '9999000001', 'Welcome to COMP101!', 'COMP101'),
+    (2, '9999000002', 'Welcome to MATH202!', 'MATH202'),
+    (3, '9999000003', 'Welcome to PHYS301!', 'PHYS301'),
+    (4, '9999000004', 'Welcome to COMP101!', 'COMP101');
