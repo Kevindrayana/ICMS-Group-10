@@ -227,12 +227,48 @@ def latest_login():
     response = Response(json.dumps(response, cls=CustomJSONEncoder), mimetype='application/json')
     return response
 
+@app.route("/courses", methods=['GET'])
+def get_courses():
+    # get the student_id from session
+    # student_id = session['student_id']
+    # if not student_id:
+    #     return Response(status=400)
+    
+    # for now let the student_id be hardcoded
+    student_id = "3035000000"
+
+    # get the courses for the student
+    query = f'''
+    SELECT c.course_code, c.course_name, c.course_link, c.course_image
+    FROM Course c
+    JOIN Student_asoc_course sac ON c.course_code = sac.course_code
+    WHERE sac.student_id = {student_id};
+    '''
+    cursor.execute(query)
+    result = cursor.fetchall()
+
+    res = []
+    for r in result:
+        res.append({
+            "course_code": r[0],
+            "course_name": r[1],
+            "course_link": r[2],
+            "course_image": r[3]
+        })
+
+    return res
+
+
+
 @app.route("/class", methods=['GET'])
 def get_class():
     # get the student_id from session
-    student_id = session['student_id']
-    if not student_id:
-        return Response(status=400)
+    # student_id = session['student_id']
+    # if not student_id:
+    #     return Response(status=400)
+
+    # for now let the student_id be hardcoded
+    student_id = "3035000000"
 
     # get the class info for the student
     query = f'''
@@ -250,7 +286,6 @@ def get_class():
         )
     ) m ON m.course_code = c.course_code
     WHERE sac.student_id = {student_id} 
-    AND l.start_time BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 HOUR)
     ORDER BY ABS(TIMEDIFF(l.start_time, NOW()))
     LIMIT 1;
     '''
@@ -280,9 +315,12 @@ def get_class():
 @app.route("/mail", methods=['GET'])
 def mail():
     # get student id from session
-    student_id = session['student_id']
-    if not student_id:
-        return Response(status=401)
+    # student_id = session['student_id']
+    # if not student_id:
+    #     return Response(status=401)
+    
+    # for now use hardcoded student_id
+    student_id = "3035000000"
     
     # get student name
     query = f"SELECT name FROM Student WHERE student_id = {student_id};"
