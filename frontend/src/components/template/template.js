@@ -1,5 +1,5 @@
 import { Box, Button, Container } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 import EventIcon from '@mui/icons-material/Event';
@@ -10,9 +10,19 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-export default function Template({ children }) {
+
+export default function Template({ sidebar_index, children }) {
     const [hide, setHide] = useState(true);
-    const [active, setActive] = useState(0);
+    
+    const [active, setActive] = useState(sidebar_index);
+    // setActive(sidebar_index);
+    useEffect(() => {
+        console.log('sidebar_index changed:', sidebar_index);
+        setActive(sidebar_index);
+    }, [sidebar_index]);
+
+    console.log('Rendering with active state:', active);
+
     // i want to create something to store name, position, year, major and put it in the data structure, which data structure is the best
     const [person, setPerson] = useState({
         name: 'Your Name',
@@ -30,43 +40,43 @@ export default function Template({ children }) {
     );
     const [latestAnnouncement, setLatestAnnouncement] = useState([
         {
-            time: "2021-10-03",
+            time: "2021-10-03 09:00:00",
             content: "This is the first announcementhud saihasiudhsua hdauihduiahdu iadhuashuasihdiusad dsahudiahud haud shduisa hduiash duisahd uiadh uasidh uaid huaihd uahduaisdh i",
             course: "COMP 3278",
             instructor: "Dr. Luo Ping"
         },
         {
-            time: "2021-10-03",
+            time: "2021-10-03 09:00:00",
             content: "This is the first announcement",
             course: "COMP 3278",
             instructor: "Dr. Luo Ping"
         },
         {
-            time: "2021-10-03",
+            time: "2021-10-03 09:00:00",
             content: "This is the first announcement",
             course: "COMP 3278",
             instructor: "Dr. Luo Ping"
         },
         {
-            time: "2021-10-03",
+            time: "2021-10-03 09:00:00",
             content: "This is the first announcement",
             course: "COMP 3278",
             instructor: "Dr. Luo Ping"
         },
         {
-            time: "2021-10-03",
+            time: "2021-10-03 09:00:00",
             content: "This is the first announcement",
             course: "COMP 3278",
             instructor: "Dr. Luo Ping"
         },
         {
-            time: "2021-10-03",
+            time: "2021-10-03 09:00:00",
             content: "This is the first announcement",
             course: "COMP 3278",
             instructor: "Dr. Luo Ping"
         },
         {
-            time: "2021-10-03",
+            time: "2021-10-03 09:00:00",
             content: "This is the first announcement",
             course: "COMP 3278",
             instructor: "Dr. Luo Ping"
@@ -75,6 +85,18 @@ export default function Template({ children }) {
     );
     const handleClick = (index) => {
         setActive(index);
+        if (index === 0) {
+            window.location.href = "/dashboard"
+        }
+        else if (index === 1) {
+            window.location.href = "/course"
+        }
+        else if (index === 2) {
+            window.location.href = "/timetable"
+        }
+        else if (index === 3) {
+            window.location.href = "/message"
+        }
     }
     const handleLogout = () => {
         //logout
@@ -96,6 +118,8 @@ export default function Template({ children }) {
                 // minHeight: "90vh",
                 height: "0px",
                 minHeight: "100vh",
+                maxWidth: "240px",
+                minWidth: "240px",
                 overflow: "auto !important",
                 // alignItems: "left",
             }}
@@ -103,8 +127,8 @@ export default function Template({ children }) {
                 <div style={{
                     // marginBottom: "20px",
                 }}>
-                    <img src="image/logo.png" alt="logo" width="200" height="45" style={{
-                        marginBottom: "20px",
+                    <img src="image/logo.png" alt="logo" width="200px" height="45" style={{
+                        marginBottom: "40px",
                     }} />
 
                     <div style={{
@@ -127,7 +151,7 @@ export default function Template({ children }) {
                         flexDirection: "row",
                         justifyContent: "left",
                         padding: "10px",
-                        color: active === 1 ? "#48A8BC" : "#BCBCBC",
+                        color: sidebar_index === 1 ? "#48A8BC" : "#BCBCBC",
                         backgroundColor: active === 1 ? "#78C2D21A" : "#FFFFFF",
                         cursor: "pointer",
                         borderRadius: "10px",
@@ -229,7 +253,6 @@ export default function Template({ children }) {
                 </div>
 
             </div>
-            {/* sidebar */}
             <div className="content" style={{
                 padding: "32px",
                 width: "58%",
@@ -239,16 +262,20 @@ export default function Template({ children }) {
             }}>
                 {children}
             </div>
+            {/* right sidebar */}
+
             <div style={{
                 width: "25%",
-                maxWidth: "400px",
-
+                minWidth: "360px",
+                maxWidth: "360px",
                 padding: "32px",
                 height: "0px",
                 minHeight: "100vh",
                 overflow: "auto !important",
 
-            }}>
+            }}
+            className="right-sidebar"
+            >
                 <div>
                     <div style={{
                         fontSize: "24px",
@@ -259,6 +286,8 @@ export default function Template({ children }) {
                         boxShadow: 1,
                         borderRadius: 2,
                         padding: "20px",
+                minWidth: "320px",
+
                     }}>
                             {hide?
                             <div style={{
@@ -273,17 +302,20 @@ export default function Template({ children }) {
                                     display: "flex",
                                     flexDirection: "row",
                                     justifyContent: "space-between",
-                                    color: "#BCBCBC"
-
+                                    color: "#BCBCBC",
+                                    alignItems: "center"
 
                                 }}><div style={{
                                     width: "120px",
                                     color: "#76989F"
+                                    
                                 }}>
                                         {latestAnnouncement[0].course}
                                     </div>
-                                    <div>
-                                        {latestAnnouncement[0].time}
+                                    <div style={{
+                                        fontSize: "12px",
+                                    }}>
+                                        {latestAnnouncement[0].time.split(" ")[0]}
                                     </div></div>
                                 <div style={{
                                     fontSize: "17px",
@@ -293,7 +325,7 @@ export default function Template({ children }) {
                                         {latestAnnouncement[0].instructor} - Course Instructor
                                 </div>
                                 <div style={{
-                                    fontSize: "17px",
+                                    fontSize: "14px",
                                     color: "#BCBCBC",
                                     marginTop: "10px",
                                     maxWidth: "300px",
@@ -303,7 +335,7 @@ export default function Template({ children }) {
                                         {latestAnnouncement[0].content}
                                         </div>
                             </div> : <>
-                        {latestAnnouncement.map((item, index) => (
+                        {latestAnnouncement.slice(0, 7).map((item, index) => (
 
                             <div style={{
                                 display: "flex",
@@ -327,8 +359,10 @@ export default function Template({ children }) {
                                 }}>
                                         {item.course}
                                     </div>
-                                    <div>
-                                        {item.time}
+                                    <div style={{
+                                        fontSize: "12px",
+                                    }}>
+                                        {item.time.split(" ")[0]}
                                     </div></div>
                                 <div style={{
                                     fontSize: "17px",
@@ -338,7 +372,7 @@ export default function Template({ children }) {
                                         {item.instructor} - Course Instructor
                                 </div>
                                 <div style={{
-                                    fontSize: "17px",
+                                    fontSize: "14px",
                                     color: "#BCBCBC",
                                     marginTop: "10px",
                                     maxWidth: "300px",
@@ -357,9 +391,17 @@ export default function Template({ children }) {
                         color: "#48A8BC",
                         cursor: "pointer",
                         marginTop: "10px",
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
                     }}
                         onClick={() => setHide(!hide)}
-                    >{hide ? "See More ->" : "<- See Less"}</div>
+                    >{hide ? "See More ->" : <>
+                    <div>&lt;- See Less</div>
+                    <div onClick={()=> {
+                        window.location.href = "/message"
+                    }}>View more</div>
+                    </>}</div>
 
                 </div>
                 {hide ?
@@ -376,11 +418,13 @@ export default function Template({ children }) {
                         //use shadow
                         boxShadow: 1,
                         borderRadius: 2,
+                        minWidth: "320px",
 
                     }}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DateCalendar sx={{
                                 color: "#2B7099",
+                                maxWidth: "320px",
                             }} />
                         </LocalizationProvider>
                     </Box>
@@ -398,9 +442,11 @@ export default function Template({ children }) {
                         boxShadow: 1,
                         borderRadius: 2,
                         padding: "20px",
+                minWidth: "320px",
+                fontSize: "14px",
+
                     }}>
                         <div style={{
-                            fontSize: "17px",
                             display: "flex",
                             flexDirection: "row",
                             justifyContent: "left",
@@ -417,7 +463,6 @@ export default function Template({ children }) {
                                 {loginHistory.date}
                             </div></div>
                         <div style={{
-                            fontSize: "17px",
                             display: "flex",
                             flexDirection: "row",
                             justifyContent: "left",

@@ -20,7 +20,7 @@ export default function SignIn() {
       uid: data.get("uid"),
       password: data.get("password"),
     });
-    router.push('/dashboard')
+    router.push('/home')
 
   };
   const handleFaceRecognition = async () => {
