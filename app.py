@@ -152,7 +152,7 @@ def login():
         if values:
             # Store username in session
             session.permanent = True
-            session['student_id'] = values[0]
+            session[student_id] = values[0]
             response = {
                 'signin': True,
                 'student_id': student_id
@@ -167,11 +167,12 @@ def login():
 
     # JSONify the response
     response = Response(json.dumps(values, cls=CustomJSONEncoder), mimetype='application/json')
-    return jsonify(response)
+    return response
     
 @app.route("/logout", methods=['GET'])
 def logout():
-    return "<p>Logout</p>"
+    student_id = request.args.get('uid')
+    del session[student_id]
 
 @app.route("/signin", methods=['POST'])
 def signin():
@@ -209,8 +210,14 @@ def latest_login():
     cursor.execute(query)
     values = cursor.fetchone()
 
+    if values:
+        response = {
+            'student_id': values[0],
+            'login_time': values[1]
+        }
+
     # JSONify the response
-    response = Response(json.dumps(values, cls=CustomJSONEncoder), mimetype='application/json')
+    response = Response(json.dumps(response, cls=CustomJSONEncoder), mimetype='application/json')
     return response
 
 @app.route("/class", methods=['GET'])
