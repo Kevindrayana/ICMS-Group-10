@@ -158,7 +158,7 @@ def login():
         if values:
             # Store username in session
             session.permanent = True
-            session[student_id] = values[0]
+            session["student_id"] = values[0]
             response = {
                 'signin': True,
                 'student_id': student_id
