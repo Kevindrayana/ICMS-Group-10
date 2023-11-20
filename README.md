@@ -22,7 +22,7 @@ $ bash /Applications/Python*/Install\ Certificates.command
 
 
 # start flask backend
-$ flask run
+$ export FLASK_DEBUG=1 && flask run
 ```
 
 ## importing the database

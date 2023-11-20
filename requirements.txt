@@ -8,3 +8,4 @@ Pillow
 pysimplegui
 python-dotenv
 Flask-Mail
+flask-cors
