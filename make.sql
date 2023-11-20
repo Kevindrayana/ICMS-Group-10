@@ -121,35 +121,35 @@ VALUES (
         1,
         'https://moodle.hku.hk/course/view.php?id=98713',
         'Introduction to Computer Science',
-        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fbackground&psig=AOvVaw3snLo74Xje_v4kupowhb_X&ust=1700569138503000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNjq--zH0oIDFQAAAAAdAAAAABAE'
+        'https://img.freepik.com/free-vector/blue-copy-space-digital-background_23-2148821698.jpg?w=1480&t=st=1700509392~exp=1700509992~hmac=b72a7d7ea0baf5c88e0257b42bbe615bdf7171d26e8434daa1be8c1b806b58fc'
     ),
     (
         'MATH202',
         1,
         'https://moodle.hku.hk/course/view.php?id=90458',
         'Calculus and Linear Algebra II',
-        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fbackground&psig=AOvVaw3snLo74Xje_v4kupowhb_X&ust=1700569138503000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNjq--zH0oIDFQAAAAAdAAAAABAE'
+        'https://img.freepik.com/free-vector/blue-copy-space-digital-background_23-2148821698.jpg?w=1480&t=st=1700509392~exp=1700509992~hmac=b72a7d7ea0baf5c88e0257b42bbe615bdf7171d26e8434daa1be8c1b806b58fc'
     ),
     (
         'PHYS301',
         1,
         'https://moodle.hku.hk/course/view.php?id=85655',
         'Electricity and Magnetism',
-        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fbackground&psig=AOvVaw3snLo74Xje_v4kupowhb_X&ust=1700569138503000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNjq--zH0oIDFQAAAAAdAAAAABAE'
+        'https://img.freepik.com/free-vector/blue-copy-space-digital-background_23-2148821698.jpg?w=1480&t=st=1700509392~exp=1700509992~hmac=b72a7d7ea0baf5c88e0257b42bbe615bdf7171d26e8434daa1be8c1b806b58fc'
     ),
     (
         'CHEM201',
         1,
         'https://moodle.hku.hk/course/view.php?id=86603',
         'General Chemistry',
-        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fbackground&psig=AOvVaw3snLo74Xje_v4kupowhb_X&ust=1700569138503000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNjq--zH0oIDFQAAAAAdAAAAABAE'
+        'https://img.freepik.com/free-vector/blue-copy-space-digital-background_23-2148821698.jpg?w=1480&t=st=1700509392~exp=1700509992~hmac=b72a7d7ea0baf5c88e0257b42bbe615bdf7171d26e8434daa1be8c1b806b58fc'
     ),
     (
         'ENGL101',
         1,
         'https://moodle.hku.hk/course/view.php?id=91913',
         'English for Academic Purposes',
-        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fbackground&psig=AOvVaw3snLo74Xje_v4kupowhb_X&ust=1700569138503000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNjq--zH0oIDFQAAAAAdAAAAABAE'
+        'https://img.freepik.com/free-vector/blue-copy-space-digital-background_23-2148821698.jpg?w=1480&t=st=1700509392~exp=1700509992~hmac=b72a7d7ea0baf5c88e0257b42bbe615bdf7171d26e8434daa1be8c1b806b58fc'
     );
 INSERT INTO Lesson (
         lesson_id,
