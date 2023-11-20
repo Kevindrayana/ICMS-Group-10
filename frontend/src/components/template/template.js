@@ -10,18 +10,16 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-
+import { uid } from "@/app/page";
 export default function Template({ sidebar_index, children }) {
     const [hide, setHide] = useState(true);
 
     const [active, setActive] = useState(sidebar_index);
-    // setActive(sidebar_index);
     useEffect(() => {
         setActive(sidebar_index);
     }, [sidebar_index]);
 
 
-    // i want to create something to store name, position, year, major and put it in the data structure, which data structure is the best
     const [person, setPerson] = useState({
         name: 'Your Name',
         position: 'Student',
@@ -227,7 +225,7 @@ export default function Template({ sidebar_index, children }) {
                             fontSize: "14px",
                             color: "#48A8BC",
                         }}>{person.major}</div>
-                        <Button variant="contained" sx={{
+                        <Button sx={{
                             marginTop: "15px",
                         }}>
                             View Profile
@@ -400,7 +398,7 @@ export default function Template({ sidebar_index, children }) {
                         <div>&lt;- See Less</div>
                         <div onClick={() => {
                             window.location.href = "/message"
-                        }}>View more</div>
+                        }}>See more</div>
                     </>}</div>
 
                 </div>

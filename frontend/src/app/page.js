@@ -8,21 +8,21 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useRouter } from 'next/navigation'
 import axios from "axios";
 import { useState } from "react";
-
+let uid = "";
+export { uid };
 export default function SignIn() {
-  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    uid = data.get("uid");
     console.log({
       uid: data.get("uid"),
       password: data.get("password"),
     });
-    router.push('/dashboard')
+    window.location.href = "/dashboard";
 
   };
   const handleFaceRecognition = async () => {
@@ -30,7 +30,7 @@ export default function SignIn() {
     try {
       const response = await axios.get('http://127.0.0.1:5000/start-face-recognition');
       if (response.data.signin) {
-        router.push('/dashboard');
+        window.location.href = "/dashboard";
       } else {
         alert('Face recognition failed. Please try again.');
       }
@@ -47,9 +47,9 @@ export default function SignIn() {
         sx={{
           boxShadow: 3,
           borderRadius: 2,
-          px: 4,
-          py: 6,
+          padding: "40px",
           marginTop: 8,
+          marginBottom: 8,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -77,13 +77,12 @@ export default function SignIn() {
             id="password"
             autoComplete="current-password"
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
           <Button
             type="submit"
             fullWidth
+            style={{
+              marginTop: "20px"
+            }}
           >
             Sign In
           </Button>

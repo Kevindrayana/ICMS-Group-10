@@ -102,7 +102,6 @@ export default function Course() {
         }
         month.push(latestAnnouncement[i].time.split("-")[1]);
     }
-    console.log(month)
     return (
         <Template sidebar_index={3}>
             <div style={{
