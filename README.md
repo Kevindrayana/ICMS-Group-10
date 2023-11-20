@@ -17,6 +17,10 @@ $ pip3 install -r requirements.txt
 # create .env file in root, write your sql password as such:
 SQL_PASSWORD=****
 
+# enable ssl certificate for email
+$ bash /Applications/Python*/Install\ Certificates.command
+
+
 # start flask backend
 $ flask run
 ```
@@ -34,7 +38,7 @@ mysql> CREATE DATABASE icms;
 mysql> USE icms;
 
 # import from sql file
-mysql> source create.sql
+mysql> source make.sql
 
 # make sure there are 11 tables
 mysql> SHOW tables;
@@ -43,3 +47,7 @@ mysql> SHOW tables;
 ## draw.io link for ERD
 
 https://app.diagrams.net/#G1gjgNTLW7gVZwNqp7VPQu2kE5qAabhGFR
+
+## figma
+
+https://www.figma.com/file/h7ggPtipuZ7AbBsN7AsK4H/COMP3278-(Copy)?type=design&node-id=212%3A1811&mode=dev

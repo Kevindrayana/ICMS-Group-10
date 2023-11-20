@@ -7,4 +7,4 @@ pyttsx3
 Pillow
 pysimplegui
 python-dotenv
-
+Flask-Mail
