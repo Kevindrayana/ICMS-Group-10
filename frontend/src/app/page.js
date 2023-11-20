@@ -10,9 +10,11 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useRouter } from 'next/navigation'
 import axios from "axios";
+import { useState } from "react";
 
 export default function SignIn() {
   const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -20,10 +22,11 @@ export default function SignIn() {
       uid: data.get("uid"),
       password: data.get("password"),
     });
-    router.push('/home')
+    router.push('/dashboard')
 
   };
   const handleFaceRecognition = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.get('http://127.0.0.1:5000/start-face-recognition');
       if (response.data.signin) {
@@ -35,6 +38,7 @@ export default function SignIn() {
       console.error(error);
       alert('An error occurred while trying to login via face recognition.');
     }
+    // setIsLoading(false);
   }
 
   return (
@@ -91,6 +95,7 @@ export default function SignIn() {
           sx={{
             mt: 2,
           }}
+          disabled={isLoading}
           fullWidth
           >Login Via Face Recognition</Button>
       </Box>
