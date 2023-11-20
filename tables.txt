@@ -1,99 +1,91 @@
-Table: Student
-+-------------+----------+--------------+-----------------------+---------------------+
-| student_id  | password | name         | email                 | login_time          |
-+-------------+----------+--------------+-----------------------+---------------------+
-| 3035000001  | 1234     | John Doe     | john.doe@gmail.com    | 2023-10-01 09:00:00 |
-| 3035000002  | 1234     | Jane Smith   | jane.smith@gmail.com  | 2023-10-02 14:30:00 |
-| 3035000003  | 1234     | Alice Johnson| alice.johnson@gmail.com | 2023-10-03 10:15:00 |
-+-------------+----------+--------------+-----------------------+---------------------+
++-------------+----------+------------------------------------------------+----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| course_code | semester | course_link                                    | course_name                      | course_image                                                                                                                                                                                                                                |
++-------------+----------+------------------------------------------------+----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| CHEM201     |        1 | https://moodle.hku.hk/course/view.php?id=86603 | General Chemistry                | https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fbackground&psig=AOvVaw3snLo74Xje_v4kupowhb_X&ust=1700569138503000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNjq--zH0oIDFQAAAAAdAAAAABAE |
+| COMP101     |        1 | https://moodle.hku.hk/course/view.php?id=98713 | Introduction to Computer Science | https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fbackground&psig=AOvVaw3snLo74Xje_v4kupowhb_X&ust=1700569138503000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNjq--zH0oIDFQAAAAAdAAAAABAE |
+| ENGL101     |        1 | https://moodle.hku.hk/course/view.php?id=91913 | English for Academic Purposes    | https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fbackground&psig=AOvVaw3snLo74Xje_v4kupowhb_X&ust=1700569138503000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNjq--zH0oIDFQAAAAAdAAAAABAE |
+| MATH202     |        1 | https://moodle.hku.hk/course/view.php?id=90458 | Calculus and Linear Algebra II   | https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fbackground&psig=AOvVaw3snLo74Xje_v4kupowhb_X&ust=1700569138503000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNjq--zH0oIDFQAAAAAdAAAAABAE |
+| PHYS301     |        1 | https://moodle.hku.hk/course/view.php?id=85655 | Electricity and Magnetism        | https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fbackground&psig=AOvVaw3snLo74Xje_v4kupowhb_X&ust=1700569138503000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNjq--zH0oIDFQAAAAAdAAAAABAE |
++-------------+----------+------------------------------------------------+----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-Table: Course
-+------------+---------+
-| course_code| semester|
-+------------+---------+
-| CSE101     | 1       |
-| MATH202    | 2       |
-| PHYS101    | 1       |
-+------------+---------+
+Lesson
++-----------+--------------------------------------------+------------+----------+----------------------------------+-------------+
+| lesson_id | classroom_address                          | start_time | end_time | zoom_link                        | course_code |
++-----------+--------------------------------------------+------------+----------+----------------------------------+-------------+
+| L01       | Room G01, Haking Wong Building             | 09:00:00   | 10:30:00 | https://zoom.us/comp101-lecture  | COMP101     |
+| L02       | Room 201, K.K. Leung Building              | 11:00:00   | 12:30:00 | https://zoom.us/math202-lecture  | MATH202     |
+| L03       | Room 301, Chong Yuet Ming Physics Building | 13:00:00   | 14:30:00 | https://zoom.us/phys301-lecture  | PHYS301     |
+| T01       | Room G02, Haking Wong Building             | 15:00:00   | 16:30:00 | https://zoom.us/comp101-tutorial | COMP101     |
+| T02       | Room 202, Knowles Building                 | 17:00:00   | 18:30:00 | https://zoom.us/math202-tutorial | MATH202     |
++-----------+--------------------------------------------+------------+----------+----------------------------------+-------------+
 
-Table: Student_asoc_course
-+-------------+------------+
-| student_id  | course_code|
-+-------------+------------+
-| 3035000001  | CSE101     |
-| 3035000002  | MATH202    |
-| 3035000002  | PHYS101    |
-| 3035000003  | CSE101     |
-| 3035000003  | PHYS101    |
-+-------------+------------+
+Lesson_Notes
++-----------+--------------------------------------------------------+
+| lesson_id | notes                                                  |
++-----------+--------------------------------------------------------+
+| L01       | https://moodle.hku.hk/mod/resource/view.php?id=3067672 |
+| L02       | https://moodle.hku.hk/mod/resource/view.php?id=3067673 |
+| L03       | https://moodle.hku.hk/mod/resource/view.php?id=3067674 |
+| T01       | https://moodle.hku.hk/mod/resource/view.php?id=3067675 |
+| T02       | https://moodle.hku.hk/mod/resource/view.php?id=3067676 |
++-----------+--------------------------------------------------------+
 
-Table: Lecture
-+-----------+------------+--------------------------------------+------------------+------------+----------+----------------------------------+
-| sub_class | course_code| notes                                | classroom_address| start_time | end_time | zoom_link                        |
-+-----------+------------+--------------------------------------+------------------+------------+----------+----------------------------------+
-| L01       | CSE101     | https://moodle.hku.hk/mod/resource/...| Room A101        | 09:00:00   | 10:30:00 | https://hku.zoom.us/j/123456789   |
-| L02       | MATH202    | https://moodle.hku.hk/mod/resource/...| Room B202        | 11:00:00   | 12:30:00 | https://hku.zoom.us/j/987654321   |
-| L03       | PHYS101    | https://moodle.hku.hk/mod/resource/...| Room C303        | 10:00:00   | 11:30:00 | https://hku.zoom.us/j/123456789   |
-+-----------+------------+--------------------------------------+------------------+------------+----------+----------------------------------+
+Message
++------------+------------+---------------------+-------------+---------------------+
+| message_id | staff_id   | content             | course_code | sent_time           |
++------------+------------+---------------------+-------------+---------------------+
+|          1 | 9999000001 | Welcome to COMP101! | COMP101     | 2020-11-20 09:00:00 |
+|          2 | 9999000002 | Welcome to MATH202! | MATH202     | 2020-11-20 11:00:00 |
+|          3 | 9999000003 | Welcome to PHYS301! | PHYS301     | 2020-11-20 13:00:00 |
+|          4 | 9999000004 | Welcome to COMP101! | COMP101     | 2020-11-20 15:00:00 |
++------------+------------+---------------------+-------------+---------------------+
 
-Table: Tutorial
-+-------------+------------+--------------------------------------+------------------+------------+----------+----------------------------------+
-| tutorial_id | course_code| notes                                | classroom_address| start_time | end_time | zoom_link                        |
-+-------------+------------+--------------------------------------+------------------+------------+----------+----------------------------------+
-| 1           | CSE101     | https://moodle.hku.hk/mod/resource/...| Lab A            | 14:00:00   | 16:00:00 | https://hku.zoom.us/j/123456789   |
-| 2           | MATH202    | https://moodle.hku.hk/mod/resource/...| Room B101        | 13:00:00   | 15:00:00 | https://hku.zoom.us/j/987654321   |
-| 3           | PHYS101    | https://moodle.hku.hk/mod/resource/...| Lab C            | 15:00:00   | 17:00:00 | https://hku.zoom.us/j/123456789   |
-+-------------+------------+--------------------------------------+------------------+------------+----------+----------------------------------+
+Student
++------------+---------------+---------------------+---------------------+-----------+
+| student_id | name          | login_time          | email               | password  |
++------------+---------------+---------------------+---------------------+-----------+
+| 3035000001 | John Chan     | 2023-11-20 08:00:00 | johnchan@hku.hk     | password1 |
+| 3035000002 | Emma Lee      | 2023-11-20 09:30:00 | emmalee@hku.hk      | password2 |
+| 3035000003 | Michael Wong  | 2023-11-20 10:45:00 | michaelwong@hku.hk  | password3 |
+| 3035000004 | Sophia Cheung | 2023-11-20 12:15:00 | sophiacheung@hku.hk | password4 |
+| 3035000005 | Daniel Ng     | 2023-11-20 14:00:00 | danielng@hku.hk     | password5 |
++------------+---------------+---------------------+---------------------+-----------+
 
-Table: Teaching_Staff
-+-------------+-------------------+
-| staff_id    | name              |
-+-------------+-------------------+
-| 9035000001  | Dr. Robert Johnson|
-| 9035000002  | Prof. Emily Wilson|
-| 9035000003  | Dr. Michael Thompson|
-+-------------+-------------------+
+Student_asoc_course
++------------+-------------+
+| student_id | course_code |
++------------+-------------+
+| 3035000001 | COMP101     |
+| 3035000002 | COMP101     |
+| 3035000003 | COMP101     |
+| 3035000005 | COMP101     |
+| 3035000001 | MATH202     |
+| 3035000002 | MATH202     |
+| 3035000003 | MATH202     |
+| 3035000004 | MATH202     |
+| 3035000005 | MATH202     |
+| 3035000002 | PHYS301     |
+| 3035000004 | PHYS301     |
+| 3035000005 | PHYS301     |
++------------+-------------+
 
-Table: Professor
-+-------------+-------------------+
-| staff_id    | name              |
-+-------------+-------------------+
-| 9035000001  | Dr. Robert Johnson|
-| 9035000002  | Prof. Emily Wilson|
-+-------------+-------------------+
+Teaching_Staff
++------------+------------------+
+| staff_id   | name             |
++------------+------------------+
+| 9999000001 | Dr. Chan Tai Man |
+| 9999000002 | Prof. Emily Wong |
+| 9999000003 | Dr. Michael Li   |
+| 9999000004 | Prof. Sophia Lam |
+| 9999000005 | Dr. Daniel Kwok  |
++------------+------------------+
 
-Table: Professor_asoc_lecture
-+-------------+------------+
-| staff_id    | course_code|
-+-------------+------------+
-| 9035000001  | CSE101     |
-| 9035000002  | MATH202    |
-| 9035000002  | PHYS101    |
-+-------------+------------+
-
-Table: Tutor
-+-------------+
-Table: Tutor
-+-------------+------------------+
-| staff_id | name |
-+-------------+------------------+
-| 9035000003 | Dr. Michael Thompson|
-+-------------+------------------+
-
-Table: Tutor_asoc_tutorial
-+-------------+------------+
-| staff_id | course_code|
-+-------------+------------+
-| 9035000003 | CSE101 |
-| 9035000003 | MATH202 |
-| 9035000003 | PHYS101 |
-+-------------+------------+
-
-Table: Message
-+-------------+-------------+-------------------------------------+
-| message_id | staff_id | content |
-+-------------+-------------+-------------------------------------+
-| 1 | 9035000001 | Hello students! Welcome to the course! |
-| 2 | 9035000002 | Reminder: Tomorrow's lecture is canceled. |
-| 3 | 9035000003 | Tutorial rescheduled to Friday. |
-+-------------+-------------+-------------------------------------+
+Teaching_Staff_asoc_lesson
++------------+-----------+-------------+-----------+
+| staff_id   | lesson_id | course_code | role      |
++------------+-----------+-------------+-----------+
+| 9999000001 | L01       | COMP101     | professor |
+| 9999000002 | L02       | MATH202     | professor |
+| 9999000003 | L03       | PHYS301     | professor |
+| 9999000004 | T01       | COMP101     | tutor     |
++------------+-----------+-------------+-----------+

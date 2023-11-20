@@ -16,7 +16,9 @@ CREATE TABLE Student (
 CREATE TABLE Course (
     course_code VARCHAR(255) PRIMARY KEY,
     semester INT,
-    course_link VARCHAR(255)
+    course_link VARCHAR(255),
+    course_name VARCHAR(255),
+    course_image VARCHAR(255)
 );
 CREATE TABLE Lesson (
     lesson_id VARCHAR(3),
@@ -59,6 +61,7 @@ CREATE TABLE Message (
     staff_id VARCHAR(10),
     content VARCHAR(255),
     course_code VARCHAR(255),
+    sent_time DATETIME,
     FOREIGN KEY (staff_id) REFERENCES Teaching_Staff(staff_id),
     FOREIGN KEY (course_code) REFERENCES Course(course_code)
 );
@@ -97,32 +100,56 @@ VALUES (
         '2023-11-20 14:00:00',
         'danielng@hku.hk',
         'password5'
-    );
-INSERT INTO Course (course_code, semester, course_link)
+    ),
+    (
+        '3035000000',
+        'Davinne Valeria',
+        '2023-11-20 15:30:00',
+        'dapinnlol25@gmail.com',
+        -- 'indrayana.kevin@gmail.com',
+        'password'
+        );
+INSERT INTO Course (
+        course_code,
+        semester,
+        course_link,
+        course_name,
+        course_image
+    )
 VALUES (
         'COMP101',
         1,
-        'https://moodle.hku.hk/course/view.php?id=98713'
+        'https://moodle.hku.hk/course/view.php?id=98713',
+        'Introduction to Computer Science',
+        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fbackground&psig=AOvVaw3snLo74Xje_v4kupowhb_X&ust=1700569138503000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNjq--zH0oIDFQAAAAAdAAAAABAE'
     ),
     (
         'MATH202',
         1,
-        'https://moodle.hku.hk/course/view.php?id=90458'
+        'https://moodle.hku.hk/course/view.php?id=90458',
+        'Calculus and Linear Algebra II',
+        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fbackground&psig=AOvVaw3snLo74Xje_v4kupowhb_X&ust=1700569138503000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNjq--zH0oIDFQAAAAAdAAAAABAE'
     ),
     (
         'PHYS301',
         1,
-        'https://moodle.hku.hk/course/view.php?id=85655'
+        'https://moodle.hku.hk/course/view.php?id=85655',
+        'Electricity and Magnetism',
+        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fbackground&psig=AOvVaw3snLo74Xje_v4kupowhb_X&ust=1700569138503000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNjq--zH0oIDFQAAAAAdAAAAABAE'
     ),
     (
         'CHEM201',
         1,
-        'https://moodle.hku.hk/course/view.php?id=86603'
+        'https://moodle.hku.hk/course/view.php?id=86603',
+        'General Chemistry',
+        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fbackground&psig=AOvVaw3snLo74Xje_v4kupowhb_X&ust=1700569138503000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNjq--zH0oIDFQAAAAAdAAAAABAE'
     ),
     (
         'ENGL101',
         1,
-        'https://moodle.hku.hk/course/view.php?id=91913'
+        'https://moodle.hku.hk/course/view.php?id=91913',
+        'English for Academic Purposes',
+        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fbackground&psig=AOvVaw3snLo74Xje_v4kupowhb_X&ust=1700569138503000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNjq--zH0oIDFQAAAAAdAAAAABAE'
     );
 INSERT INTO Lesson (
         lesson_id,
@@ -205,7 +232,10 @@ VALUES ('3035000001', 'COMP101'),
     ('3035000004', 'PHYS301'),
     ('3035000005', 'COMP101'),
     ('3035000005', 'MATH202'),
-    ('3035000005', 'PHYS301');
+    ('3035000005', 'PHYS301'),
+    ('3035000000', 'COMP101'),
+    ('3035000000', 'MATH202'),
+    ('3035000000', 'PHYS301');
 INSERT INTO Teaching_Staff (staff_id, name)
 VALUES ('9999000001', 'Dr. Chan Tai Man'),
     ('9999000002', 'Prof. Emily Wong'),
@@ -217,8 +247,38 @@ VALUES ('9999000001', 'L01', 'COMP101', 'professor'),
     ('9999000002', 'L02', 'MATH202', 'professor'),
     ('9999000003', 'L03', 'PHYS301', 'professor'),
     ('9999000004', 'T01', 'COMP101', 'tutor');
-INSERT INTO Message (message_id, staff_id, content, course_code)
-VALUES (1, '9999000001', 'Welcome to COMP101!', 'COMP101'),
-    (2, '9999000002', 'Welcome to MATH202!', 'MATH202'),
-    (3, '9999000003', 'Welcome to PHYS301!', 'PHYS301'),
-    (4, '9999000004', 'Welcome to COMP101!', 'COMP101');
+INSERT INTO Message (
+        message_id,
+        staff_id,
+        content,
+        course_code,
+        sent_time
+    )
+VALUES (
+        1,
+        '9999000001',
+        'Welcome to COMP101!',
+        'COMP101',
+        '2020-11-20 09:00:00'
+    ),
+    (
+        2,
+        '9999000002',
+        'Welcome to MATH202!',
+        'MATH202',
+        '2020-11-20 11:00:00'
+    ),
+    (
+        3,
+        '9999000003',
+        'Welcome to PHYS301!',
+        'PHYS301',
+        '2020-11-20 13:00:00'
+    ),
+    (
+        4,
+        '9999000004',
+        'Welcome to COMP101!',
+        'COMP101',
+        '2020-11-20 15:00:00'
+    );
