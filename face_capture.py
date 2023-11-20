@@ -8,7 +8,7 @@ video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 840)
 video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 840)
 
 # Specify the `uid` and `NUM_IMGS` here.
-uid = "3035869209"
+uid = "3035000001"
 NUM_IMGS = 200
 if not os.path.exists('data/{}'.format(uid)):
     os.mkdir('data/{}'.format(uid))
