@@ -11,6 +11,9 @@ import pyttsx3
 import pickle
 from datetime import datetime
 import sys
+from email.message import EmailMessage
+import ssl
+import smtplib
 
 # Custom JSON encoder to handle timedelta and date objects
 class CustomJSONEncoder(json.JSONEncoder):
@@ -23,15 +26,11 @@ class CustomJSONEncoder(json.JSONEncoder):
 
 app = Flask(__name__)
 app.secret_key = "hello"
-load_dotenv()
-conn = mysql.connector.connect(user='root', password=os.getenv('SQL_PASSWORD'), database='icms')
+load_dotenv() # Load environment variables from .env file
+conn = mysql.connector.connect(user='root', password=os.getenv('SQL_PASSWORD'), database='icms') # Connect to MySQL database
 cursor = conn.cursor()
 
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
-
-@app.route("/login", methods=['POST', 'GET'])
+@app.route("/login", methods=['POST', 'GET']) # post for login using username and password, get for login using face recognition
 def login():
     data = request.get_json()
     student_id = data['username']
@@ -51,7 +50,8 @@ def login():
             }
         else:
             response = {'signin': False}
-    else:
+
+    elif request.method == 'GET':
         # We get the student_id of the students from OpenCV
         date = datetime.utcnow()
         now = datetime.now()
@@ -129,8 +129,6 @@ def login():
         cap.release()
         cv2.destroyAllWindows()
 
-
-
         if 'student_id' in session:
             response = {
                 'signin': True,
@@ -146,7 +144,6 @@ def login():
     response = Response(json.dumps(values, cls=CustomJSONEncoder), mimetype='application/json')
     return jsonify(response)
     
-
 @app.route("/logout", methods=['GET'])
 def logout():
     return "<p>Logout</p>"
@@ -206,22 +203,29 @@ def latest_login():
 
 @app.route("/class", methods=['GET'])
 def class_():
-    student_id = request.args.get('student_id')
+    # get the student_id from the request parameter
+    student_id = request.args.get('uid')
     if not student_id:
         return Response(status=400)
 
-    query = f"SELECT sac.student_id, sac.course_code, l.notes as lecture_notes, l.start_time as lecture_start, l.end_time as lecture_end, t.notes as tutorial_notes, t.start_time as tutorial_start, t.end_time as tutorial_end\
-    FROM Student_asoc_course as sac\
-    LEFT JOIN Lecture as l\
-    ON sac.course_code = l.course_code\
-    LEFT JOIN Tutorial as t\
-    ON sac.course_code = t.course_code\
-    WHERE sac.student_id = {student_id} AND\
-    (\
-    (l.start_time <= DATE_ADD(NOW(), INTERVAL 1 HOUR) AND L.start_time >= NOW())\
-    OR\
-    (t.start_time <= DATE_ADD(NOW(), INTERVAL 1 HOUR) AND L.start_time >= NOW())\
-    );"
+    # get the class info for the student
+    query = f'''
+    SELECT c.course_code, c.course_name, l.start_time, l.end_time, l.classroom_address, l.zoom_link, m.content AS last_message
+    FROM Course c
+    JOIN Student_asoc_course sac ON sac.course_code = c.course_code
+    JOIN Lesson l ON l.course_code = c.course_code
+    LEFT JOIN (
+        SELECT message_id, staff_id, content, course_code
+        FROM Message
+        WHERE message_id IN (
+            SELECT MAX(message_id)
+            FROM Message
+            GROUP BY course_code
+        )
+    ) m ON m.course_code = c.course_code
+    WHERE sac.student_id = {student_id}
+    AND l.start_time BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 HOUR);
+    '''
     cursor.execute(query)
     values = cursor.fetchall()
 
@@ -231,7 +235,79 @@ def class_():
 
 @app.route("/mail", methods=['POST'])
 def mail():
-    return "<p>Mail</p>"
+    # get student id from session
+    student_id = session['student_id']
+    if not student_id:
+        return Response(status=401)
+    
+    # get student name
+    query = f"SELECT name FROM Student WHERE student_id = {student_id};"
+    cursor.execute(query)
+    values = cursor.fetchone()
+    student_name = values[0]
+
+    # get student email
+    query = f"SELECT email FROM Student WHERE student_id = {student_id};"
+    cursor.execute(query)
+    values = cursor.fetchone()
+    
+    email_receiver = values[0]
+    email_sender = "icms.noreply1@gmail.com"
+    email_password = os.getenv('EMAIL_PASSWORD')
+
+    # set up email information
+    em = EmailMessage()
+    em["From"] = email_sender
+    em["To"] = email_receiver
+    em["Subject"] = "ICMS Reminder"
+
+    query = f'''
+    SELECT c.course_code, c.course_name, l.start_time, l.end_time, l.classroom_address, l.zoom_link, m.content AS last_message
+    FROM Course c
+    JOIN Student_asoc_course sac ON sac.course_code = c.course_code
+    JOIN Lesson l ON l.course_code = c.course_code
+    LEFT JOIN (
+        SELECT message_id, staff_id, content, course_code
+        FROM Message
+        WHERE message_id IN (
+            SELECT MAX(message_id)
+            FROM Message
+            GROUP BY course_code
+        )
+    ) m ON m.course_code = c.course_code
+    WHERE sac.student_id = {student_id}
+    AND l.start_time BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 HOUR);
+    '''
+    cursor.execute(query)
+    values = cursor.fetchall()
+
+    email_body = f"Dear {student_name},\n\nHere is your upcoming schedule for the next hour:\n\n"
+    for value in values:
+        email_body += f"Course Code: {value[0]}\n"
+        email_body += f"Course Name: {value[1]}\n"
+        email_body += f"Start Time: {value[2]}\n"
+        email_body += f"End Time: {value[3]}\n"
+        email_body += f"Classroom Address: {value[4]}\n"
+        email_body += f"Zoom Link: {value[5]}\n"
+        email_body += f"Last Message: {value[6]}\n\n"
+
+    email_body += "Please make sure to attend the scheduled sessions on time and utilize the provided resources effectively.\n\n"
+    email_body += "Best regards,\nICMS"
+
+    em.set_content(email_body)
+
+    # send email
+    context = ssl.create_default_context()
+    ssl._create_default_https_context = ssl._create_unverified_context
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
+        smtp.login(email_sender, email_password)
+        smtp.sendmail(email_sender, email_receiver, em.as_string())
+
+    response = {
+        "success": True
+    }
+    return jsonify(response)
 
 if __name__ == "__main__":
     app.run(debug=True)
