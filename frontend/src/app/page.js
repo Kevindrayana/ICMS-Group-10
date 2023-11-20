@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useRouter } from 'next/navigation'
+import axios from "axios";
 
 export default function SignIn() {
   const router = useRouter()
@@ -22,9 +23,20 @@ export default function SignIn() {
     router.push('/dashboard')
 
   };
-  const handleFaceRecognition = () => {
-    // handle
+  const handleFaceRecognition = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:5000/start-face-recognition');
+      if (response.data.signin) {
+        router.push('/dashboard');
+      } else {
+        alert('Face recognition failed. Please try again.');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('An error occurred while trying to login via face recognition.');
+    }
   }
+
   return (
     <Container component="main" maxWidth="sm">
       <Box
