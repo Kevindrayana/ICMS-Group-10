@@ -229,13 +229,10 @@ def latest_login():
 
 @app.route("/courses", methods=['GET'])
 def get_courses():
-    # get the student_id from session
-    # student_id = session['student_id']
-    # if not student_id:
-    #     return Response(status=400)
-    
-    # for now let the student_id be hardcoded
-    student_id = "3035000000"
+    # get the student_id from request parameter
+    student_id = request.args.get('uid')
+    if not student_id:
+        return Response(status=400)
 
     # get the courses for the student
     query = f'''
@@ -255,24 +252,18 @@ def get_courses():
             "course_link": r[2],
             "course_image": r[3]
         })
-
+    print(res)
     return res
 
-
-
-@app.route("/class", methods=['GET'])
-def get_class():
-    # get the student_id from session
-    # student_id = session['student_id']
-    # if not student_id:
-    #     return Response(status=400)
-
-    # for now let the student_id be hardcoded
-    student_id = "3035000000"
-
-    # get the class info for the student
+@app.route("/upcoming-class", methods=['GET'])
+def upcoming_class():
+    # get the student_id from request parameters
+    student_id = request.args.get('uid')
+    if not student_id:
+        return Response(status=400)
+    # get the class info for the student    
     query = f'''
-    SELECT c.course_code, c.course_name, c.course_link, l.start_time, l.end_time, l.classroom_address, l.zoom_link, m.content AS last_message
+    SELECT c.course_code, c.course_name, l.start_time, l.end_time, l.classroom_address, l.zoom_link, m.content AS last_message
     FROM Course c
     JOIN Student_asoc_course sac ON sac.course_code = c.course_code
     JOIN Lesson l ON l.course_code = c.course_code
@@ -285,7 +276,8 @@ def get_class():
             GROUP BY course_code
         )
     ) m ON m.course_code = c.course_code
-    WHERE sac.student_id = {student_id} 
+    WHERE sac.student_id = {student_id}
+    AND l.start_time BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 HOUR)
     ORDER BY ABS(TIMEDIFF(l.start_time, NOW()))
     LIMIT 1;
     '''
@@ -314,13 +306,10 @@ def get_class():
 
 @app.route("/mail", methods=['GET'])
 def mail():
-    # get student id from session
-    # student_id = session['student_id']
-    # if not student_id:
-    #     return Response(status=401)
-    
-    # for now use hardcoded student_id
-    student_id = "3035000000"
+    # get the student_id from request parameters
+    student_id = request.args.get('uid')
+    if not student_id:
+        return Response(status=400)
     
     # get student name
     query = f"SELECT name FROM Student WHERE student_id = {student_id};"
