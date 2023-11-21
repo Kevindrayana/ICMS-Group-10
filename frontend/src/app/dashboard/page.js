@@ -98,7 +98,7 @@ export default function Dashboard() {
       "2023/11/20",
     ],
   ]);
-  const [upComingClass, setUpComingClass] = useState({success: false});
+  const [upComingClass, setUpComingClass] = useState({ success: false });
 
   useEffect(() => {
     fetchData(); // Call the function to fetch the data when the component mounts
@@ -176,14 +176,15 @@ export default function Dashboard() {
                       alignItems: "center",
                       color: "#1C6D7E",
                     }}>
-                    <div>{upComingClass.start_time}</div>
+                    <div>{upComingClass.start_time.split(':').slice(0, 2).join(':')}</div>
                     <div
                       style={{
                         width: "1px",
                         height: "4px",
                         backgroundColor: "black",
                       }}></div>
-                    <div>{upComingClass.end_time}</div>
+                    <div>{upComingClass.end_time.split(':').slice(0, 2).join(':')}</div>
+
                   </div>
                   <div
                     style={{

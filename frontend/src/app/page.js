@@ -10,10 +10,9 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import axios from "axios";
 import { useState } from "react";
-let uid = "";
-export { uid };
 export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
+  const [uid, setUid] = useState("");
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -24,12 +23,19 @@ export default function SignIn() {
           password: data.get("password"),
         })
         .then((response) => {
-          console.log(response);
-          if (response.data) {
-            window.sessionStorage.setItem("uid", data.get("uid"));
-            window.location.href = "/dashboard";
+          if (response.data!= null) {
+            axios
+            .get(`http://127.0.0.1:5000/latest-login?uid=${uid}`)
+            .then((response) => {
+              sessionStorage.setItem("uid", uid);
+              sessionStorage.setItem("latest-login", response.data.login_time);
+              window.location.href = "/dashboard";
+            })
+            .catch((error) => {
+              console.log(error);
+            });
           } else {
-            uid = null;
+            setUid("");
           }
         });
     } catch (error) {
@@ -84,6 +90,10 @@ export default function SignIn() {
             name="uid"
             autoComplete="uid"
             autoFocus
+            value={uid}
+            onChange={(e) => {
+              setUid(e.target.value);
+            }}
           />
           <TextField
             margin="normal"

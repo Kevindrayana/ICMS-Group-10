@@ -13,17 +13,18 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 //import { uid } from "@/app/page";
 import axios from "axios";
 
-const uid = sessionStorage.getItem("uid");
+// const uid = sessionStorage.getItem("uid");
 
 export default function Template({ sidebar_index, children }) {
   const [hide, setHide] = useState(true);
-  //const [uid, setUid] = useState("");
+  const [uid, setUid] = useState("");
 
   const [active, setActive] = useState(sidebar_index);
   useEffect(() => {
     setActive(sidebar_index);
   }, [sidebar_index]);
 
+  
   const [person, setPerson] = useState({
     name: "Your Name",
     position: "Student",
@@ -76,6 +77,14 @@ export default function Template({ sidebar_index, children }) {
       instructor: "Dr. Luo Ping",
     },
   ]);
+  useEffect(() => {
+    // Perform localStorage action
+    if (sessionStorage.getItem('uid') === null) {
+      window.location.href = "/";
+    }
+    setUid(sessionStorage.getItem('uid'))
+    setLoginHistory([sessionStorage.getItem('latest-login').slice(0, 10),sessionStorage.getItem('latest-login').slice(11)])
+  }, [])
   const handleClick = (index) => {
     setActive(index);
     if (index === 0) {
@@ -89,22 +98,24 @@ export default function Template({ sidebar_index, children }) {
     }
   };
   const handleLogout = () => {
+    sessionStorage.removeItem("uid");
+    sessionStorage.removeItem("latest-login");
     window.location.href = "/";
   };
 
-  useEffect(() => {
-    axios
-      .get(`http://127.0.0.1:5000/latest-login?uid=${uid}`)
-      .then((response) => {
-        setLoginHistory([
-          response.data.login_time.slice(0, 10),
-          response.data.login_time.slice(11),
-        ]);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://127.0.0.1:5000/latest-login?uid=${uid}`)
+  //     .then((response) => {
+  //       setLoginHistory([
+  //         response.data.login_time.slice(0, 10),
+  //         response.data.login_time.slice(11),
+  //       ]);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
 
   return (
     <div
@@ -535,6 +546,7 @@ export default function Template({ sidebar_index, children }) {
               >
                 Last Login
               </div>
+              {loginHistory &&(
               <Box
                 sx={{
                   //use shadow
@@ -582,6 +594,7 @@ export default function Template({ sidebar_index, children }) {
                   <div>{loginHistory[1]}</div>
                 </div>
               </Box>
+              )}
             </div>
           </>
         ) : (
