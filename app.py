@@ -190,7 +190,6 @@ def signin():
 def signout():
     return "<p>Signout</p>"
 
-
 @app.route("/timetable", methods=['GET'])
 def timetable():
     student_id = request.args.get('uid')
@@ -252,7 +251,6 @@ def get_courses():
             "course_link": r[2],
             "course_image": r[3]
         })
-    print(res)
     return res
 
 @app.route("/upcoming-class", methods=['GET'])
@@ -379,6 +377,38 @@ def mail():
         "success": True
     }
     return jsonify(response)
+
+@app.route("/messages", methods=['GET'])
+def messages():
+    # get the student_id from request parameter
+    student_id = request.args.get('uid')
+    if not student_id:
+        return Response(status=400)
+
+    # get the messages for the student
+    query = f'''
+    SELECT m.sent_time, m.content, m.course_code, t.name
+    FROM Message as m
+    INNER JOIN Teaching_Staff as t
+    ON t.staff_id = m.staff_id
+    INNER JOIN Student_asoc_course as s
+    ON s.course_code = m.course_code
+    WHERE s.student_id = '{student_id}'
+    ORDER BY m.sent_time DESC;
+    '''
+    cursor.execute(query)
+    result = cursor.fetchall()
+
+    res = []
+    for r in result:
+        res.append({
+            "time": r[0],
+            "content": r[1],
+            "course": r[2],
+            "instructor": r[3]
+        })
+    return res
+
 
 if __name__ == "__main__":
     app.run(debug=True)
