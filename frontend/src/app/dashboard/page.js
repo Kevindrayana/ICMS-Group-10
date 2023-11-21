@@ -160,6 +160,11 @@ export default function Dashboard() {
                   justifyContent: "space-between",
                   borderRadius: "16px",
                 }}>
+                  <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between"
+                  }}>
                 <div
                   style={{
                     display: "flex",
@@ -215,6 +220,17 @@ export default function Dashboard() {
                       </div>
                     </a>
                   </div>
+                </div>
+                <div style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginTop: "20px",
+                }}>
+                  <Button
+                  onClick={() => {
+                    handleSendEmail();
+                  }}>Send To Email</Button>
+                </div>
                 </div>
                 <div
                   style={{
@@ -290,19 +306,6 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  marginTop: "20px",
-                }}>
-                <Button
-                  onClick={() => {
-                    handleSendEmail();
-                  }}>
-                  Send to Email
-                </Button>
-              </div>
             </div>
           )}
 
