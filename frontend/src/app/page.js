@@ -29,7 +29,10 @@ export default function SignIn() {
         .then((res) => {
           if (res.data != null) {
             sessionStorage.setItem("uid", uid);
-            sessionStorage.setItem("latest-login", res.data[2]);
+            sessionStorage.setItem("name", res.data[1]);
+            sessionStorage.setItem("year", res.data[2]);
+            sessionStorage.setItem("program", res.data[3]);
+            sessionStorage.setItem("latest-login", res.data[4]);
             setisLoading(false);
             setLoginFailed(false);
             window.location.href = "/dashboard";
@@ -96,10 +99,11 @@ export default function SignIn() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-        }}>
+        }}
+      >
         <img src="image/logo.png" alt="logo" width="350" height="70" />
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-{/* login failed */}
+          {/* login failed */}
           {loginFailed && (
             <Typography
               sx={{
@@ -161,8 +165,7 @@ export default function SignIn() {
             >
               Sign In
             </Button>
-          )
-          }
+          )}
         </Box>
         <Button
           onClick={() => {

@@ -9,6 +9,8 @@ DROP TABLE IF EXISTS Student;
 CREATE TABLE Student (
     student_id VARCHAR(10) PRIMARY KEY,
     name VARCHAR(255),
+    year INT,
+    program VARCHAR(255),
     login_time DATETIME,
     email VARCHAR(255),
     password VARCHAR(255)
@@ -65,10 +67,12 @@ CREATE TABLE Message (
     FOREIGN KEY (staff_id) REFERENCES Teaching_Staff(staff_id),
     FOREIGN KEY (course_code) REFERENCES Course(course_code)
 );
-INSERT INTO Student (student_id, name, login_time, email, password)
+INSERT INTO Student (student_id, name, year, program, login_time, email, password)
 VALUES (
         '3035000001',
         'John Chan',
+        3, 
+        'BEng(CompSc)',
         '2023-11-20 08:00:00',
         'johnchan@hku.hk',
         'password1'
@@ -76,6 +80,8 @@ VALUES (
     (
         '3035000002',
         'Emma Lee',
+        2,
+        'BAsc',
         '2023-11-20 09:30:00',
         'emmalee@hku.hk',
         'password2'
@@ -83,6 +89,8 @@ VALUES (
     (
         '3035000003',
         'Michael Wong',
+        2,
+        'BSc',
         '2023-11-20 10:45:00',
         'michaelwong@hku.hk',
         'password3'
@@ -90,6 +98,8 @@ VALUES (
     (
         '3035000004',
         'Sophia Cheung',
+        4,
+        'MBBS',
         '2023-11-20 12:15:00',
         'sophiacheung@hku.hk',
         'password4'
@@ -97,6 +107,8 @@ VALUES (
     (
         '3035000005',
         'Daniel Ng',
+        5,
+        'BDS',
         '2023-11-20 14:00:00',
         'danielng@hku.hk',
         'password5'
@@ -104,6 +116,8 @@ VALUES (
     (
         '3035000000',
         'Davinne Valeria',
+        3,
+        'BEng(CivE)',
         '2023-11-20 15:30:00',
         'dapinnlol25@gmail.com',
         -- 'indrayana.kevin@gmail.com',
