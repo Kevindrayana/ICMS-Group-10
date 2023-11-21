@@ -58,6 +58,19 @@ export default function SignIn() {
     // setIsLoading(false);
   };
 
+  const handleLatestLogin = async () => {
+    fetch(`http://http://127.0.0.1:5000/latest-login?uid=${data.get("uid")}`)
+      .then((response) => {
+        setLoginHistory([
+          response.data.login_time.slice(0, 10),
+          response.data.login_time.slice(11),
+        ]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <Container component="main" maxWidth="sm">
       <Box
@@ -70,8 +83,7 @@ export default function SignIn() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-        }}
-      >
+        }}>
         <img src="image/logo.png" alt="logo" width="350" height="70" />
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
@@ -104,7 +116,9 @@ export default function SignIn() {
             style={{
               marginTop: "20px",
             }}
-          >
+            onClick={() => {
+              handleLatestLogin();
+            }}>
             Sign In
           </Button>
         </Box>
@@ -116,8 +130,7 @@ export default function SignIn() {
             mt: 2,
           }}
           disabled={isLoading}
-          fullWidth
-        >
+          fullWidth>
           Login Via Face Recognition
         </Button>
       </Box>
