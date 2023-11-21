@@ -155,14 +155,14 @@ def login():
     if request.method == 'POST':
         cursor.execute("SELECT * FROM Student WHERE student_id = %s AND password = %s;", (student_id, password))
         values = cursor.fetchone()
-
         if values:
             # Store username in session
             session.permanent = True
             session["student_id"] = values[0]
             response = {
                 'signin': True,
-                'student_id': student_id
+                'student_id': student_id,
+                'latest_login': values[1]
             }
         else:
             response = {'signin': False}

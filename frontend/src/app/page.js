@@ -22,18 +22,11 @@ export default function SignIn() {
           username: data.get("uid"),
           password: data.get("password"),
         })
-        .then((response) => {
-          if (response.data!= null) {
-            axios
-            .get(`http://127.0.0.1:5000/latest-login?uid=${uid}`)
-            .then((response) => {
-              sessionStorage.setItem("uid", uid);
-              sessionStorage.setItem("latest-login", response.data.login_time);
-              window.location.href = "/dashboard";
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+        .then((res) => {
+          if (res.data!= null) {
+            sessionStorage.setItem("uid", uid);
+            sessionStorage.setItem("latest-login", res.data[2]);
+            window.location.href = "/dashboard";
           } else {
             setUid("");
           }
