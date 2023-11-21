@@ -59,6 +59,10 @@ import { Template } from "src/components/template";
 import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import { Scheduler } from "@aldabil/react-scheduler";
+import useSWR from "swr";
+
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
 export default function Dashboard() {
   const [timetable_schedule, setTimetable_schedule] = useState([
     [
@@ -98,27 +102,19 @@ export default function Dashboard() {
       "2023/11/20",
     ],
   ]);
-  const [upComingClass, setUpComingClass] = useState({ success: false });
 
-  useEffect(() => {
-    fetchData(); // Call the function to fetch the data when the component mounts
-  }, []);
+  const uid = sessionStorage.getItem("uid");
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch("http://127.0.0.1:5000/class");
-      const data = await response.json();
-      setUpComingClass(data); // Set the fetched data to the component state
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  const { data, error } = useSWR(
+    `http://127.0.0.1:5000/upcoming-class?uid=${uid}`,
+    fetcher
+  );
 
   const handleSendEmail = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:5000/mail");
-      const data = await response.json();
-      if (data.success) {
+      const response = await fetch(`http://127.0.0.1:5000/mail?uid=${uid}`);
+      const email = await response.json();
+      if (email.success) {
         alert("Email sent successfully.");
       } else {
         throw new Error();
@@ -127,6 +123,8 @@ export default function Dashboard() {
       alert("Failed to send email.");
     }
   };
+
+  if (error) return <div>Failed to load</div>;
 
   return (
     <Template sidebar_index={0}>
@@ -141,171 +139,174 @@ export default function Dashboard() {
       </div>
       <div>
         <div>
-          {upComingClass.success && (
-            <div>
-              <div
-                style={{
-                  color: "#48A8BC",
-                  fontWeight: "500",
-                  fontSize: "24px",
-                }}>
-                {" "}
-                Upcoming Class
-              </div>
-              <div
-                style={{
-                  backgroundColor: "#78C2D20D",
-                  marginTop: "20px",
-                  padding: "20px",
-                  justifyContent: "space-between",
-                  borderRadius: "16px",
-                }}>
+          <div>
+            {data?.success ? (
+              <>
                 <div
                   style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "left",
-                    fontSize: "20px",
+                    color: "#48A8BC",
                     fontWeight: "500",
+                    fontSize: "24px",
+                  }}>
+                  {" "}
+                  Upcoming Class
+                </div>
+                <div
+                  style={{
+                    backgroundColor: "#78C2D20D",
+                    marginTop: "20px",
+                    padding: "20px",
+                    justifyContent: "space-between",
+                    borderRadius: "16px",
                   }}>
                   <div
                     style={{
                       display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      color: "#1C6D7E",
+                      flexDirection: "row",
+                      alignItems: "left",
+                      fontSize: "20px",
+                      fontWeight: "500",
                     }}>
-                    <div>{upComingClass.start_time.split(':').slice(0, 2).join(':')}</div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        color: "#1C6D7E",
+                      }}>
+                      <div>
+                        {data.start_time.split(":").slice(0, 2).join(":")}
+                      </div>
+                      <div
+                        style={{
+                          width: "1px",
+                          height: "4px",
+                          backgroundColor: "black",
+                        }}></div>
+                      <div>
+                        {data.end_time.split(":").slice(0, 2).join(":")}
+                      </div>
+                    </div>
                     <div
                       style={{
                         width: "1px",
-                        height: "4px",
-                        backgroundColor: "black",
+                        margin: "5px 15px 5px 15px",
+                        backgroundColor: "#78C2D2",
                       }}></div>
-                    <div>{upComingClass.end_time.split(':').slice(0, 2).join(':')}</div>
-
-                  </div>
-                  <div
-                    style={{
-                      width: "1px",
-                      margin: "5px 15px 5px 15px",
-                      backgroundColor: "#78C2D2",
-                    }}></div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                    }}>
                     <div
                       style={{
-                        color: "#7EBCE6",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
                       }}>
-                      {upComingClass.course_code}
-                    </div>
-                    <a
-                      href={upComingClass.course_link}
-                      style={{ textDecoration: "none" }}>
                       <div
                         style={{
-                          color: "#2B7099",
+                          color: "#7EBCE6",
                         }}>
-                        {upComingClass.course_name}
+                        {data.course_code}
                       </div>
-                    </a>
-                  </div>
-                </div>
-                <div
-                  style={{
-                    fontSize: "14px",
-                    marginTop: "20px",
-                    color: "#78C2D2",
-                  }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                    }}>
-                    <div
-                      style={{
-                        marginRight: "12px",
-                        width: "80px",
-                      }}>
-                      Venue
-                    </div>
-                    <div
-                      style={{
-                        color: "#48A8BC",
-                      }}>
-                      {upComingClass.venue}
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                    }}>
-                    <div
-                      style={{
-                        marginRight: "12px",
-                        width: "80px",
-                      }}>
-                      Zoom
-                    </div>
-                    <div
-                      style={{
-                        color: "#48A8BC",
-                        // make the link no underline
-                        style: "none",
-                        textDecoration: "none",
-                      }}>
-                      <a href={upComingClass.zoom_link}>
-                        {upComingClass.zoom_link}
+                      <a
+                        href={data.course_link}
+                        style={{ textDecoration: "none" }}>
+                        <div
+                          style={{
+                            color: "#2B7099",
+                          }}>
+                          {data.course_name}
+                        </div>
                       </a>
                     </div>
-                  </div>
-                </div>
-                <div
-                  style={{
-                    height: "1px",
-                    backgroundColor: "#78C2D240",
-                    marginTop: "20px",
-                    marginBottom: "20px",
-                  }}></div>
-                <div>
-                  <div
-                    style={{
-                      color: "#78C2D2",
-                    }}>
-                    Teacher's Message
                   </div>
                   <div
                     style={{
                       fontSize: "14px",
-                      color: "#BCBCBC",
+                      marginTop: "20px",
+                      color: "#78C2D2",
                     }}>
-                    {upComingClass.latest_announcement}
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                      }}>
+                      <div
+                        style={{
+                          marginRight: "12px",
+                          width: "80px",
+                        }}>
+                        Venue
+                      </div>
+                      <div
+                        style={{
+                          color: "#48A8BC",
+                        }}>
+                        {data.venue}
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                      }}>
+                      <div
+                        style={{
+                          marginRight: "12px",
+                          width: "80px",
+                        }}>
+                        Zoom
+                      </div>
+                      <div
+                        style={{
+                          color: "#48A8BC",
+                          // make the link no underline
+                          style: "none",
+                          textDecoration: "none",
+                        }}>
+                        <a href={data.zoom_link}>{data.zoom_link}</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      height: "1px",
+                      backgroundColor: "#78C2D240",
+                      marginTop: "20px",
+                      marginBottom: "20px",
+                    }}></div>
+                  <div>
+                    <div
+                      style={{
+                        color: "#78C2D2",
+                      }}>
+                      Teacher's Message
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "14px",
+                        color: "#BCBCBC",
+                      }}>
+                      {data.latest_announcement}
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  marginTop: "20px",
-                }}>
-                <Button
-                  onClick={() => {
-                    handleSendEmail();
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    marginTop: "20px",
                   }}>
-                  Send to Email
-                </Button>
-              </div>
-            </div>
-          )}
-
+                  <Button
+                    onClick={() => {
+                      handleSendEmail();
+                    }}>
+                    Send to Email
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <div>No Upcoming Class</div>
+            )}
+          </div>
           <div
             style={{
               color: "#48A8BC",
