@@ -7,13 +7,17 @@ import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { CircularProgress } from "@mui/material";
 import Container from "@mui/material/Container";
 import axios from "axios";
 import { useState } from "react";
 export default function SignIn() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingFace, setisLoadingFace] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
+  const [loginFailed, setLoginFailed] = useState(false);
   const [uid, setUid] = useState("");
   const handleSubmit = (event) => {
+    setisLoading(true);
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     try {
@@ -23,39 +27,48 @@ export default function SignIn() {
           password: data.get("password"),
         })
         .then((res) => {
-          if (res.data!= null) {
+          if (res.data != null) {
             sessionStorage.setItem("uid", uid);
             sessionStorage.setItem("latest-login", res.data[2]);
+            setisLoading(false);
+            setLoginFailed(false);
             window.location.href = "/dashboard";
           } else {
+            setisLoading(false);
+            setLoginFailed(true);
             setUid("");
           }
         });
     } catch (error) {
       console.error(error);
+      setisLoading(false);
+      setLoginFailed(true);
       alert("An error occurred.");
     }
-    // console.log({
-    //   uid: data.get("uid"),
-    //   password: data.get("password"),
-    // });
   };
   const handleFaceRecognition = async () => {
-    setIsLoading(true);
+    setisLoadingFace(true);
     try {
       const response = await axios.get(
         "http://127.0.0.1:5000/start-face-recognition"
       );
       if (response.data.signin) {
+        sessionStorage.setItem("uid", uid);
+        sessionStorage.setItem("latest-login", response.data.latest_login);
+        setisLoadingFace(false);
+        setLoginFailed(false);
         window.location.href = "/dashboard";
       } else {
+        setisLoadingFace(false);
+        setLoginFailed(true);
         alert("Face recognition failed. Please try again.");
       }
     } catch (error) {
+      setLoginFailed(true);
       console.error(error);
       alert("An error occurred while trying to login via face recognition.");
     }
-    // setIsLoading(false);
+    setisLoadingFace(false);
   };
 
   const handleLatestLogin = async () => {
@@ -86,6 +99,18 @@ export default function SignIn() {
         }}>
         <img src="image/logo.png" alt="logo" width="350" height="70" />
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+{/* login failed */}
+          {loginFailed && (
+            <Typography
+              sx={{
+                color: "#ff0000",
+                fontSize: "14px",
+                marginTop: "10px",
+              }}
+            >
+              Login failed. Please try again.
+            </Typography>
+          )}
           <TextField
             margin="normal"
             required
@@ -110,17 +135,34 @@ export default function SignIn() {
             id="password"
             autoComplete="current-password"
           />
-          <Button
-            type="submit"
-            fullWidth
-            style={{
-              marginTop: "20px",
-            }}
-            onClick={() => {
-              handleLatestLogin();
-            }}>
-            Sign In
-          </Button>
+          {isLoading ? (
+            <Button
+              sx={{
+                mt: 2,
+              }}
+              disabled
+              fullWidth
+            >
+              <CircularProgress
+                style={{
+                  color: "#ffffff",
+                  height: "28px",
+                  width: "28px",
+                }}
+              />
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              fullWidth
+              style={{
+                marginTop: "20px",
+              }}
+            >
+              Sign In
+            </Button>
+          )
+          }
         </Box>
         <Button
           onClick={() => {
@@ -130,7 +172,8 @@ export default function SignIn() {
             mt: 2,
           }}
           disabled={isLoading}
-          fullWidth>
+          fullWidth
+        >
           Login Via Face Recognition
         </Button>
       </Box>
