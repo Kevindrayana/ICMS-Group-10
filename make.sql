@@ -452,16 +452,24 @@ VALUES ('9999000001', 'Dr. Chan Tai Man'),
     ('9999000005', 'Dr. Daniel Kwok'),
     ('9999000006', 'Dr. Kevin Tong'),
     ('9999000007', 'Dr. Grace Hui'),
-    ('9999000008', 'Dr. Bryan Lam');
+    ('9999000008', 'Dr. Bryan Lam'),
+    ('9999000009', 'Dr. Samantha Lee'),
+    ('9999000010', 'Prof. Benjamin Chen'),
+    ('9999000011', 'Dr. Jennifer Wang');
 INSERT INTO Teaching_Staff_asoc_lesson (staff_id, lesson_id, course_code, role)
 VALUES ('9999000001', 'L01', 'COMP101', 'professor'),
-    ('9999000002', 'L02', 'MATH202', 'professor'),
-    ('9999000003', 'L05', 'PHYS301', 'professor'),
-    ('9999000004', 'T01', 'COMP101', 'tutor'),
-    ('9999000005', 'T03', 'PHYS301', 'tutor'),
-    ('9999000006', 'T04', 'FINA101', 'tutor'),
-    ('9999000007', 'L07', 'ECON102', 'tutor'),
-    ('9999000008', 'L08', 'ENGL101', 'professor');
+    ('9999000002', 'L07', 'ECON102', 'professor'),
+    ('9999000002', 'T05', 'ECON102', 'tutor'),
+    ('9999000003', 'L02', 'MATH202', 'professor'),
+    ('9999000004', 'T02', 'MATH202', 'tutor'),
+    ('9999000005', 'L05', 'PHYS301', 'professor'),
+    ('9999000006', 'T01', 'COMP101', 'tutor'),
+    ('9999000007', 'T03', 'PHYS301', 'tutor'),
+    ('9999000008', 'T04', 'FINA101', 'tutor'),
+    ('9999000008', 'L06', 'FINA101', 'professor'),
+    ('9999000009', 'L08', 'ENGL101', 'professor'),
+    ('9999000010', 'L03', 'BIOC101', 'professor'),
+    ('9999000011', 'L04', 'BIOL201', 'professor');
 INSERT INTO Message (
         message_id,
         staff_id,
@@ -485,98 +493,98 @@ VALUES (
     ),
     (
         3,
-        '9999000002',
+        '9999000003',
         'Welcome to MATH202! This course will delve into advanced mathematical concepts and their applications. Prepare to expand your problem-solving skills and explore the beauty of mathematics.',
         'MATH202',
         '2020-11-20 11:00:00'
     ),
     (
         4,
-        '9999000002',
+        '9999000003',
         'Attention students: The deadline for the first problem set has been extended to December 3rd, 2020. Take this opportunity to ensure your solutions are accurate and well-presented.',
         'MATH202',
         '2020-11-23 09:45:00'
     ),
     (
         5,
-        '9999000003',
+        '9999000005',
         'Welcome to PHYS301! In this course, we will explore the fascinating world of physics and delve into various laws and theories. Get ready for mind-boggling experiments and captivating discussions!',
         'PHYS301',
         '2020-11-20 12:00:00'
     ),
     (
         6,
-        '9999000003',
+        '9999000005',
         'Important Announcement: The deadline for the research paper has been rescheduled. The final submission is now due on December 10th, 2020. Make sure to allocate enough time for thorough research and polished writing.',
         'PHYS301',
         '2020-11-25 16:20:00'
     ),
     (
         7,
-        '9999000004',
+        '9999000006',
         'Welcome to COMP101! We are thrilled to have you join this course. COMP101 is all about building a strong foundation in computer science and programming concepts. Brace yourself for an enriching learning experience!',
         'COMP101',
         '2020-11-20 14:00:00'
     ),
     (
         8,
-        '9999000004',
+        '9999000006',
         'Attention students: Remember to submit your group project proposals by November 30th, 2020. Collaborate with your team members and come up with innovative ideas for your project.',
         'COMP101',
         '2020-11-24 10:15:00'
     ),
     (
         9,
-        '9999000005',
+        '9999000007',
         'Welcome to PHYS301! Prepare to embark on a thrilling journey through the realms of physics. We will dive deep into the mysteries of the universe and uncover the fundamental laws that govern it.',
         'PHYS301',
         '2020-11-20 13:00:00'
     ),
     (
         10,
-        '9999000005',
+        '9999000007',
         'Reminder: The lab report for Experiment 2 is due this Friday. Make sure to include detailed observations, calculations, and analysis. Submit your reports by November 27th, 2020.',
         'PHYS301',
         '2020-11-22 18:30:00'
     ),
     (
         11,
-        '9999000006',
+        '9999000008',
         'Welcome to FINA101! Get ready to explore the exciting world of finance and economics. In this course, we will analyze markets, investments, and financial instruments. Let the adventure begin!',
         'FINA101',
         '2020-11-20 17:00:00'
     ),
     (
         12,
-        '9999000006',
+        '9999000008',
         'Attention students: The midterm exam has been scheduled for December 5th, 2020. Start preparing early and make use of the study materials provided. Good luck!',
         'FINA101',
         '2020-11-24 14:55:00'
     ),
     (
         13,
-        '9999000007',
+        '9999000002',
         'Welcome to ECON102! This course will take you on a journey through the principles of economics. We will examine various economic systems, policies, and their impact on society. Get ready to broaden your economic perspective!',
         'ECON102',
         '2020-11-20 18:00:00'
     ),
     (
         14,
-        '9999000007',
+        '9999000002',
         'Reminder: The deadline for the research essay is approaching. Submit your well-researched and properly cited essays by November 29th, 2020. Reach out if you need any guidance.',
         'ECON102',
         '2020-11-23 11:30:00'
     ),
     (
         15,
-        '9999000008',
+        '9999000009',
         'Welcome to ENGL101! In this course, we will explore the world of literature and enhance our communication skills. Get ready toexplore captivating stories, analyze literary techniques, and express your thoughts eloquently!',
         'ENGL101',
         '2020-11-20 12:00:00'
     ),
     (
         16,
-        '9999000008',
+        '9999000009',
         'Important Announcement: The due date for the final essay has been extended to December 7th, 2020. Take this opportunity to refine your analysis and ensure your arguments are well-supported.',
         'ENGL101',
         '2020-11-25 09:10:00'

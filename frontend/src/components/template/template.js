@@ -1,4 +1,4 @@
-import { Box, Button, Container } from "@mui/material";
+import { Box, Button, Container, IconButton, TextField } from "@mui/material";
 import React, { useEffect } from "react";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
@@ -10,14 +10,16 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
 //import { uid } from "@/app/page";
 import axios from "axios";
 
 export default function Template({ sidebar_index, children }) {
   const [hide, setHide] = useState(true);
   const [uid, setUid] = useState("");
-
+  const [input, setInput] = useState("");
   const [active, setActive] = useState(sidebar_index);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     setActive(sidebar_index);
   }, [sidebar_index]);
@@ -29,6 +31,7 @@ export default function Template({ sidebar_index, children }) {
     major: "BEng CompSc",
   });
   const [loginHistory, setLoginHistory] = useState([]);
+  const [chat, setChat] = useState(["Hi, how can I help you?"]);
   const [latestAnnouncement, setLatestAnnouncement] = useState([
     {
       time: "2021-10-03 09:00:00",
@@ -91,6 +94,54 @@ export default function Template({ sidebar_index, children }) {
       major: sessionStorage.getItem("program"),
     });
   }, []);
+  useEffect(() => {
+    var objDiv = document.getElementById("chat-history");
+    objDiv.scrollTop = objDiv.scrollHeight;
+  });
+  const handleSend = () => {
+    setIsLoading(true);
+    // send the message to backend
+    //sleep 3 s
+    let temp = chat;
+    temp.push(input);
+    setInput("");
+    setChat(temp);
+    try {
+      axios
+        .post("http://127.0.0.1:5000/chatbot", {
+          uid: uid,
+          message: input,
+        })
+        .then((res) => {
+          if (res.data != null) {
+            let temp = chat;
+            temp.push(res.data.reply);
+            setInput("");
+            setChat(temp);
+            setIsLoading(false);
+          } else {
+            setIsLoading(false);
+            alert("An error occurred.");
+          }
+        });
+
+    }
+    catch (error) {
+      console.error(error);
+      setIsLoading(false);
+      alert("An error occurred.");
+    }
+
+    // setTimeout(() => {
+    //   temp.push("I am a bot");
+    //   setIsLoading(false);
+    // }, 3000);
+    // let temp = chat;
+    // temp.push(input);
+    // setInput("");
+    // setChat(temp);
+    // setIsLoading(false);
+  };
   const handleClick = (index) => {
     setActive(index);
     if (index === 0) {
@@ -227,10 +278,13 @@ export default function Template({ sidebar_index, children }) {
             <div
               style={{
                 fontSize: "20px",
-                color: "#48A8BC",
-                marginBottom: "5px",
+                color: "#1C6D7E",
+                fontWeight: "600",
+                marginBottom: "8px",
                 textAlign: "center",
-              }}>
+                lineHeight: "1.3",
+              }}
+            >
               {person.name}
             </div>
             <div
@@ -453,8 +507,9 @@ export default function Template({ sidebar_index, children }) {
                   fontSize: "24px",
                   color: "#48A8BC",
                   marginBottom: "10px",
-                }}>
-                Calendar
+                }}
+              >
+                Chat Bot
               </div>
               <Box
                 sx={{
@@ -462,15 +517,153 @@ export default function Template({ sidebar_index, children }) {
                   boxShadow: "0px 0px 8px 0px rgba(0,0,0,0.1)",
                   borderRadius: 2,
                   minWidth: "320px",
-                }}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DateCalendar
-                    sx={{
-                      color: "#2B7099",
-                      maxWidth: "320px",
+                  height: "320px",
+                  display: "flex",
+                  flexDirection: "column",
+                  padding: "20px",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div
+                  id="chat-history"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    maxHeight: "220px",
+                    overflowY: "scroll"
+
+                  }}>
+                  <div></div>
+                  <div 
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    // justifyContent: "space-between",
+                  }}>
+                    {chat.map((item, index) => (
+                      <>
+                        {index % 2 === 1 ? (
+                          <div
+                            style={{
+                              fontSize: "14px",
+                              color: "#BCBCBC",
+                              marginTop: "5px",
+                              //make the gap between the two lines smaller
+                              lineHeight: "1.2",
+                              marginLeft: "auto",
+                              backgroundColor: "#EFF8FB",
+                              padding: "10px",
+                              paddingLeft: "15px",
+                              paddingRight: "15px",
+                              color: "#5D97BD",
+                              borderRadius: "20px",
+                              borderTopRightRadius: "0px",
+                              maxWidth: "220px",
+                              marginTop: "15px",
+                            }}
+                          >
+                            {item}
+                          </div>) : (
+                          <div
+                            style={{
+                              fontSize: "14px",
+                              color: "#BCBCBC",
+                              lineHeight: "1.2",
+                              backgroundColor: "#78C2D2",
+                              marginRight: "auto",
+                              padding: "10px",
+                              paddingLeft: "15px",
+                              paddingRight: "15px",
+                              color: "#FFFFFF",
+                              borderRadius: "20px",
+                              borderTopLeftRadius: "0px",
+                              marginTop: "15px",
+                              maxWidth: "220px",
+                            }}
+                          >
+                            {item}
+                          </div>
+                        )}
+                        {isLoading && index === chat.length - 1 && (
+                          <div
+                            style={{
+                              fontSize: "14px",
+                              color: "#BCBCBC",
+                              lineHeight: "1.2",
+                              backgroundColor: "#78C2D2",
+                              marginRight: "auto",
+                              padding: "10px",
+                              paddingLeft: "15px",
+                              paddingRight: "15px",
+                              color: "#FFFFFF",
+                              borderRadius: "20px",
+                              borderTopLeftRadius: "0px",
+                              marginTop: "15px",
+                              maxWidth: "220px",
+                              position: "relative",
+                            }}
+                          >
+                            <span className="loadingDots"></span>
+                          </div>
+                        )}
+
+                      </>
+                    ))
+                    }
+                  </div>
+                </div>
+                <div style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  borderTop: "1px solid #E9E9E9",
+                  paddingTop: "15px",
+                }}
+                  className="chatbot"
+                >
+                  <TextField
+                    id="outlined-multiline-flexible"
+                    placeholder="Ask anything ..."
+                    multiline
+                    size="small"
+                    maxRows={2}
+                    value={input}
+                    onChange={(e) => {
+                      setInput(e.target.value);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault(); // Prevents the addition of a new line in the text field
+                        handleSend();
+                      }
+                    }}
+                    sx={(theme) => {
+                      return {
+                        backgroundColor: "#EFF8FB",
+                        '& .MuiInputBase-root': {
+                          color: "#5D97BD"
+                        },
+                        borderRadius: "20px",
+                      }
                     }}
                   />
-                </LocalizationProvider>
+                  <div style={{
+                    marginTop: "auto",
+                    marginBottom: "auto",
+                  }}>
+                    <IconButton
+                      disabled={isLoading}
+                      onClick={() => {
+                        handleSend();
+                      }} sx={{
+                        color: "#ffffff",
+                        backgroundColor: "#48A8BC",
+
+                      }}><SendRoundedIcon sx={{
+                        fontSize: "20px",
+                      }} /></IconButton></div>
+                </div>
               </Box>
             </div>
             <div
