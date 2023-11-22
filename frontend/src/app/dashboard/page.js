@@ -64,6 +64,7 @@ import useSWR from "swr";
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 export default function Dashboard() {
+  const [uid, setUid] = useState("");
   const [timetable_schedule, setTimetable_schedule] = useState([
     [
       "L01",
@@ -103,7 +104,10 @@ export default function Dashboard() {
     ],
   ]);
 
-  const uid = sessionStorage.getItem("uid");
+  useEffect(() => {
+    // Perform localStorage action
+    setUid(sessionStorage.getItem("uid"));
+  }, []);
 
   const { data, error } = useSWR(
     `http://127.0.0.1:5000/upcoming-class?uid=${uid}`,
@@ -159,6 +163,11 @@ export default function Dashboard() {
                     justifyContent: "space-between",
                     borderRadius: "16px",
                   }}>
+                    <div style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}>
                   <div
                     style={{
                       display: "flex",
@@ -217,6 +226,20 @@ export default function Dashboard() {
                         </div>
                       </a>
                     </div>
+                  </div>
+                  <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    marginBottom: "auto"
+                  }}>
+                  <Button
+                    onClick={() => {
+                      handleSendEmail();
+                    }}>
+                    Send to Email
+                  </Button>
+                </div>
                   </div>
                   <div
                     style={{
@@ -288,19 +311,6 @@ export default function Dashboard() {
                       {data.latest_announcement}
                     </div>
                   </div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    marginTop: "20px",
-                  }}>
-                  <Button
-                    onClick={() => {
-                      handleSendEmail();
-                    }}>
-                    Send to Email
-                  </Button>
                 </div>
               </>
             ) : (
