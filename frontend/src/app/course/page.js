@@ -38,7 +38,7 @@ export default function Course() {
         {data.map((course) => (
           <Box
             sx={{
-              boxShadow: 1,
+              boxShadow: "0px 0px 8px 0px rgba(0,0,0,0.1)",
               borderRadius: "12px",
               padding: "20px",
               height: "336px",

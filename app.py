@@ -14,7 +14,6 @@ from flask_cors import CORS
 from email.message import EmailMessage
 import ssl
 import smtplib
-import PySimpleGUI as sg
 import openai
 
 # Custom JSON encoder to handle timedelta and date objects
@@ -95,21 +94,7 @@ def start_face_recognition_process():
     # Define camera and detect face
     face_cascade = cv2.CascadeClassifier('haarcascade/haarcascade_frontalface_default.xml')
     cap = cv2.VideoCapture(0)
-    layout =  [
-        [sg.Text('Setting', size=(18,1), font=('Any',18),text_color='#1c86ee' ,justification='left')],
-        [sg.Text('Confidence'), sg.Slider(range=(0,100),orientation='h', resolution=1, default_value=60, size=(15,15), key='confidence')],
-        [sg.OK(), sg.Cancel()]
-        ]
-    win = sg.Window('Attendance System',
-            default_element_size=(21,1),
-            text_justification='right',
-            auto_size_text=False).Layout(layout)
-    event, values = win.Read()
-    if event is None or event =='Cancel':
-        exit()
-    args = values
-    gui_confidence = args["confidence"]
-    win_started = False
+
     response = {'signin': False}
 
     #Open the camera and start face recognition
@@ -130,7 +115,7 @@ def start_face_recognition_process():
 
             # If the face is recognized
             print(conf)
-            if conf >= gui_confidence:
+            if conf >= 60:
                 font = cv2.QT_FONT_NORMAL
                 id = 0
                 student_id = labels[id]
@@ -163,7 +148,9 @@ def start_face_recognition_process():
         
 
         cv2.imshow('Attendance System', frame)
-        k = cv2.waitKey(20) & 0xff
+        cv2.setWindowProperty("Attendance System", cv2.WND_PROP_TOPMOST, 1)
+
+        k = cv2.waitKey(100) & 0xff
         if k == ord('q') or flag:
             break
                 
@@ -298,7 +285,7 @@ def upcoming_class():
             GROUP BY course_code
         )
     ) m ON m.course_code = c.course_code
-    WHERE sac.student_id = {student_id}
+    WHERE sac.student_id = '303500001'
     AND l.start_time BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 HOUR)
     ORDER BY ABS(TIMEDIFF(l.start_time, NOW()))
     LIMIT 1;

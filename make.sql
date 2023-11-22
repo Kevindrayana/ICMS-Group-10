@@ -184,76 +184,76 @@ VALUES (
         'indrayana.kevin@gmail.com',
         'password'
     );
-INSERT INTO Course (
-        course_code,
-        semester,
-        course_link,
-        course_name,
-        course_image
-    )
-VALUES (
-        'COMP101',
-        1,
-        'https://moodle.hku.hk/course/view.php?id=98713',
-        'Introduction to Computer Science',
-        'https://img.freepik.com/free-photo/programming-background-with-person-working-with-codes-computer_23-2150010125.jpg?w=1480&t=st=1700639967~exp=1700640567~hmac=a0bca512bf5fe8a483a048e5a38304017af2810568ec23acf023dbb0ceaf3d18'
-    ),
-    (
-        'MATH202',
-        1,
-        'https://moodle.hku.hk/course/view.php?id=90458',
-        'Calculus and Linear Algebra II',
-        'https://img.freepik.com/free-vector/realistic-math-chalkboard-background_23-2148158749.jpg?w=996&t=st=1700640085~exp=1700640685~hmac=f4a0327cde26d6f068f8ca7c9fcb2fcb5900dad9852f29892339f54100248cc4'
-    ),
-    (
-        'BIOC101',
-        1,
-        'https://moodle.hku.hk/course/view.php?id=96516',
-        'Introduction to Biochemistry',
-        'https://img.freepik.com/free-photo/equipment-researchers_23-2148824239.jpg?w=1480&t=st=1700639908~exp=1700640508~hmac=8a4026cb9d0e3f531d9b4dae24bff495f9be23393ac0869efb3a0cf36efd086c'
-    ),
-    (
-        'BIOL201',
-        1,
-        'https://moodle.hku.hk/course/view.php?id=95900',
-        'Microbiology',
-        'https://img.freepik.com/free-photo/virolog-coducting-experiment-course-coronavirus-pandemic-with-micropipette-chemist-modern-laboratory-doing-research-using-dispenser-during-global-epidemic-with-covid-19_482257-5737.jpg?w=1480&t=st=1700640128~exp=1700640728~hmac=f674ad85bd07f84117edf96d85c73df3f40df2eac995c262de397dfb0171b6ec'
-    ),
-    (
-        'PHYS301',
-        1,
-        'https://moodle.hku.hk/course/view.php?id=85655',
-        'Electricity and Magnetism',
-        'https://img.freepik.com/free-photo/smart-microchip-background-motherboard-closeup-technology-remix_53876-104233.jpg?w=1480&t=st=1700640422~exp=1700641022~hmac=5b9f919fca74df59afe5174d9b2d713b683bfa7eaac06f2164a3f2e9507f6a8f'
-    ),
-    (
-        'CHEM201',
-        1,
-        'https://moodle.hku.hk/course/view.php?id=86603',
-        'General Chemistry',
-        'https://img.freepik.com/free-vector/science-doodle-pattern_23-2147492328.jpg?1&w=996&t=st=1700640210~exp=1700640810~hmac=0610032771c72b0f943f4c9bcdab31df1ba64c17fc30442e955f00273f515229'
-    ),
-    (
-        'FINA101',
-        1,
-        'https://moodle.hku.hk/course/view.php?id=105820',
-        'Introductory Finance',
-        'https://img.freepik.com/free-photo/screen-with-graph-it-that-says-word-financial-it_188544-27324.jpg?t=st=1700638747~exp=1700642347~hmac=da993edc383fc7759c85e2ce721c7d06bbee94ef213525f2e971e32dcf516eb2&w=1800'
-    ),
-    (
-        'ECON102',
-        1,
-        'https://moodle.hku.hk/course/view.php?id=98043',
-        'Microeconomics',
-        'https://img.freepik.com/free-photo/golden-abacus-with-chinese-rmb-gold-coins-as-background_1387-145.jpg?w=1480&t=st=1700640297~exp=1700640897~hmac=efa7a548a3c2a2faf0a233684805254b6dbbc906ff2fd73bd8bf74ec65df0dcd'
-    ),
-    (
-        'ENGL101',
-        1,
-        'https://moodle.hku.hk/course/view.php?id=91913',
-        'English for Academic Purposes',
-        'https://img.freepik.com/free-photo/young-student-looking-book-library_23-2149215403.jpg?w=1480&t=st=1700640371~exp=1700640971~hmac=bd52c20ec77667fcafc53d4a0e907bd7bb1a66d516429492eed6494beddc7c3d'
-    );
+-- INSERT INTO Course (
+--         course_code,
+--         semester,
+--         course_link,
+--         course_name,
+--         course_image
+--     )
+-- VALUES (
+--         'COMP101',
+--         1,
+--         'https://moodle.hku.hk/course/view.php?id=98713',
+--         'Introduction to Computer Science',
+--         'https://img.freepik.com/free-photo/programming-background-with-person-working-with-codes-computer_23-2150010125.jpg?w=1480&t=st=1700639967~exp=1700640567~hmac=a0bca512bf5fe8a483a048e5a38304017af2810568ec23acf023dbb0ceaf3d18'
+--     ),
+--     (
+--         'MATH202',
+--         1,
+--         'https://moodle.hku.hk/course/view.php?id=90458',
+--         'Calculus and Linear Algebra II',
+--         'https://img.freepik.com/free-vector/realistic-math-chalkboard-background_23-2148158749.jpg?w=996&t=st=1700640085~exp=1700640685~hmac=f4a0327cde26d6f068f8ca7c9fcb2fcb5900dad9852f29892339f54100248cc4'
+--     ),
+--     (
+--         'BIOC101',
+--         1,
+--         'https://moodle.hku.hk/course/view.php?id=96516',
+--         'Introduction to Biochemistry',
+--         'https://img.freepik.com/free-photo/equipment-researchers_23-2148824239.jpg?w=1480&t=st=1700639908~exp=1700640508~hmac=8a4026cb9d0e3f531d9b4dae24bff495f9be23393ac0869efb3a0cf36efd086c'
+--     ),
+--     (
+--         'BIOL201',
+--         1,
+--         'https://moodle.hku.hk/course/view.php?id=95900',
+--         'Microbiology',
+--         'https://img.freepik.com/free-photo/virolog-coducting-experiment-course-coronavirus-pandemic-with-micropipette-chemist-modern-laboratory-doing-research-using-dispenser-during-global-epidemic-with-covid-19_482257-5737.jpg?w=1480&t=st=1700640128~exp=1700640728~hmac=f674ad85bd07f84117edf96d85c73df3f40df2eac995c262de397dfb0171b6ec'
+--     ),
+--     (
+--         'PHYS301',
+--         1,
+--         'https://moodle.hku.hk/course/view.php?id=85655',
+--         'Electricity and Magnetism',
+--         'https://img.freepik.com/free-photo/smart-microchip-background-motherboard-closeup-technology-remix_53876-104233.jpg?w=1480&t=st=1700640422~exp=1700641022~hmac=5b9f919fca74df59afe5174d9b2d713b683bfa7eaac06f2164a3f2e9507f6a8f'
+--     ),
+--     (
+--         'CHEM201',
+--         1,
+--         'https://moodle.hku.hk/course/view.php?id=86603',
+--         'General Chemistry',
+--         'https://img.freepik.com/free-vector/science-doodle-pattern_23-2147492328.jpg?1&w=996&t=st=1700640210~exp=1700640810~hmac=0610032771c72b0f943f4c9bcdab31df1ba64c17fc30442e955f00273f515229'
+--     ),
+--     (
+--         'FINA101',
+--         1,
+--         'https://moodle.hku.hk/course/view.php?id=105820',
+--         'Introductory Finance',
+--         'https://img.freepik.com/free-photo/screen-with-graph-it-that-says-word-financial-it_188544-27324.jpg?t=st=1700638747~exp=1700642347~hmac=da993edc383fc7759c85e2ce721c7d06bbee94ef213525f2e971e32dcf516eb2&w=1800'
+--     ),
+--     (
+--         'ECON102',
+--         1,
+--         'https://moodle.hku.hk/course/view.php?id=98043',
+--         'Microeconomics',
+--         'https://img.freepik.com/free-photo/golden-abacus-with-chinese-rmb-gold-coins-as-background_1387-145.jpg?w=1480&t=st=1700640297~exp=1700640897~hmac=efa7a548a3c2a2faf0a233684805254b6dbbc906ff2fd73bd8bf74ec65df0dcd'
+--     ),
+--     (
+--         'ENGL101',
+--         1,
+--         'https://moodle.hku.hk/course/view.php?id=91913',
+--         'English for Academic Purposes',
+--         'https://img.freepik.com/free-photo/young-student-looking-book-library_23-2149215403.jpg?w=1480&t=st=1700640371~exp=1700640971~hmac=bd52c20ec77667fcafc53d4a0e907bd7bb1a66d516429492eed6494beddc7c3d'
+--     );
 INSERT INTO Lesson (
         lesson_id,
         classroom_address,
