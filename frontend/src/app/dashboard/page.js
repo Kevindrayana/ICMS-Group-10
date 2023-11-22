@@ -2,6 +2,7 @@
 import { Template } from "src/components/template";
 import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
+import CircularProgress from "@mui/material";
 import useSWR from "swr";
 import {
   Scheduler,
@@ -58,6 +59,7 @@ export default function Dashboard() {
     },
   ]);
   const [schedule, setSchedule] = useState(converter(baseData));
+  const [isEmailLoading, setIsEmailLoading] = useState(false);
   const [timetable_schedule, setTimetable_schedule] = useState([
     [
       "L01",
@@ -168,6 +170,7 @@ export default function Dashboard() {
   };
 
   const handleSendEmail = async () => {
+    setIsEmailLoading(true);
     try {
       const response = await fetch(`http://127.0.0.1:5000/mail?uid=${uid}`);
       const email = await response.json();
@@ -176,6 +179,7 @@ export default function Dashboard() {
       } else {
         throw new Error();
       }
+      setIsEmailLoading(false);
     } catch {
       alert("Failed to send email.");
     }
@@ -285,12 +289,25 @@ export default function Dashboard() {
                         flexDirection: "row",
                         marginBottom: "auto",
                       }}>
-                      <Button
-                        onClick={() => {
-                          handleSendEmail();
-                        }}>
-                        Send to Email
-                      </Button>
+                      {isEmailLoading ? (
+                        <Button>
+                          <CircularProgress
+                            style={{
+                              color: "#ffffff",
+                              height: "28px",
+                              width: "28px",
+                            }}
+                          />
+                        </Button>
+                      ) : (
+
+                        <Button
+                          onClick={() => {
+                            handleSendEmail();
+                          }}>
+                          Send to Email
+                        </Button>
+                      )}
                     </div>
                   </div>
                   <div
