@@ -22,28 +22,21 @@ const data_month = {
 
 
 export default function Course() {
-  const [uid, setUid] = useState("");
-  const [data, setData] = useState([]);
-  const [error, setError] = useState(null);
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
-  if(uid!== "") {
-    const { data, error } = useSWR(
-      `http://127.0.0.1:5000/messages?uid=${uid}`,
-      fetcher
-    );
-    setData(data);
-    setError(error);
-  }
+  const uid = sessionStorage.getItem("uid");
 
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
+  const { data, error } = useSWR(
+    `http://127.0.0.1:5000/messages?uid=${uid}`,
+    fetcher
+  );
 
   const [message, setMessage] = useState(data);
 
   const searchMessage = (keyword) => {
     // fetch the message from backend
   ;
-  useEffect(() => {
-    setUid(sessionStorage.getItem("uid"));
-  }, []);
+
     fetch(`http://127.0.0.1:5000/search-messages?uid=${uid}&keyword=${keyword}`)
       .then((res) => res.json())
       .then((data) => {
@@ -59,9 +52,9 @@ export default function Course() {
       });
   };
 
-  // useEffect(() => {
-  //   setMessage(data);
-  // }, [data]);
+  useEffect(() => {
+    setMessage(data);
+  }, [data]);
 
   const getMonthArray = (message = []) => {
     let result = [];
@@ -83,7 +76,7 @@ export default function Course() {
     let m = d.getMonth() + 1;
     return m;
   };
-  console.log(message)
+
   return (
     <Template sidebar_index={2}>
       <div
