@@ -161,7 +161,7 @@ VALUES (
         '3035902570',
         'Grizelda',
         3,
-        'BEng',
+        'BEng(CompSc)',
         '2023-11-20 14:45:00',
         'griz@hku.hk',
         'password10'

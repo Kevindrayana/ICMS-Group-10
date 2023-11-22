@@ -203,15 +203,11 @@ def signout():
 @app.route("/timetable", methods=['GET'])
 def timetable():
     student_id = request.args.get('uid')
-    if not student_id:
-        return Response(status=400)
-    
     query = f"SELECT * FROM Lesson WHERE course_code IN (\
     SELECT course_code FROM Student_asoc_course\
-    WHERE student_id = {student_id});"
+    WHERE student_id = '{student_id}');"
     cursor.execute(query)
     values = cursor.fetchall()
-
     # JSONify the response dictionary
     response = Response(json.dumps(values, cls=CustomJSONEncoder), mimetype='application/json')
     return response
@@ -281,7 +277,7 @@ def upcoming_class():
             GROUP BY course_code
         )
     ) m ON m.course_code = c.course_code
-    WHERE sac.student_id = {student_id}
+    WHERE sac.student_id = "{student_id}"
     AND l.start_time BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 HOUR)
     ORDER BY ABS(TIMEDIFF(l.start_time, NOW()))
     LIMIT 1;
@@ -350,7 +346,7 @@ def mail():
             GROUP BY course_code
         )
     ) m ON m.course_code = c.course_code
-    WHERE sac.student_id = {student_id}
+    WHERE sac.student_id = "{student_id}"
     AND l.start_time BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 HOUR);
     '''
     cursor.execute(query)
@@ -405,8 +401,6 @@ def messages():
     cursor.execute(query)
     result = cursor.fetchall()
 
-    print("result = ", result)
-
     res = []
     for r in result:
         res.append({
@@ -453,4 +447,4 @@ def search_messages():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
