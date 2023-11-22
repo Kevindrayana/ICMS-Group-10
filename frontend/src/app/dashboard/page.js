@@ -1,49 +1,5 @@
 "use client";
 
-// CREATE TABLE Lecture (
-//     sub_class VARCHAR(255) PRIMARY KEY,
-//     course_code VARCHAR(255),
-//     notes TEXT,
-//     classroom_address VARCHAR(255),
-//     start_time TIME,
-//     end_time TIME,
-//     FOREIGN KEY (course_code) REFERENCES Course(course_code)
-// );
-// [
-//     [
-//         "L01",
-//         "Room G01, Haking Wong Building",
-//         "9:00:00",
-//         "10:30:00",
-//         "https://zoom.us/comp101-lecture",
-//         "COMP101"
-//     ],
-//     [
-//         "T01",
-//         "Room G02, Haking Wong Building",
-//         "15:00:00",
-//         "16:30:00",
-//         "https://zoom.us/comp101-tutorial",
-//         "COMP101"
-//     ],
-//     [
-//         "L02",
-//         "Room 201, K.K. Leung Building",
-//         "11:00:00",
-//         "12:30:00",
-//         "https://zoom.us/math202-lecture",
-//         "MATH202"
-//     ],
-//     [
-//         "T02",
-//         "Room 202, Knowles Building",
-//         "17:00:00",
-//         "18:30:00",
-//         "https://zoom.us/math202-tutorial",
-//         "MATH202"
-//     ]
-// ]
-// create a converter from temp to temp2
 const convert = (temp) => {
   let result = [];
   for (let i = 0; i < temp.length; i++) {
