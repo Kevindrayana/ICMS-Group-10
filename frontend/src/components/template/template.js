@@ -32,51 +32,7 @@ export default function Template({ sidebar_index, children }) {
   });
   const [loginHistory, setLoginHistory] = useState([]);
   const [chat, setChat] = useState(["Hi, how can I help you?"]);
-  const [latestAnnouncement, setLatestAnnouncement] = useState([
-    {
-      time: "2021-10-03 09:00:00",
-      content:
-        "This is the first announcementhud saihasiudhsua hdauihduiahdu iadhuashuasihdiusad dsahudiahud haud shduisa hduiash duisahd uiadh uasidh uaid huaihd uahduaisdh i",
-      course: "COMP 3278",
-      instructor: "Dr. Luo Ping",
-    },
-    {
-      time: "2021-10-03 09:00:00",
-      content: "This is the first announcement",
-      course: "COMP 3278",
-      instructor: "Dr. Luo Ping",
-    },
-    {
-      time: "2021-10-03 09:00:00",
-      content: "This is the first announcement",
-      course: "COMP 3278",
-      instructor: "Dr. Luo Ping",
-    },
-    {
-      time: "2021-10-03 09:00:00",
-      content: "This is the first announcement",
-      course: "COMP 3278",
-      instructor: "Dr. Luo Ping",
-    },
-    {
-      time: "2021-10-03 09:00:00",
-      content: "This is the first announcement",
-      course: "COMP 3278",
-      instructor: "Dr. Luo Ping",
-    },
-    {
-      time: "2021-10-03 09:00:00",
-      content: "This is the first announcement",
-      course: "COMP 3278",
-      instructor: "Dr. Luo Ping",
-    },
-    {
-      time: "2021-10-03 09:00:00",
-      content: "This is the first announcement",
-      course: "COMP 3278",
-      instructor: "Dr. Luo Ping",
-    },
-  ]);
+  const [latestAnnouncement, setLatestAnnouncement] = useState([]);
   useEffect(() => {
     // Perform localStorage action
     if (sessionStorage.getItem("uid") === null) {
@@ -96,8 +52,36 @@ export default function Template({ sidebar_index, children }) {
   }, []);
   useEffect(() => {
     var objDiv = document.getElementById("chat-history");
+    if(objDiv) {
     objDiv.scrollTop = objDiv.scrollHeight;
+    }
   });
+
+  useEffect(() => {
+    try{
+      if(uid !== ""){
+
+      axios.get(`http://127.0.0.1:5000/messages?uid=${uid}`).then((res)=> {
+        console.log(res)
+        if (res.data != null) {
+          setLatestAnnouncement(res.data);
+        } else {
+          alert("An error occurred.");
+        }
+      })
+  }
+
+    }
+    catch (error) {
+      console.error(error);
+      setIsLoading(false);
+      alert("An error occurred.");
+    }
+
+  }, [uid])
+
+  
+
   const handleSend = () => {
     setIsLoading(true);
     // send the message to backend
@@ -352,6 +336,7 @@ export default function Template({ sidebar_index, children }) {
             }}>
             Latest Announcement
           </div>
+          {latestAnnouncement.length !== 0 && (
           <Box
             sx={{
               boxShadow: "0px 0px 8px 0px rgba(0,0,0,0.1)",
@@ -470,6 +455,7 @@ export default function Template({ sidebar_index, children }) {
               </>
             )}
           </Box>
+          )}  
           <div
             style={{
               fontSize: "14px",
