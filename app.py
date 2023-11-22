@@ -367,26 +367,19 @@ def messages():
 
     # get the messages for the student
     query = f'''
-    SELECT c.course_code, c.course_name, l.start_time, l.end_time, l.classroom_address, l.zoom_link, m.content AS last_message
-    FROM Course c
-    JOIN Student_asoc_course sac ON sac.course_code = c.course_code
-    JOIN Lesson l ON l.course_code = c.course_code
-    LEFT JOIN (
-        SELECT message_id, staff_id, content, course_code
-        FROM Message
-        WHERE message_id IN (
-            SELECT MAX(message_id)
-            FROM Message
-            GROUP BY course_code
-        )
-    ) m ON m.course_code = c.course_code
-    WHERE sac.student_id = {student_id}
-    AND l.start_time BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 HOUR)
-    ORDER BY ABS(TIMEDIFF(l.start_time, NOW()))
-    LIMIT 1;
+    SELECT m.sent_time, m.content, m.course_code, t.name
+    FROM Message as m
+    INNER JOIN Teaching_Staff as t
+    ON t.staff_id = m.staff_id
+    INNER JOIN Student_asoc_course as s
+    ON s.course_code = m.course_code
+    WHERE s.student_id = '{student_id}'
+    ORDER BY m.sent_time DESC;
     '''
     cursor.execute(query)
     result = cursor.fetchall()
+
+    print("result = ", result)
 
     res = []
     for r in result:
