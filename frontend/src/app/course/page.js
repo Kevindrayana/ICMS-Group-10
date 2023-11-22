@@ -9,7 +9,6 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 export default function Course() {
   let uid = sessionStorage.getItem("uid");
-  
   const { data, error } = useSWR(
     `http://127.0.0.1:5000/courses?uid=${uid}`,
     fetcher
@@ -81,12 +80,22 @@ export default function Course() {
             </div>
             </div>
             </div>
-            <div>
+            <div style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}>
               <Button
                 onClick={() => {
                   window.open(course.course_link, "_blank");
                 }}>
                 View Course
+              </Button>
+              <Button
+                onClick={() => {
+                  window.open("https://moodle.hku.hk/mod/resource/view.php?id=3081895", "_blank");
+                }}>
+                Course Materials
               </Button>
             </div>
           </Box>
