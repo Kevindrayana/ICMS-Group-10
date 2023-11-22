@@ -1,7 +1,7 @@
 "use client";
 
 import { Template } from "src/components/template";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 
 // create a function to change from 10 to November
@@ -19,9 +19,10 @@ const data_month = {
   11: "November",
   12: "December",
 };
+
+
 export default function Course() {
-  //   const uid = sessionStorage.getItem("uid");
-  const uid = "3035000001";
+  const uid = sessionStorage.getItem("uid");
 
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
@@ -30,9 +31,34 @@ export default function Course() {
     fetcher
   );
 
-  const getMonthArray = (data = []) => {
+  const [message, setMessage] = useState(data);
+
+  const searchMessage = (keyword) => {
+    // fetch the message from backend
+    const uid = sessionStorage.getItem("uid");
+
+    fetch(`http://127.0.0.1:5000/search-messages?uid=${uid}&keyword=${keyword}`)
+      .then((res) => res.json())
+      .then((data) => {
+        // // filter the data
+        // let temp = data.filter((item) => {
+        //   return (
+        //     item.content.toLowerCase().includes(keyword.toLowerCase()) ||
+        //     item.course.toLowerCase().includes(keyword.toLowerCase()) ||
+        //     item.instructor.toLowerCase().includes(keyword.toLowerCase())
+        //   );
+        // });
+        setMessage(data);
+      });
+  };
+
+  useEffect(() => {
+    setMessage(data);
+  }, [data]);
+
+  const getMonthArray = (message = []) => {
     let result = [];
-    let temp = data;
+    let temp = message;
     for (let i = 0; i < temp.length; i++) {
       // check if the same no need
       let d = new Date(temp[i].time);
@@ -62,7 +88,28 @@ export default function Course() {
         }}>
         Message Board
       </div>
-      {getMonthArray(data).map((m, i) => (
+      {/* create an input box for searching message */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          marginBottom: "20px",
+        }}>
+        <input
+          style={{
+            width: "500px",
+            height: "40px",
+            borderRadius: "5px",
+            border: "1px solid #E9E9E9",
+            paddingLeft: "10px",
+          }}
+          placeholder="Search"
+          onChange={(e) => searchMessage(e.target.value)}
+        />
+      </div>
+
+      {getMonthArray(message).map((m, i) => (
         <>
           <div
             style={{
@@ -74,9 +121,9 @@ export default function Course() {
             }}>
             {data_month[m]}
           </div>
-          {data?.map((item, index) => (
+          {message?.map((item, index) => (
             <>
-              {getMonth(data[i].time) === m && (
+              {getMonth(message[i].time) === m && (
                 <div
                   style={{
                     display: "flex",
@@ -85,7 +132,7 @@ export default function Course() {
                     marginBottom: "10px",
                     paddingBottom: "10px",
                     borderBottom:
-                      index === data.length - 1 ? "none" : "1px solid #E9E9E9",
+                      index === message.length - 1 ? "none" : "1px solid #E9E9E9",
                   }}>
                   <div
                     style={{

@@ -20,7 +20,7 @@ CREATE TABLE Course (
     semester INT,
     course_link VARCHAR(255),
     course_name VARCHAR(255),
-    course_image VARCHAR(255)
+    course_image VARCHAR(511)
 );
 CREATE TABLE Lesson (
     lesson_id VARCHAR(3),
