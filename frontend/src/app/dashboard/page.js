@@ -90,7 +90,7 @@ export default function Dashboard() {
   ]);
 
   useEffect(() => {
-    // Perform localStorage action
+    // Perform sessionlStorage action
     setUid(sessionStorage.getItem("uid"));
   }, []);
 
