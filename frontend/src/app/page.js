@@ -29,10 +29,7 @@ export default function SignIn() {
         .then((res) => {
           if (res.data != null) {
             sessionStorage.setItem("uid", uid);
-            sessionStorage.setItem("name", res.data[1]);
-            sessionStorage.setItem("year", res.data[2]);
-            sessionStorage.setItem("program", res.data[3]);
-            sessionStorage.setItem("latest-login", res.data[4]);
+            sessionStorage.setItem("latest-login", res.data[2]);
             setisLoading(false);
             setLoginFailed(false);
             window.location.href = "/dashboard";
@@ -74,19 +71,6 @@ export default function SignIn() {
     setisLoadingFace(false);
   };
 
-  const handleLatestLogin = async () => {
-    fetch(`http://http://127.0.0.1:5000/latest-login?uid=${data.get("uid")}`)
-      .then((response) => {
-        setLoginHistory([
-          response.data.login_time.slice(0, 10),
-          response.data.login_time.slice(11),
-        ]);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   return (
     <Container component="main" maxWidth="sm">
       <Box
@@ -103,7 +87,7 @@ export default function SignIn() {
       >
         <img src="image/logo.png" alt="logo" width="350" height="70" />
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          {/* login failed */}
+{/* login failed */}
           {loginFailed && (
             <Typography
               sx={{
@@ -165,20 +149,40 @@ export default function SignIn() {
             >
               Login
             </Button>
-          )}
+          )
+          }
         </Box>
-        <Button
-          onClick={() => {
-            handleFaceRecognition();
-          }}
-          sx={{
-            mt: 2,
-          }}
-          disabled={isLoading}
-          fullWidth
-        >
-          Login Via Face Recognition
-        </Button>
+        {isLoadingFace ? (
+          <Button
+            sx={{
+              mt: 2,
+            }}
+            disabled
+            fullWidth
+          >
+            <CircularProgress
+              style={{
+                color: "#ffffff",
+                height: "28px",
+                width: "28px",
+              }}
+            />
+          </Button>
+        ) : (
+          <Button
+            onClick={() => {
+              handleFaceRecognition();
+            }}
+            sx={{
+              mt: 2,
+            }}
+            disabled={isLoadingFace}
+            fullWidth
+          >
+            Login Via Face Recognition
+          </Button>
+        )
+        }
       </Box>
     </Container>
   );
