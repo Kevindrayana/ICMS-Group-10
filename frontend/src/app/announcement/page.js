@@ -129,8 +129,8 @@ export default function Course() {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "space-between",
-                    marginBottom: "10px",
-                    paddingBottom: "10px",
+                    marginBottom: "20px",
+                    paddingBottom: "20px",
                     borderBottom:
                       index === message.length - 1 ? "none" : "1px solid #E9E9E9",
                   }}>
@@ -185,7 +185,7 @@ export default function Course() {
                   <div
                     style={{
                       fontSize: "14px",
-                      color: "#5E7380",
+                      color: "#888888",
                       marginTop: "10px",
                       fontWeight: "500",
                       lineHeight: "1.2",
