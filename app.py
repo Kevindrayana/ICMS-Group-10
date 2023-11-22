@@ -14,6 +14,8 @@ from flask_cors import CORS
 from email.message import EmailMessage
 import ssl
 import smtplib
+import PySimpleGUI as sg
+
 
 # Custom JSON encoder to handle timedelta and date objects
 class CustomJSONEncoder(json.JSONEncoder):
@@ -66,7 +68,21 @@ def start_face_recognition_process():
     # Define camera and detect face
     face_cascade = cv2.CascadeClassifier('haarcascade/haarcascade_frontalface_default.xml')
     cap = cv2.VideoCapture(0)
-
+    layout =  [
+        [sg.Text('Setting', size=(18,1), font=('Any',18),text_color='#1c86ee' ,justification='left')],
+        [sg.Text('Confidence'), sg.Slider(range=(0,100),orientation='h', resolution=1, default_value=60, size=(15,15), key='confidence')],
+        [sg.OK(), sg.Cancel()]
+        ]
+    win = sg.Window('Attendance System',
+            default_element_size=(21,1),
+            text_justification='right',
+            auto_size_text=False).Layout(layout)
+    event, values = win.Read()
+    if event is None or event =='Cancel':
+        exit()
+    args = values
+    gui_confidence = args["confidence"]
+    win_started = False
     response = {'signin': False}
 
     #Open the camera and start face recognition
