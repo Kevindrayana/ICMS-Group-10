@@ -53,7 +53,9 @@ export default function Template({ sidebar_index, children }) {
   useEffect(() => {
     var objDiv = document.getElementById("chat-history");
     if(objDiv) {
-    objDiv.scrollTop = objDiv.scrollHeight;
+    if (objDiv != null) {
+      objDiv.scrollTop = objDiv.scrollHeight;
+    }
     }
   });
 

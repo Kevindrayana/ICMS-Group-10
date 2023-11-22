@@ -3,19 +3,27 @@ import { Template } from "src/components/template";
 import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import useSWR from "swr";
-import { Scheduler, AgendaView, TimelineView, DayView, WeekView, MonthView } from '@progress/kendo-react-scheduler';
+import {
+  Scheduler,
+  AgendaView,
+  TimelineView,
+  DayView,
+  WeekView,
+  MonthView,
+} from "@progress/kendo-react-scheduler";
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
+const tbFetcher = (...args) => fetch(...args).then((res) => res.json());
 const currentYear = new Date().getFullYear();
-const parseAdjust = eventDate => {
+const parseAdjust = (eventDate) => {
   const date = new Date(eventDate);
   date.setFullYear(currentYear);
   return date;
 };
-const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const randomInt = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
 const displayDate = new Date(Date.now());
 const converter = (baseData) => {
-
-  const temp = baseData.map(dataItem => ({
+  const temp = baseData.map((dataItem) => ({
     id: 1,
     start: parseAdjust(dataItem.Start),
     startTimezone: null,
@@ -29,25 +37,25 @@ const converter = (baseData) => {
     recurrenceExceptions: null,
     roomId: "MWT",
     ownerID: null,
-    personId: null
-  })
-  )
+    personId: null,
+  }));
   return temp;
-}
+};
 
-import '@progress/kendo-theme-default/dist/all.css';
+import "@progress/kendo-theme-default/dist/all.css";
 export default function Dashboard() {
   const [uid, setUid] = useState("");
-  const [baseData, setBaseData] = useState([{
-    "Title": "TESTINGGGGGG",
-    "Start": "2023-11-23T07:00:00.000Z",
-    "End": "2023-11-23T09:30:00.000Z",
-  },
-  {
-    "Title": "weaewa",
-    "Start": "2023-11-23T10:00:00.000Z",
-    "End": "2023-11-23T11:30:00.000Z",
-  },
+  const [baseData, setBaseData] = useState([
+    {
+      Title: "TESTINGGGGGG",
+      Start: "2023-11-23T07:00:00.000Z",
+      End: "2023-11-23T09:30:00.000Z",
+    },
+    {
+      Title: "weaewa",
+      Start: "2023-11-23T10:00:00.000Z",
+      End: "2023-11-23T11:30:00.000Z",
+    },
   ]);
   const [schedule, setSchedule] = useState(converter(baseData));
   const [timetable_schedule, setTimetable_schedule] = useState([
@@ -89,15 +97,75 @@ export default function Dashboard() {
     ],
   ]);
 
+  // useEffect(() => {
+  //   // Perform localStorage action
+  //   setUid(sessionStorage.getItem("uid"));
+  // }, []);
+
+  // const { data: data, error: error } = useSWR(
+  //   `http://127.0.0.1:5000/upcoming-class?uid=${uid}`,
+  //   fetcher
+  // );
+
+  // const { data: tbData, error: tbError } = useSWR(
+  //   `http://127.0.0.1:5000/timetable?uid=${uid}`,
+  //   tbFetcher
+  // );
+  const [data, setData] = useState(null);
+  const [tbData, setTbData] = useState(null);
+
   useEffect(() => {
-    // Perform sessionlStorage action
     setUid(sessionStorage.getItem("uid"));
+    const { dataTemp, tbDataTemp } = dataFetcher();
   }, []);
 
-  const { data, error } = useSWR(
-    `http://127.0.0.1:5000/upcoming-class?uid=${uid}`,
-    fetcher
-  );
+  const dataFetcher = async () => {
+    try {
+      console.log("fetching 1");
+      const response = await fetch(
+        `http://127.0.0.1:5000/upcoming-class?uid=${sessionStorage.getItem(
+          "uid"
+        )}`
+      );
+      const data = await response.json();
+
+      setData(data);
+
+      console.log("fetching 2");
+      const response2 = await fetch(
+        `http://127.0.0.1:5000/timetable?uid=${sessionStorage.getItem("uid")}`
+      );
+      const data2 = await response2.json();
+
+      setTbData(data2);
+
+      formatter(data2);
+
+      return { data, data2 };
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const formatter = (data) => {
+    let tempBaseData = [];
+    console.log("data", data);
+    data.forEach((item) => {
+      const temp = {
+        Title: item[5] + " " + item[0],
+        Start: item[2],
+        End: item[3],
+      };
+      tempBaseData.push(temp);
+    });
+    // print tempBaseData
+    console.log("tempBaseData", tempBaseData);
+    console.log("here");
+    setBaseData(tempBaseData);
+    console.log("baseData", baseData);
+    setSchedule(converter(tempBaseData));
+    // return tempBaseData;
+  };
 
   const handleSendEmail = async () => {
     try {
@@ -112,8 +180,6 @@ export default function Dashboard() {
       alert("Failed to send email.");
     }
   };
-
-  if (error) return <div>Failed to load</div>;
 
   return (
     <Template sidebar_index={0}>
@@ -148,11 +214,12 @@ export default function Dashboard() {
                     justifyContent: "space-between",
                     borderRadius: "16px",
                   }}>
-                  <div style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}>
                     <div
                       style={{
                         display: "flex",
@@ -216,7 +283,7 @@ export default function Dashboard() {
                       style={{
                         display: "flex",
                         flexDirection: "row",
-                        marginBottom: "auto"
+                        marginBottom: "auto",
                       }}>
                       <Button
                         onClick={() => {
@@ -299,14 +366,17 @@ export default function Dashboard() {
                 </div>
               </>
             ) : (
-              <div style={{
-                padding: "20px",
-                marginTop: "20px",
-                backgroundColor: "#78C2D20D",
-                borderRadius: "8px",
-                color: "#7EBCE6",
-                fontWeight: "500",
-              }}>You don’t have any upcoming class at the moment</div>
+              <div
+                style={{
+                  padding: "20px",
+                  marginTop: "20px",
+                  backgroundColor: "#78C2D20D",
+                  borderRadius: "8px",
+                  color: "#7EBCE6",
+                  fontWeight: "500",
+                }}>
+                You don’t have any upcoming class at the moment
+              </div>
             )}
           </div>
           <div
@@ -315,7 +385,7 @@ export default function Dashboard() {
               fontWeight: "500",
               fontSize: "24px",
               marginTop: "40px",
-              marginBottom: "20px"
+              marginBottom: "20px",
             }}>
             Class Timetable
           </div>
@@ -345,7 +415,10 @@ export default function Dashboard() {
             />
           </div> */}
           <div className="timetable">
-            <Scheduler data={schedule} defaultDate={displayDate} defaultView="week" >
+            <Scheduler
+              data={schedule}
+              defaultDate={displayDate}
+              defaultView="week">
               {/* <AgendaView /> */}
               <DayView />
               <WeekView />

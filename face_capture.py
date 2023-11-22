@@ -25,9 +25,11 @@ while cnt <= NUM_IMGS:
     # Capture frame-by-frame
     ret, frame = video_capture.read()
 
+    if frame is None:
+        continue
+    
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-    
     faces = faceCascade.detectMultiScale(
         gray,
         scaleFactor=1.1,
