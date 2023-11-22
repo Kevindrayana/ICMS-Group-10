@@ -14,6 +14,7 @@ from flask_cors import CORS
 from email.message import EmailMessage
 import ssl
 import smtplib
+import openai
 
 # Custom JSON encoder to handle timedelta and date objects
 class CustomJSONEncoder(json.JSONEncoder):
@@ -41,6 +42,33 @@ config = {
 
 conn = mysql.connector.connect(**config) # Connect to MySQL database
 cursor = conn.cursor()
+
+# OpenAI API key
+openai.api_key = os.getenv('OPENAI_API_KEY')
+@app.route('/chatbot', methods=['POST'])
+def chatbot():
+    # Retrieve the user's message from the request
+    message = request.json['message']
+    with open('data.txt', 'r') as file:
+        data = file.read()
+
+    prompt = f"Given the data from {data}, what is the answer to this question: {message}."
+
+    # Call the OpenAI API to generate a response
+    response = openai.Completion.create(
+        engine="text-davinci-002",
+        prompt=prompt,
+        max_tokens=100,
+        n=1,
+        stop=None,
+        temperature=0.5,
+    )
+
+    # Extract the response text from the API response
+    reply = response.choices[0].text.strip()
+
+    # Return the response as a JSON object
+    return jsonify({'reply': reply})
 
 @app.route("/")
 def hello_world():
