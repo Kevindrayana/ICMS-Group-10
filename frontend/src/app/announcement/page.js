@@ -52,7 +52,7 @@ export default function Course() {
   };
 
   return (
-    <Template sidebar_index={3}>
+    <Template sidebar_index={2}>
       <div
         style={{
           marginBottom: "20px",
