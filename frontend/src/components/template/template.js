@@ -259,7 +259,7 @@ export default function Template({ sidebar_index, children }) {
                 color: "#48A8BC",
               }}
             >
-              {person.position}-{person.year}
+              {person.position} - Year {person.year}
             </div>
             <div
               style={{
