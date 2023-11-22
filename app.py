@@ -117,8 +117,7 @@ def start_face_recognition_process():
             print(conf)
             if conf >= 60:
                 font = cv2.QT_FONT_NORMAL
-                id = 0
-                student_id = labels[id]
+                student_id = labels[id_]
                 color = (255, 0, 0)
                 stroke = 2
                 cv2.putText(frame, student_id, (x, y), font, 1, color, stroke, cv2.LINE_AA)
