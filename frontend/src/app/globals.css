@@ -23,7 +23,7 @@ div {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
-.timetable .MuiButton-root {
+/* .timetable .MuiButton-root {
   background-color: white !important;
   color: #48A8BC 
 }
@@ -45,4 +45,69 @@ div {
 }
 .timetable .rs__today_cell .MuiTypography-root {
   color: #1C6D7E !important;
+} */
+.timetable .k-toolbar {
+  background-color: #fff !important;
+
+}
+.timetable button {
+  background-color: #fff !important;
+  border: none !important;
+  color: #888888 ;
+
+}
+.timetable .k-selected {
+  /* background-color: #78C2D2 !important; */
+  background-color: #fff !important;
+  color: #78C2D2 !important;
+  border: 0px !important;
+}
+.timetable .k-event {
+  background-color: #78C2D2 !important;
+  border: 0cap !important;
+}
+.timetable .k-current-time {
+  background-color: #78C2D2 !important;
+}
+.timetable .k-scheduler-agendaday {
+  font-size: 32px !important;
+  margin-top: 4px;
+}
+.timetable .k-scheduler-datecolumn {
+  align-content: center !important;
+  color: #78C2D2 !important;
+}
+.timetable .k-scheduler-timecolumn {
+  color: #1C6D7E !important;
+  width: 120px !important;
+
+}
+.timetable .k-scheduler-eventcolumn {
+  color: #1C6D7E !important;
+}
+.timetable .k-scheduler-cell {
+  color: #1C6D7E ;
+  font-weight: 500 !important;
+  /* align-content:space-around !important; */
+}
+.timetable .k-heading-cell {
+  color: #BCBCBC !important;
+}
+.timetable .k-scheduler-footer {
+  display: none !important;
+}
+.timetable .k-toolbar-button-group {
+  background-color: #fff !important;
+}
+.timetable .k-button-solid-base .k-focus {
+  box-shadow: none !important;
+}
+.timetable .k-button-solid-base:focus{
+  box-shadow: none !important;
+}
+.timetable .k-scheduler-toolbar {
+  color: #53848f !important;
+}
+.timetable .k-button-solid-base {
+  background-image: none !important;
 }
