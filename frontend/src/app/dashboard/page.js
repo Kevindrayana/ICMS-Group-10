@@ -1,26 +1,55 @@
 "use client";
-
-const convert = (temp) => {
-  let result = [];
-  for (let i = 0; i < temp.length; i++) {
-    result.push({
-      title: temp[i][5],
-      start: new Date(temp[i][6] + " " + temp[i][2]),
-      end: new Date(temp[i][6] + " " + temp[i][3]),
-    });
-  }
-  return result;
-};
 import { Template } from "src/components/template";
 import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
-import { Scheduler } from "@aldabil/react-scheduler";
 import useSWR from "swr";
-
+import { Scheduler, AgendaView, TimelineView, DayView, WeekView, MonthView } from '@progress/kendo-react-scheduler';
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
+const currentYear = new Date().getFullYear();
+const parseAdjust = eventDate => {
+  const date = new Date(eventDate);
+  date.setFullYear(currentYear);
+  return date;
+};
+const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const displayDate = new Date(Date.now());
+const converter = (baseData) => {
 
+  const temp = baseData.map(dataItem => ({
+    id: 1,
+    start: parseAdjust(dataItem.Start),
+    startTimezone: null,
+    end: parseAdjust(dataItem.End),
+    endTimezone: null,
+    isAllDay: false,
+    title: dataItem.Title,
+    description: "",
+    recurrenceRule: "FREQ=WEEKLY",
+    recurrenceId: null,
+    recurrenceExceptions: null,
+    roomId: "MWT",
+    ownerID: null,
+    personId: null
+  })
+  )
+  return temp;
+}
+
+import '@progress/kendo-theme-default/dist/all.css';
 export default function Dashboard() {
   const [uid, setUid] = useState("");
+  const [baseData, setBaseData] = useState([{
+    "Title": "TESTINGGGGGG",
+    "Start": "2023-11-23T07:00:00.000Z",
+    "End": "2023-11-23T09:30:00.000Z",
+  },
+  {
+    "Title": "weaewa",
+    "Start": "2023-11-23T10:00:00.000Z",
+    "End": "2023-11-23T11:30:00.000Z",
+  },
+  ]);
+  const [schedule, setSchedule] = useState(converter(baseData));
   const [timetable_schedule, setTimetable_schedule] = useState([
     [
       "L01",
@@ -99,15 +128,15 @@ export default function Dashboard() {
       </div>
       <div>
         <div>
-                <div
-                  style={{
-                    color: "#48A8BC",
-                    fontWeight: "500",
-                    fontSize: "24px",
-                  }}>
-                  {" "}
-                  Upcoming Class
-                </div>
+          <div
+            style={{
+              color: "#48A8BC",
+              fontWeight: "500",
+              fontSize: "24px",
+            }}>
+            {" "}
+            Upcoming Class
+          </div>
           <div>
             {data?.success ? (
               <>
@@ -119,83 +148,83 @@ export default function Dashboard() {
                     justifyContent: "space-between",
                     borderRadius: "16px",
                   }}>
-                    <div style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                    }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "left",
-                      fontSize: "20px",
-                      fontWeight: "500",
-                    }}>
+                  <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}>
                     <div
                       style={{
                         display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        color: "#1C6D7E",
+                        flexDirection: "row",
+                        alignItems: "left",
+                        fontSize: "20px",
+                        fontWeight: "500",
                       }}>
-                      <div>
-                        {data.start_time.split(":").slice(0, 2).join(":")}
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          color: "#1C6D7E",
+                        }}>
+                        <div>
+                          {data.start_time.split(":").slice(0, 2).join(":")}
+                        </div>
+                        <div
+                          style={{
+                            width: "1px",
+                            height: "4px",
+                            backgroundColor: "black",
+                          }}></div>
+                        <div>
+                          {data.end_time.split(":").slice(0, 2).join(":")}
+                        </div>
                       </div>
                       <div
                         style={{
                           width: "1px",
-                          height: "4px",
-                          backgroundColor: "black",
+                          margin: "5px 15px 5px 15px",
+                          backgroundColor: "#78C2D2",
                         }}></div>
-                      <div>
-                        {data.end_time.split(":").slice(0, 2).join(":")}
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between",
+                        }}>
+                        <div
+                          style={{
+                            color: "#7EBCE6",
+                          }}>
+                          {data.course_code}
+                        </div>
+                        <a
+                          href={data.course_link}
+                          style={{ textDecoration: "none" }}>
+                          <div
+                            style={{
+                              color: "#2B7099",
+                            }}>
+                            {data.course_name}
+                          </div>
+                        </a>
                       </div>
                     </div>
-                    <div
-                      style={{
-                        width: "1px",
-                        margin: "5px 15px 5px 15px",
-                        backgroundColor: "#78C2D2",
-                      }}></div>
                     <div
                       style={{
                         display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-between",
+                        flexDirection: "row",
+                        marginBottom: "auto"
                       }}>
-                      <div
-                        style={{
-                          color: "#7EBCE6",
+                      <Button
+                        onClick={() => {
+                          handleSendEmail();
                         }}>
-                        {data.course_code}
-                      </div>
-                      <a
-                        href={data.course_link}
-                        style={{ textDecoration: "none" }}>
-                        <div
-                          style={{
-                            color: "#2B7099",
-                          }}>
-                          {data.course_name}
-                        </div>
-                      </a>
+                        Send to Email
+                      </Button>
                     </div>
-                  </div>
-                  <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    marginBottom: "auto"
-                  }}>
-                  <Button
-                    onClick={() => {
-                      handleSendEmail();
-                    }}>
-                    Send to Email
-                  </Button>
-                </div>
                   </div>
                   <div
                     style={{
@@ -286,25 +315,12 @@ export default function Dashboard() {
               fontWeight: "500",
               fontSize: "24px",
               marginTop: "40px",
+              marginBottom: "20px"
             }}>
             Class Timetable
           </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              marginTop: "20px",
-            }}>
-            <Button
-              style={{
-                marginRight: "20px",
-              }}>
-              Add Reminder
-            </Button>
-            <Button>Edit Reminder</Button>
-          </div>
           {/* timetable */}
-          <div
+          {/* <div
             style={{
               marginTop: "20px",
             }}
@@ -327,6 +343,14 @@ export default function Dashboard() {
                 step: 60,
               }}
             />
+          </div> */}
+          <div className="timetable">
+            <Scheduler data={schedule} defaultDate={displayDate} defaultView="week" >
+              {/* <AgendaView /> */}
+              <DayView />
+              <WeekView />
+              <MonthView />
+            </Scheduler>
           </div>
         </div>
       </div>
