@@ -281,12 +281,11 @@ def upcoming_class():
         "success": True,
         "course_code": result[0],
         "course_name": result[1],
-        "course_link": result[2],
-        "start_time": result[3],
-        "end_time": result[4],
-        "venue": result[5],
-        "zoom_link": result[6],
-        "latest_announcement": result[7]
+        "start_time": result[2],
+        "end_time": result[3],
+        "venue": result[4],
+        "zoom_link": result[5],
+        "latest_announcement": result[6]
     }
 
     # JSONify the response
