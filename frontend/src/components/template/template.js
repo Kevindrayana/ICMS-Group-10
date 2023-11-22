@@ -1,9 +1,9 @@
 import { Box, Button, Container } from "@mui/material";
 import React, { useEffect } from "react";
-import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
-import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
+import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
+import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
 import EventIcon from "@mui/icons-material/Event";
-import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
+import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import { Icon } from "@mui/material";
 import { useState } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -104,6 +104,9 @@ export default function Template({ sidebar_index, children }) {
   const handleLogout = () => {
     sessionStorage.removeItem("uid");
     sessionStorage.removeItem("latest-login");
+    sessionStorage.removeItem("name");
+    sessionStorage.removeItem("year");
+    sessionStorage.removeItem("program");
     window.location.href = "/";
   };
 
@@ -113,8 +116,7 @@ export default function Template({ sidebar_index, children }) {
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-      }}
-    >
+      }}>
       <div
         style={{
           // width: "17%",
@@ -129,15 +131,13 @@ export default function Template({ sidebar_index, children }) {
           minWidth: "250px",
           overflow: "auto !important",
           // alignItems: "left",
-        }}
-      >
+        }}>
         <div
           style={
             {
               // marginBottom: "20px",
             }
-          }
-        >
+          }>
           <img
             src="image/logo.png"
             alt="logo"
@@ -159,8 +159,7 @@ export default function Template({ sidebar_index, children }) {
               cursor: "pointer",
               borderRadius: "10px",
             }}
-            onClick={() => handleClick(0)}
-          >
+            onClick={() => handleClick(0)}>
             <DashboardOutlinedIcon sx={{ fontSize: 22, marginRight: "15px" }} />
             <div>Dashboard</div>
           </div>
@@ -176,10 +175,9 @@ export default function Template({ sidebar_index, children }) {
               borderRadius: "10px",
               marginTop: "5px",
             }}
-            onClick={() => handleClick(1)}
-          >
+            onClick={() => handleClick(1)}>
             <CollectionsBookmarkOutlinedIcon
-              sx={{ fontSize: 25, marginRight: "15px"}}
+              sx={{ fontSize: 25, marginRight: "15px" }}
             />
             <div>Course</div>
           </div>
@@ -195,9 +193,10 @@ export default function Template({ sidebar_index, children }) {
               borderRadius: "10px",
               marginTop: "5px",
             }}
-            onClick={() => handleClick(2)}
-          >
-            <ChatBubbleOutlineOutlinedIcon sx={{ fontSize: 25, marginRight: "15px" }} />
+            onClick={() => handleClick(2)}>
+            <ChatBubbleOutlineOutlinedIcon
+              sx={{ fontSize: 25, marginRight: "15px" }}
+            />
             <div>Announcement</div>
           </div>
         </div>
@@ -208,22 +207,19 @@ export default function Template({ sidebar_index, children }) {
             justifyContent: "space-between",
             minHeight: "285px",
             alignItems: "left",
-          }}
-        >
+          }}>
           <div
             style={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-            }}
-          >
+            }}>
             <img
               src="image/random.png"
               alt="avatar"
               width="80"
               height="80"
               style={{
-                //make it circle
                 borderRadius: "50%",
                 marginBottom: "20px",
               }}
@@ -233,24 +229,22 @@ export default function Template({ sidebar_index, children }) {
                 fontSize: "20px",
                 color: "#48A8BC",
                 marginBottom: "5px",
-              }}
-            >
+                textAlign: "center",
+              }}>
               {person.name}
             </div>
             <div
               style={{
                 fontSize: "14px",
                 color: "#48A8BC",
-              }}
-            >
+              }}>
               {person.position} - Year {person.year}
             </div>
             <div
               style={{
                 fontSize: "14px",
                 color: "#48A8BC",
-              }}
-            >
+              }}>
               {person.major}
             </div>
           </div>
@@ -264,8 +258,7 @@ export default function Template({ sidebar_index, children }) {
               cursor: "pointer",
               borderRadius: "10px",
             }}
-            onClick={() => handleLogout()}
-          >
+            onClick={() => handleLogout()}>
             <LogoutIcon sx={{ fontSize: 25, marginRight: "15px" }} />
             <div>Logout</div>
           </div>
@@ -280,8 +273,7 @@ export default function Template({ sidebar_index, children }) {
           height: "0px",
           minHeight: "100vh",
           minWidth: "400px",
-        }}
-      >
+        }}>
         {children}
       </div>
       {/* right sidebar */}
@@ -296,16 +288,14 @@ export default function Template({ sidebar_index, children }) {
           minHeight: "100vh",
           overflow: "auto !important",
         }}
-        className="right-sidebar"
-      >
+        className="right-sidebar">
         <div>
           <div
             style={{
               fontSize: "24px",
               color: "#48A8BC",
               marginBottom: "10px",
-            }}
-          >
+            }}>
             Latest Announcement
           </div>
           <Box
@@ -314,8 +304,7 @@ export default function Template({ sidebar_index, children }) {
               borderRadius: 2,
               padding: "20px",
               minWidth: "320px",
-            }}
-          >
+            }}>
             {hide ? (
               <div
                 style={{
@@ -324,8 +313,7 @@ export default function Template({ sidebar_index, children }) {
                   justifyContent: "space-between",
                   marginBottom: "5px",
                   paddingBottom: "5px",
-                }}
-              >
+                }}>
                 <div
                   style={{
                     fontSize: "17px",
@@ -334,21 +322,18 @@ export default function Template({ sidebar_index, children }) {
                     justifyContent: "space-between",
                     color: "#BCBCBC",
                     alignItems: "center",
-                  }}
-                >
+                  }}>
                   <div
                     style={{
                       width: "120px",
                       color: "#76989F",
-                    }}
-                  >
+                    }}>
                     {latestAnnouncement[0].course}
                   </div>
                   <div
                     style={{
                       fontSize: "12px",
-                    }}
-                  >
+                    }}>
                     {latestAnnouncement[0].time.split(" ")[0]}
                   </div>
                 </div>
@@ -356,8 +341,7 @@ export default function Template({ sidebar_index, children }) {
                   style={{
                     fontSize: "17px",
                     color: "#78C2D2",
-                  }}
-                >
+                  }}>
                   {latestAnnouncement[0].instructor} - Course Instructor
                 </div>
                 <div
@@ -368,8 +352,7 @@ export default function Template({ sidebar_index, children }) {
                     maxWidth: "300px",
                     //make the gap between the two lines smaller
                     lineHeight: "1.2",
-                  }}
-                >
+                  }}>
                   {latestAnnouncement[0].content}
                 </div>
               </div>
@@ -387,8 +370,7 @@ export default function Template({ sidebar_index, children }) {
                         index === latestAnnouncement.length - 1
                           ? "none"
                           : "1px solid #E9E9E9",
-                    }}
-                  >
+                    }}>
                     <div
                       style={{
                         fontSize: "17px",
@@ -396,21 +378,18 @@ export default function Template({ sidebar_index, children }) {
                         flexDirection: "row",
                         justifyContent: "space-between",
                         color: "#BCBCBC",
-                      }}
-                    >
+                      }}>
                       <div
                         style={{
                           width: "120px",
                           color: "#76989F",
-                        }}
-                      >
+                        }}>
                         {item.course}
                       </div>
                       <div
                         style={{
                           fontSize: "12px",
-                        }}
-                      >
+                        }}>
                         {item.time.split(" ")[0]}
                       </div>
                     </div>
@@ -418,8 +397,7 @@ export default function Template({ sidebar_index, children }) {
                       style={{
                         fontSize: "17px",
                         color: "#78C2D2",
-                      }}
-                    >
+                      }}>
                       {item.instructor} - Course Instructor
                     </div>
                     <div
@@ -430,8 +408,7 @@ export default function Template({ sidebar_index, children }) {
                         maxWidth: "300px",
                         //make the gap between the two lines smaller
                         lineHeight: "1.2",
-                      }}
-                    >
+                      }}>
                       {item.content}
                     </div>
                   </div>
@@ -449,8 +426,7 @@ export default function Template({ sidebar_index, children }) {
               flexDirection: "row",
               justifyContent: "space-between",
             }}
-            onClick={() => setHide(!hide)}
-          >
+            onClick={() => setHide(!hide)}>
             {hide ? (
               "See More ->"
             ) : (
@@ -459,8 +435,7 @@ export default function Template({ sidebar_index, children }) {
                 <div
                   onClick={() => {
                     window.location.href = "/announcement";
-                  }}
-                >
+                  }}>
                   See More
                 </div>
               </>
@@ -472,15 +447,13 @@ export default function Template({ sidebar_index, children }) {
             <div
               style={{
                 marginTop: "20px",
-              }}
-            >
+              }}>
               <div
                 style={{
                   fontSize: "24px",
                   color: "#48A8BC",
                   marginBottom: "10px",
-                }}
-              >
+                }}>
                 Calendar
               </div>
               <Box
@@ -489,8 +462,7 @@ export default function Template({ sidebar_index, children }) {
                   boxShadow: "0px 0px 8px 0px rgba(0,0,0,0.1)",
                   borderRadius: 2,
                   minWidth: "320px",
-                }}
-              >
+                }}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateCalendar
                     sx={{
@@ -504,15 +476,13 @@ export default function Template({ sidebar_index, children }) {
             <div
               style={{
                 marginTop: "20px",
-              }}
-            >
+              }}>
               <div
                 style={{
                   fontSize: "24px",
                   color: "#48A8BC",
                   marginBottom: "10px",
-                }}
-              >
+                }}>
                 Last Login
               </div>
               {loginHistory && (
@@ -524,22 +494,19 @@ export default function Template({ sidebar_index, children }) {
                     padding: "20px",
                     minWidth: "320px",
                     fontSize: "14px",
-                  }}
-                >
+                  }}>
                   <div
                     style={{
                       display: "flex",
                       flexDirection: "row",
                       justifyContent: "left",
                       color: "#BCBCBC",
-                    }}
-                  >
+                    }}>
                     <div
                       style={{
                         width: "120px",
                         color: "#76989F",
-                      }}
-                    >
+                      }}>
                       Date
                     </div>
                     <div>{loginHistory[0]}</div>
@@ -550,14 +517,12 @@ export default function Template({ sidebar_index, children }) {
                       flexDirection: "row",
                       justifyContent: "left",
                       color: "#BCBCBC",
-                    }}
-                  >
+                    }}>
                     <div
                       style={{
                         width: "120px",
                         color: "#76989F",
-                      }}
-                    >
+                      }}>
                       Login Time
                     </div>
                     <div>{loginHistory[1]}</div>
