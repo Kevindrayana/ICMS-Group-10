@@ -114,6 +114,51 @@ VALUES (
         'password5'
     ),
     (
+        '3035000006',
+        'Jenny Chan',
+        6,
+        'BEng(EEE)',
+        '2023-11-20 14:20:00',
+        'jennychan@hku.hk',
+        'password6'
+    ),
+    (
+        '3035000007',
+        'Jason Wong',
+        7,
+        'BAsc',
+        '2023-11-20 14:30:00',
+        'jasonwong@hku.hk',
+        'password7'
+    ),
+    (
+        '3035000008',
+        'Mike Lee',
+        8,
+        'BSc',
+        '2023-11-20 14:35:00',
+        'mikelee@hku.hk',
+        'password8'
+    ),
+    (
+        '3035000009',
+        'Lesley Smith',
+        9,
+        'MBBS',
+        '2023-11-20 14:40:00',
+        'lesleysmith@hku.hk',
+        'password5'
+    ),
+    (
+        '3035902570',
+        'Grizelda',
+        10,
+        'BEng',
+        '2023-11-20 14:45:00',
+        'griz@hku.hk',
+        'password10'
+    ),
+    (
         '3035000000',
         'Davinne Valeria',
         3,
@@ -145,6 +190,20 @@ VALUES (
         'https://img.freepik.com/free-vector/blue-copy-space-digital-background_23-2148821698.jpg?w=1480&t=st=1700509392~exp=1700509992~hmac=b72a7d7ea0baf5c88e0257b42bbe615bdf7171d26e8434daa1be8c1b806b58fc'
     ),
     (
+        'BIOC101',
+        1,
+        'https://moodle.hku.hk/course/view.php?id=96516',
+        'Introduction to Biochemistry',
+        'https://img.freepik.com/free-vector/blue-copy-space-digital-background_23-2148821698.jpg?w=1480&t=st=1700509392~exp=1700509992~hmac=b72a7d7ea0baf5c88e0257b42bbe615bdf7171d26e8434daa1be8c1b806b58fc'
+    ),
+    (
+        'BIOL201',
+        1,
+        'https://moodle.hku.hk/course/view.php?id=95900',
+        'Microbiology',
+        'https://img.freepik.com/free-vector/blue-copy-space-digital-background_23-2148821698.jpg?w=1480&t=st=1700509392~exp=1700509992~hmac=b72a7d7ea0baf5c88e0257b42bbe615bdf7171d26e8434daa1be8c1b806b58fc'
+    ),
+    (
         'PHYS301',
         1,
         'https://moodle.hku.hk/course/view.php?id=85655',
@@ -156,6 +215,20 @@ VALUES (
         1,
         'https://moodle.hku.hk/course/view.php?id=86603',
         'General Chemistry',
+        'https://img.freepik.com/free-vector/blue-copy-space-digital-background_23-2148821698.jpg?w=1480&t=st=1700509392~exp=1700509992~hmac=b72a7d7ea0baf5c88e0257b42bbe615bdf7171d26e8434daa1be8c1b806b58fc'
+    ),
+    (
+        'FINA101',
+        1,
+        'https://moodle.hku.hk/course/view.php?id=105820',
+        'Introductory Finance',
+        'https://img.freepik.com/free-vector/blue-copy-space-digital-background_23-2148821698.jpg?w=1480&t=st=1700509392~exp=1700509992~hmac=b72a7d7ea0baf5c88e0257b42bbe615bdf7171d26e8434daa1be8c1b806b58fc'
+    ),
+    (
+        'ECON102',
+        1,
+        'https://moodle.hku.hk/course/view.php?id=98043',
+        'Microeconomics',
         'https://img.freepik.com/free-vector/blue-copy-space-digital-background_23-2148821698.jpg?w=1480&t=st=1700509392~exp=1700509992~hmac=b72a7d7ea0baf5c88e0257b42bbe615bdf7171d26e8434daa1be8c1b806b58fc'
     ),
     (
@@ -191,11 +264,51 @@ VALUES (
     ),
     (
         'L03',
-        'Room 301, Chong Yuet Ming Physics Building',
+        'Room 301, Kadoorie Biological Sciences Building',
+        '12:00:00',
+        '14:30:00',
+        'https://zoom.us/bioc101-lecture',
+        'BIOC101'
+    ),
+    (
+        'L04',
+        'Room 401, Kadoorie Biological Sciences Building',
+        '14:00:00',
+        '16:30:00',
+        'https://zoom.us/biol201-lecture',
+        'BIOL201'
+    ),
+    (
+        'L05',
+        'Room 501, Chong Yuet Ming Physics Building',
         '13:00:00',
         '14:30:00',
         'https://zoom.us/phys301-lecture',
         'PHYS301'
+    ),
+    (
+        'L06',
+        'Room 101, K.K. Leung Building',
+        '17:00:00',
+        '18:30:00',
+        'https://zoom.us/fina101-lecture',
+        'FINA101'
+    ),
+    (
+        'L07',
+        'Room 701, K.K. Leung Building',
+        '18:00:00',
+        '19:30:00',
+        'https://zoom.us/econ102-lecture',
+        'ECON102'
+    ),
+    (
+        'L08',
+        'Room 701, Centennial Campus',
+        '12:00:00',
+        '14:30:00',
+        'https://zoom.us/engl101-lecture',
+        'ENGL101'
     ),
     (
         'T01',
@@ -212,6 +325,30 @@ VALUES (
         '18:30:00',
         'https://zoom.us/math202-tutorial',
         'MATH202'
+    ),
+    (
+        'T03',
+        'Room 302, Centennial Campus',
+        '16:00:00',
+        '17:30:00',
+        'https://zoom.us/phys301-tutorial',
+        'PHYS301'
+    ),
+    (
+        'T04',
+        'Room 402, Meng Wah Complex',
+        '15:00:00',
+        '16:30:00',
+        'https://zoom.us/fina101-tutorial',
+        'FINA101'
+    ),
+    (
+        'T05',
+        'Room 402, Knowles Building',
+        '13:00:00',
+        '14:30:00',
+        'https://zoom.us/econ102-tutorial',
+        'ECON102'
     );
 INSERT INTO Lesson_Notes (lesson_id, notes)
 VALUES (
@@ -227,12 +364,44 @@ VALUES (
         'https://moodle.hku.hk/mod/resource/view.php?id=3067674'
     ),
     (
+        'L04',
+        'https://moodle.hku.hk/mod/resource/view.php?id=3067675'
+    ),
+    (
+        'L05',
+        'https://moodle.hku.hk/mod/resource/view.php?id=3067676'
+    ),
+    (
+        'L06',
+        'https://moodle.hku.hk/mod/resource/view.php?id=3067677'
+    ),
+    (
+        'L07',
+        'https://moodle.hku.hk/mod/resource/view.php?id=3067678'
+    ),
+    (
+        'L08',
+        'https://moodle.hku.hk/mod/resource/view.php?id=3067679'
+    ),
+    (
         'T01',
         'https://moodle.hku.hk/mod/resource/view.php?id=3067675'
     ),
     (
         'T02',
         'https://moodle.hku.hk/mod/resource/view.php?id=3067676'
+    ),
+    (
+        'T03',
+        'https://moodle.hku.hk/mod/resource/view.php?id=3067677'
+    ),
+    (
+        'T04',
+        'https://moodle.hku.hk/mod/resource/view.php?id=3067678'
+    ),
+    (
+        'T05',
+        'https://moodle.hku.hk/mod/resource/view.php?id=3067679'
     );
 INSERT INTO Student_asoc_course (student_id, course_code)
 VALUES ('3035000001', 'COMP101'),
@@ -255,12 +424,20 @@ VALUES ('9999000001', 'Dr. Chan Tai Man'),
     ('9999000002', 'Prof. Emily Wong'),
     ('9999000003', 'Dr. Michael Li'),
     ('9999000004', 'Prof. Sophia Lam'),
-    ('9999000005', 'Dr. Daniel Kwok');
+    ('9999000005', 'Dr. Daniel Kwok'),
+    ('9999000006', 'Dr. Kevin Tong'),
+    ('9999000007', 'Dr. Grace Hui'),
+    ('9999000008', 'Dr. Bryan Lam')
+    ;
 INSERT INTO Teaching_Staff_asoc_lesson (staff_id, lesson_id, course_code, role)
 VALUES ('9999000001', 'L01', 'COMP101', 'professor'),
     ('9999000002', 'L02', 'MATH202', 'professor'),
-    ('9999000003', 'L03', 'PHYS301', 'professor'),
-    ('9999000004', 'T01', 'COMP101', 'tutor');
+    ('9999000003', 'L05', 'PHYS301', 'professor'),
+    ('9999000004', 'T01', 'COMP101', 'tutor'),
+    ('9999000005', 'T03', 'PHYS301', 'tutor'),
+    ('9999000006', 'T04', 'FINA101', 'tutor'),
+    ('9999000007', 'L07', 'ECON102', 'tutor'),
+    ('9999000008', 'L08', 'ENGL101', 'professor');
 INSERT INTO Message (
         message_id,
         staff_id,
@@ -287,12 +464,40 @@ VALUES (
         '9999000003',
         'Welcome to PHYS301!',
         'PHYS301',
-        '2020-11-20 13:00:00'
+        '2020-11-20 12:00:00'
     ),
     (
         4,
         '9999000004',
         'Welcome to COMP101!',
         'COMP101',
-        '2020-11-20 15:00:00'
+        '2020-11-20 14:00:00'
+    ),
+    (
+        5,
+        '9999000005',
+        'Welcome to PHYS301!',
+        'PHYS301',
+        '2020-11-20 13:00:00'
+    ),
+    (
+        6,
+        '9999000006',
+        'Welcome to FINA101!',
+        'FINA101',
+        '2020-11-20 17:00:00'
+    ),
+    (
+        7,
+        '9999000007',
+        'Welcome to ECON102!',
+        'ECON102',
+        '2020-11-20 18:00:00'
+    ),
+    (
+        8,
+        '9999000008',
+        'Welcome to ENGL101!',
+        'ENGL101',
+        '2020-11-20 12:00:00'
     );

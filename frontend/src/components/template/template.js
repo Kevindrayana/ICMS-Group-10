@@ -222,7 +222,7 @@ export default function Template({ sidebar_index, children }) {
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
-            minHeight: "341px",
+            minHeight: "285px",
             alignItems: "left",
           }}
         >
@@ -269,13 +269,6 @@ export default function Template({ sidebar_index, children }) {
             >
               {person.major}
             </div>
-            <Button
-              sx={{
-                marginTop: "15px",
-              }}
-            >
-              View Profile
-            </Button>
           </div>
           <div
             style={{

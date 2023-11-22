@@ -163,7 +163,7 @@ export default function SignIn() {
                 marginTop: "20px",
               }}
             >
-              Sign In
+              Login
             </Button>
           )}
         </Box>
