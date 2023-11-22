@@ -67,11 +67,19 @@ CREATE TABLE Message (
     FOREIGN KEY (staff_id) REFERENCES Teaching_Staff(staff_id),
     FOREIGN KEY (course_code) REFERENCES Course(course_code)
 );
-INSERT INTO Student (student_id, name, year, program, login_time, email, password)
+INSERT INTO Student (
+        student_id,
+        name,
+        year,
+        program,
+        login_time,
+        email,
+        password
+    )
 VALUES (
         '3035000001',
         'John Chan',
-        3, 
+        3,
         'BEng(CompSc)',
         '2023-11-20 08:00:00',
         'johnchan@hku.hk',
@@ -107,7 +115,7 @@ VALUES (
     (
         '3035000005',
         'Daniel Ng',
-        5,
+        3,
         'BDS',
         '2023-11-20 14:00:00',
         'danielng@hku.hk',
@@ -116,7 +124,7 @@ VALUES (
     (
         '3035000006',
         'Jenny Chan',
-        6,
+        3,
         'BEng(EEE)',
         '2023-11-20 14:20:00',
         'jennychan@hku.hk',
@@ -125,7 +133,7 @@ VALUES (
     (
         '3035000007',
         'Jason Wong',
-        7,
+        3,
         'BAsc',
         '2023-11-20 14:30:00',
         'jasonwong@hku.hk',
@@ -134,7 +142,7 @@ VALUES (
     (
         '3035000008',
         'Mike Lee',
-        8,
+        3,
         'BSc',
         '2023-11-20 14:35:00',
         'mikelee@hku.hk',
@@ -143,7 +151,7 @@ VALUES (
     (
         '3035000009',
         'Lesley Smith',
-        9,
+        3,
         'MBBS',
         '2023-11-20 14:40:00',
         'lesleysmith@hku.hk',
@@ -152,7 +160,7 @@ VALUES (
     (
         '3035902570',
         'Grizelda',
-        10,
+        3,
         'BEng',
         '2023-11-20 14:45:00',
         'griz@hku.hk',
@@ -165,9 +173,17 @@ VALUES (
         'BEng(CivE)',
         '2023-11-20 15:30:00',
         'dapinnlol25@gmail.com',
-        -- 'indrayana.kevin@gmail.com',
         'password'
-        );
+    ),
+    (
+        '3035918701',
+        'Kevin Indrayana Istimur',
+        3,
+        'BEng(CompSc)',
+        '2023-11-20 15:30:00',
+        'indrayana.kevin@gmail.com',
+        'password'
+    );
 INSERT INTO Course (
         course_code,
         semester,
@@ -418,7 +434,16 @@ VALUES ('3035000001', 'COMP101'),
     ('3035000005', 'PHYS301'),
     ('3035000000', 'COMP101'),
     ('3035000000', 'MATH202'),
-    ('3035000000', 'PHYS301');
+    ('3035000000', 'PHYS301'),
+    ('3035918701', 'COMP101'),
+    ('3035918701', 'MATH202'),
+    ('3035918701', 'BIOC101'),
+    ('3035918701', 'BIOL201'),
+    ('3035918701', 'PHYS301'),
+    ('3035918701', 'CHEM201'),
+    ('3035918701', 'FINA101'),
+    ('3035918701', 'ECON102'),
+    ('3035918701', 'ENGL101');
 INSERT INTO Teaching_Staff (staff_id, name)
 VALUES ('9999000001', 'Dr. Chan Tai Man'),
     ('9999000002', 'Prof. Emily Wong'),
@@ -427,8 +452,7 @@ VALUES ('9999000001', 'Dr. Chan Tai Man'),
     ('9999000005', 'Dr. Daniel Kwok'),
     ('9999000006', 'Dr. Kevin Tong'),
     ('9999000007', 'Dr. Grace Hui'),
-    ('9999000008', 'Dr. Bryan Lam')
-    ;
+    ('9999000008', 'Dr. Bryan Lam');
 INSERT INTO Teaching_Staff_asoc_lesson (staff_id, lesson_id, course_code, role)
 VALUES ('9999000001', 'L01', 'COMP101', 'professor'),
     ('9999000002', 'L02', 'MATH202', 'professor'),
@@ -448,56 +472,112 @@ INSERT INTO Message (
 VALUES (
         1,
         '9999000001',
-        'Welcome to COMP101!',
+        'Welcome to COMP101! We are excited to have you in this course. In COMP101, we will cover the fundamentals of computer science and programming. Get ready for an exciting journey!',
         'COMP101',
         '2020-11-20 09:00:00'
     ),
     (
         2,
+        '9999000001',
+        'Reminder: Assignment 1 is due next week. Make sure to complete the programming tasks and submit your code by November 27th, 2020.',
+        'COMP101',
+        '2020-11-22 15:30:00'
+    ),
+    (
+        3,
         '9999000002',
-        'Welcome to MATH202!',
+        'Welcome to MATH202! This course will delve into advanced mathematical concepts and their applications. Prepare to expand your problem-solving skills and explore the beauty of mathematics.',
         'MATH202',
         '2020-11-20 11:00:00'
     ),
     (
-        3,
+        4,
+        '9999000002',
+        'Attention students: The deadline for the first problem set has been extended to December 3rd, 2020. Take this opportunity to ensure your solutions are accurate and well-presented.',
+        'MATH202',
+        '2020-11-23 09:45:00'
+    ),
+    (
+        5,
         '9999000003',
-        'Welcome to PHYS301!',
+        'Welcome to PHYS301! In this course, we will explore the fascinating world of physics and delve into various laws and theories. Get ready for mind-boggling experiments and captivating discussions!',
         'PHYS301',
         '2020-11-20 12:00:00'
     ),
     (
-        4,
+        6,
+        '9999000003',
+        'Important Announcement: The deadline for the research paper has been rescheduled. The final submission is now due on December 10th, 2020. Make sure to allocate enough time for thorough research and polished writing.',
+        'PHYS301',
+        '2020-11-25 16:20:00'
+    ),
+    (
+        7,
         '9999000004',
-        'Welcome to COMP101!',
+        'Welcome to COMP101! We are thrilled to have you join this course. COMP101 is all about building a strong foundation in computer science and programming concepts. Brace yourself for an enriching learning experience!',
         'COMP101',
         '2020-11-20 14:00:00'
     ),
     (
-        5,
+        8,
+        '9999000004',
+        'Attention students: Remember to submit your group project proposals by November 30th, 2020. Collaborate with your team members and come up with innovative ideas for your project.',
+        'COMP101',
+        '2020-11-24 10:15:00'
+    ),
+    (
+        9,
         '9999000005',
-        'Welcome to PHYS301!',
+        'Welcome to PHYS301! Prepare to embark on a thrilling journey through the realms of physics. We will dive deep into the mysteries of the universe and uncover the fundamental laws that govern it.',
         'PHYS301',
         '2020-11-20 13:00:00'
     ),
     (
-        6,
+        10,
+        '9999000005',
+        'Reminder: The lab report for Experiment 2 is due this Friday. Make sure to include detailed observations, calculations, and analysis. Submit your reports by November 27th, 2020.',
+        'PHYS301',
+        '2020-11-22 18:30:00'
+    ),
+    (
+        11,
         '9999000006',
-        'Welcome to FINA101!',
+        'Welcome to FINA101! Get ready to explore the exciting world of finance and economics. In this course, we will analyze markets, investments, and financial instruments. Let the adventure begin!',
         'FINA101',
         '2020-11-20 17:00:00'
     ),
     (
-        7,
+        12,
+        '9999000006',
+        'Attention students: The midterm exam has been scheduled for December 5th, 2020. Start preparing early and make use of the study materials provided. Good luck!',
+        'FINA101',
+        '2020-11-24 14:55:00'
+    ),
+    (
+        13,
         '9999000007',
-        'Welcome to ECON102!',
+        'Welcome to ECON102! This course will take you on a journey through the principles of economics. We will examine various economic systems, policies, and their impact on society. Get ready to broaden your economic perspective!',
         'ECON102',
         '2020-11-20 18:00:00'
     ),
     (
-        8,
+        14,
+        '9999000007',
+        'Reminder: The deadline for the research essay is approaching. Submit your well-researched and properly cited essays by November 29th, 2020. Reach out if you need any guidance.',
+        'ECON102',
+        '2020-11-23 11:30:00'
+    ),
+    (
+        15,
         '9999000008',
-        'Welcome to ENGL101!',
+        'Welcome to ENGL101! In this course, we will explore the world of literature and enhance our communication skills. Get ready toexplore captivating stories, analyze literary techniques, and express your thoughts eloquently!',
         'ENGL101',
         '2020-11-20 12:00:00'
+    ),
+    (
+        16,
+        '9999000008',
+        'Important Announcement: The due date for the final essay has been extended to December 7th, 2020. Take this opportunity to refine your analysis and ensure your arguments are well-supported.',
+        'ENGL101',
+        '2020-11-25 09:10:00'
     );
