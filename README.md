@@ -20,11 +20,14 @@ SQL_PASSWORD=****
 # enable ssl certificate for email
 $ bash /Applications/Python*/Install\ Certificates.command
 
+# create an empty "data" folder in root
+
 # start flask backend
 $ export FLASK_DEBUG=1 && flask run
 
 # start next.js frontend
 $ cd frontend
+$ npm install
 $ npm run dev
 ```
 
