@@ -25,8 +25,8 @@ CREATE TABLE Course (
 CREATE TABLE Lesson (
     lesson_id VARCHAR(3),
     classroom_address VARCHAR(255),
-    start_time TIME,
-    end_time TIME,
+    start_time DATETIME,
+    end_time DATETIME,
     zoom_link VARCHAR(255),
     course_code VARCHAR(255),
     PRIMARY KEY (lesson_id, course_code),
@@ -265,104 +265,104 @@ INSERT INTO Lesson (
 VALUES (
         'L01',
         'Room G01, Haking Wong Building',
-        '09:00:00',
-        '10:30:00',
+        '2023-09-04 09:30:00',
+        '2023-09-04 12:30:00',
         'https://zoom.us/comp101-lecture',
         'COMP101'
     ),
     (
         'L02',
         'Room 201, K.K. Leung Building',
-        '11:00:00',
-        '12:30:00',
+        '2023-09-05 09:30:00',
+        '2023-09-05 11:30:00',
         'https://zoom.us/math202-lecture',
         'MATH202'
     ),
     (
         'L03',
         'Room 301, Kadoorie Biological Sciences Building',
-        '12:00:00',
-        '14:30:00',
+        '2023-09-07 10:30:00',
+        '2023-09-07 13:30:00',
         'https://zoom.us/bioc101-lecture',
         'BIOC101'
     ),
     (
         'L04',
         'Room 401, Kadoorie Biological Sciences Building',
-        '14:00:00',
-        '16:30:00',
+        '2023-09-07 14:30:00',
+        '2023-09-07 17:30:00',
         'https://zoom.us/biol201-lecture',
         'BIOL201'
     ),
     (
         'L05',
         'Room 501, Chong Yuet Ming Physics Building',
-        '13:00:00',
-        '14:30:00',
+        '2023-09-08 14:30:00',
+        '2023-09-08 15:30:00',
         'https://zoom.us/phys301-lecture',
         'PHYS301'
     ),
     (
         'L06',
         'Room 101, K.K. Leung Building',
-        '17:00:00',
-        '18:30:00',
+        '2023-09-06 09:30:00',
+        '2023-09-06 12:30:00',
         'https://zoom.us/fina101-lecture',
         'FINA101'
     ),
     (
         'L07',
         'Room 701, K.K. Leung Building',
-        '18:00:00',
-        '19:30:00',
+        '2023-09-05 16:30:00',
+        '2023-09-05 17:30:00',
         'https://zoom.us/econ102-lecture',
         'ECON102'
     ),
     (
         'L08',
         'Room 701, Centennial Campus',
-        '12:00:00',
-        '14:30:00',
+        '2023-09-06 09:30:00',
+        '2023-09-06 12:30:00',
         'https://zoom.us/engl101-lecture',
         'ENGL101'
     ),
     (
         'T01',
         'Room G02, Haking Wong Building',
-        '15:00:00',
-        '16:30:00',
+        '2023-09-05 16:30:00',
+        '2023-09-05 17:30:00',
         'https://zoom.us/comp101-tutorial',
         'COMP101'
     ),
     (
         'T02',
         'Room 202, Knowles Building',
-        '17:00:00',
-        '18:30:00',
+        '2023-09-07 16:30:00',
+        '2023-09-07 17:30:00',
         'https://zoom.us/math202-tutorial',
         'MATH202'
     ),
     (
         'T03',
         'Room 302, Centennial Campus',
-        '16:00:00',
-        '17:30:00',
+        '2023-09-08 10:30:00',
+        '2023-09-08 11:30:00',
         'https://zoom.us/phys301-tutorial',
         'PHYS301'
     ),
     (
         'T04',
         'Room 402, Meng Wah Complex',
-        '15:00:00',
-        '16:30:00',
+        '2023-09-08 09:30:00',
+        '2023-09-08 10:30:00',
         'https://zoom.us/fina101-tutorial',
         'FINA101'
     ),
     (
         'T05',
         'Room 402, Knowles Building',
-        '13:00:00',
-        '14:30:00',
+        '2023-09-06 12:30:00',
+        '2023-09-06 13:30:00',
         'https://zoom.us/econ102-tutorial',
         'ECON102'
     );
