@@ -52,26 +52,26 @@ export default function Template({ sidebar_index, children }) {
   }, []);
   useEffect(() => {
     var objDiv = document.getElementById("chat-history");
-    if(objDiv) {
-    if (objDiv != null) {
-      objDiv.scrollTop = objDiv.scrollHeight;
-    }
+    if (objDiv) {
+      if (objDiv != null) {
+        objDiv.scrollTop = objDiv.scrollHeight;
+      }
     }
   });
 
   useEffect(() => {
-    try{
-      if(uid !== ""){
+    try {
+      if (uid !== "") {
 
-      axios.get(`http://127.0.0.1:5000/messages?uid=${uid}`).then((res)=> {
-        console.log(res)
-        if (res.data != null) {
-          setLatestAnnouncement(res.data);
-        } else {
-          alert("An error occurred.");
-        }
-      })
-  }
+        axios.get(`http://127.0.0.1:5000/messages?uid=${uid}`).then((res) => {
+          console.log(res)
+          if (res.data != null) {
+            setLatestAnnouncement(res.data);
+          } else {
+            alert("An error occurred.");
+          }
+        })
+      }
 
     }
     catch (error) {
@@ -82,7 +82,7 @@ export default function Template({ sidebar_index, children }) {
 
   }, [uid])
 
-  
+
 
   const handleSend = () => {
     setIsLoading(true);
@@ -339,125 +339,127 @@ export default function Template({ sidebar_index, children }) {
             Latest Announcement
           </div>
           {latestAnnouncement.length !== 0 && (
-          <Box
-            sx={{
-              boxShadow: "0px 0px 8px 0px rgba(0,0,0,0.1)",
-              borderRadius: 2,
-              padding: "20px",
-              minWidth: "320px",
-            }}>
-            {hide ? (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  marginBottom: "5px",
-                  paddingBottom: "5px",
-                }}>
+            <Box
+              sx={{
+                boxShadow: "0px 0px 8px 0px rgba(0,0,0,0.1)",
+                borderRadius: 2,
+                padding: "20px",
+                minWidth: "320px",
+              }}>
+              {hide ? (
                 <div
                   style={{
-                    fontSize: "17px",
                     display: "flex",
-                    flexDirection: "row",
+                    flexDirection: "column",
                     justifyContent: "space-between",
-                    color: "#BCBCBC",
-                    alignItems: "center",
+                    marginBottom: "5px",
+                    paddingBottom: "5px",
                   }}>
                   <div
                     style={{
-                      width: "120px",
-                      color: "#76989F",
-                    }}>
-                    {latestAnnouncement[0].course}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "12px",
-                    }}>
-                    {latestAnnouncement[0].time.split(" ")[0]}
-                  </div>
-                </div>
-                <div
-                  style={{
-                    fontSize: "17px",
-                    color: "#78C2D2",
-                  }}>
-                  {latestAnnouncement[0].instructor} - Course Instructor
-                </div>
-                <div
-                  style={{
-                    fontSize: "14px",
-                    color: "#BCBCBC",
-                    marginTop: "10px",
-                    maxWidth: "300px",
-                    //make the gap between the two lines smaller
-                    lineHeight: "1.2",
-                  }}>
-                  {latestAnnouncement[0].content}
-                </div>
-              </div>
-            ) : (
-              <>
-                {latestAnnouncement.slice(0, 7).map((item, index) => (
-                  <div
-                    style={{
+                      fontSize: "17px",
                       display: "flex",
-                      flexDirection: "column",
+                      flexDirection: "row",
                       justifyContent: "space-between",
-                      marginBottom: "10px",
-                      paddingBottom: "10px",
-                      borderBottom:
-                        index === latestAnnouncement.length - 1
-                          ? "none"
-                          : "1px solid #E9E9E9",
+                      color: "#BCBCBC",
+                      alignItems: "center",
                     }}>
                     <div
                       style={{
-                        fontSize: "17px",
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        color: "#BCBCBC",
+                        width: "120px",
+                        color: "#76989F",
                       }}>
-                      <div
-                        style={{
-                          width: "120px",
-                          color: "#76989F",
-                        }}>
-                        {item.course}
-                      </div>
-                      <div
-                        style={{
-                          fontSize: "12px",
-                        }}>
-                        {item.time.split(" ")[0]}
-                      </div>
+                      {latestAnnouncement[0].course}
                     </div>
                     <div
                       style={{
-                        fontSize: "17px",
-                        color: "#78C2D2",
+                        fontSize: "12px",
                       }}>
-                      {item.instructor} - Course Instructor
-                    </div>
-                    <div
-                      style={{
-                        fontSize: "14px",
-                        color: "#BCBCBC",
-                        marginTop: "10px",
-                        maxWidth: "300px",
-                        //make the gap between the two lines smaller
-                        lineHeight: "1.2",
-                      }}>
-                      {item.content}
+                      {latestAnnouncement[0].time.split(" ")[0].substring(0, 3)}
+
                     </div>
                   </div>
-                ))}
-              </>
-            )}
-          </Box>
-          )}  
+                  <div
+                    style={{
+                      fontSize: "17px",
+                      color: "#78C2D2",
+                    }}>
+                    {latestAnnouncement[0].instructor} - Course Instructor
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "14px",
+                      color: "#BCBCBC",
+                      marginTop: "10px",
+                      maxWidth: "300px",
+                      //make the gap between the two lines smaller
+                      lineHeight: "1.2",
+                    }}>
+                    {latestAnnouncement[0].content}
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {latestAnnouncement.slice(0, 7).map((item, index) => (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                        marginBottom: "10px",
+                        paddingBottom: "10px",
+                        borderBottom:
+                          index === latestAnnouncement.length - 1
+                            ? "none"
+                            : "1px solid #E9E9E9",
+                      }}>
+                      <div
+                        style={{
+                          fontSize: "17px",
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          color: "#BCBCBC",
+                        }}>
+                        <div
+                          style={{
+                            width: "120px",
+                            color: "#76989F",
+                          }}>
+                          {item.course}
+                        </div>
+                        <div
+                          style={{
+                            fontSize: "12px",
+                          }}>
+                          {item.time.split(" ")[0].substring(0, 3)}
+
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "17px",
+                          color: "#78C2D2",
+                        }}>
+                        {item.instructor} - Course Instructor
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "14px",
+                          color: "#BCBCBC",
+                          marginTop: "10px",
+                          maxWidth: "300px",
+                          //make the gap between the two lines smaller
+                          lineHeight: "1.2",
+                        }}>
+                        {item.content}
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )}
+            </Box>
+          )}
           <div
             style={{
               fontSize: "14px",
@@ -523,12 +525,12 @@ export default function Template({ sidebar_index, children }) {
 
                   }}>
                   <div></div>
-                  <div 
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    // justifyContent: "space-between",
-                  }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      // justifyContent: "space-between",
+                    }}>
                     {chat.map((item, index) => (
                       <>
                         {index % 2 === 1 ? (
