@@ -102,9 +102,6 @@ def start_face_recognition_process():
                 print(values)
 
                 if values:
-                    # Store username in session
-                    session.permanent = True
-                    session['student_id'] = values[0]
                     response = {
                         'signin': True,
                         'student_id': student_id
@@ -129,12 +126,6 @@ def start_face_recognition_process():
                 
     cap.release()
     cv2.destroyAllWindows()
-
-    if 'student_id' in session:
-        response = {
-            'signin': True,
-            'student_id': student_id
-        }
  
     if response['signin'] == True:
         print("Updating login_time...")
@@ -158,9 +149,6 @@ def login():
         cursor.execute("SELECT * FROM Student WHERE student_id = %s AND password = %s;", (student_id, password))
         values = cursor.fetchone()
         if values:
-            # Store username in session
-            session.permanent = True
-            session["student_id"] = values[0]
             cursor.execute("UPDATE Student SET login_time = NOW() WHERE student_id = %s;", (student_id,))
             conn.commit()
             cursor.execute("SELECT * FROM Student WHERE student_id = %s AND password = %s;", (student_id, password))
@@ -173,7 +161,6 @@ def login():
 @app.route("/logout", methods=['GET'])
 def logout():
     student_id = request.args.get('uid')
-    del session[student_id]
 
 @app.route("/signin", methods=['POST'])
 def signin():
@@ -380,6 +367,48 @@ def messages():
 
     # get the messages for the student
     query = f'''
+    SELECT c.course_code, c.course_name, l.start_time, l.end_time, l.classroom_address, l.zoom_link, m.content AS last_message
+    FROM Course c
+    JOIN Student_asoc_course sac ON sac.course_code = c.course_code
+    JOIN Lesson l ON l.course_code = c.course_code
+    LEFT JOIN (
+        SELECT message_id, staff_id, content, course_code
+        FROM Message
+        WHERE message_id IN (
+            SELECT MAX(message_id)
+            FROM Message
+            GROUP BY course_code
+        )
+    ) m ON m.course_code = c.course_code
+    WHERE sac.student_id = {student_id}
+    AND l.start_time BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 HOUR)
+    ORDER BY ABS(TIMEDIFF(l.start_time, NOW()))
+    LIMIT 1;
+    '''
+    cursor.execute(query)
+    result = cursor.fetchall()
+
+    res = []
+    for r in result:
+        res.append({
+            "time": r[0],
+            "content": r[1],
+            "course": r[2],
+            "instructor": r[3]
+        })
+    return res
+
+@app.route("/search-messages", methods=['GET'])
+def search_messages():
+    # get the student_id from request parameter
+    student_id = request.args.get('uid')
+    if not student_id:
+        return Response(status=400)
+    # get the search keyword from request parameter
+    keyword = request.args.get('keyword')
+
+    # get the messages for the student that contains the keyword
+    query = f'''
     SELECT m.sent_time, m.content, m.course_code, t.name
     FROM Message as m
     INNER JOIN Teaching_Staff as t
@@ -387,6 +416,7 @@ def messages():
     INNER JOIN Student_asoc_course as s
     ON s.course_code = m.course_code
     WHERE s.student_id = '{student_id}'
+    AND (m.content LIKE '%{keyword}%' OR t.name LIKE '%{keyword}%' OR m.course_code LIKE '%{keyword}%')
     ORDER BY m.sent_time DESC;
     '''
     cursor.execute(query)
