@@ -49,7 +49,7 @@ def hello_world():
 @app.route("/start-face-recognition", methods=['GET'])
 def start_face_recognition():
     result = start_face_recognition_process()
-    return jsonify(result)
+    return result
 
 def start_face_recognition_process():
     #Load recognize and read label from model 
@@ -140,9 +140,11 @@ def start_face_recognition_process():
         print("Updating login_time...")
         cursor.execute("UPDATE Student SET login_time = NOW() WHERE student_id = %s;", (student_id,))
         conn.commit()
+        cursor.execute("SELECT * FROM Student WHERE student_id = %s;", (student_id,))
+        values = cursor.fetchone()
 
     # return the response
-    print(response)
+    response = Response(json.dumps(values, cls=CustomJSONEncoder), mimetype='application/json')
     return response
 
 

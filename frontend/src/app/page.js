@@ -55,9 +55,12 @@ export default function SignIn() {
       const response = await axios.get(
         "http://127.0.0.1:5000/start-face-recognition"
       );
-      if (response.data.signin) {
-        sessionStorage.setItem("uid", uid);
-        sessionStorage.setItem("latest-login", response.data.latest_login);
+      if (res.data) {
+        sessionStorage.setItem("uid", res.data[0]);
+        sessionStorage.setItem("name", res.data[1]);
+        sessionStorage.setItem("year", res.data[2]);
+        sessionStorage.setItem("program", res.data[3]);
+        sessionStorage.setItem("latest-login", res.data[4]);
         setisLoadingFace(false);
         setLoginFailed(false);
         window.location.href = "/dashboard";
