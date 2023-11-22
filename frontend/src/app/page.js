@@ -52,7 +52,7 @@ export default function SignIn() {
   const handleFaceRecognition = async () => {
     setisLoadingFace(true);
     try {
-      const response = await axios.get(
+      const res = await axios.get(
         "http://127.0.0.1:5000/start-face-recognition"
       );
       if (res.data) {
