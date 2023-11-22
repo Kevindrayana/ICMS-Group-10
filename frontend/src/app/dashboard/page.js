@@ -143,9 +143,6 @@ export default function Dashboard() {
       </div>
       <div>
         <div>
-          <div>
-            {data?.success ? (
-              <>
                 <div
                   style={{
                     color: "#48A8BC",
@@ -155,6 +152,9 @@ export default function Dashboard() {
                   {" "}
                   Upcoming Class
                 </div>
+          <div>
+            {data?.success ? (
+              <>
                 <div
                   style={{
                     backgroundColor: "#78C2D20D",
@@ -314,7 +314,14 @@ export default function Dashboard() {
                 </div>
               </>
             ) : (
-              <div>No Upcoming Class</div>
+              <div style={{
+                padding: "20px",
+                marginTop: "20px",
+                backgroundColor: "#78C2D20D",
+                borderRadius: "8px",
+                color: "#7EBCE6",
+                fontWeight: "500",
+              }}>You don’t have any upcoming class at the moment</div>
             )}
           </div>
           <div

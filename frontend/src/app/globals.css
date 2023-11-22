@@ -8,7 +8,9 @@ html, body {
 .content::-webkit-scrollbar {
   display: none;
 }
-
+div {
+  font-weight: 500;
+}
 /* Hide scrollbar for IE, Edge and Firefox */
 .content {
   -ms-overflow-style: none;  /* IE and Edge */
@@ -40,4 +42,7 @@ html, body {
 }
 .timetable .rs__multi_day .MuiButtonBase-root .MuiTypography-root{
   color: white !important
+}
+.timetable .rs__today_cell .MuiTypography-root {
+  color: #1C6D7E !important;
 }

@@ -39,7 +39,7 @@ export default function Course() {
           <Box
             sx={{
               boxShadow: 1,
-              borderRadius: 2,
+              borderRadius: "12px",
               padding: "20px",
               height: "336px",
               width: "344px",
@@ -55,7 +55,14 @@ export default function Course() {
                 alt="logo"
                 width="304px"
                 height="160px"
+                style={{
+                  borderRadius: "6px",
+                }}
               />
+
+            <div style={{
+              marginTop: "10px",
+            }}>
               <div
                 style={{
                   color: "#1C6D7E",
@@ -64,7 +71,6 @@ export default function Course() {
                 }}>
                 {course.course_code}
               </div>
-            </div>
             <div
               style={{
                 color: "#78C2D2",
@@ -72,6 +78,8 @@ export default function Course() {
                 fontSize: "14px",
               }}>
               {course.course_name}
+            </div>
+            </div>
             </div>
             <div>
               <Button

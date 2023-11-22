@@ -55,7 +55,7 @@ export default function Course() {
     <Template sidebar_index={2}>
       <div
         style={{
-          marginBottom: "20px",
+          marginBottom: "30px",
           color: "#1C6D7E",
           fontWeight: "500",
           fontSize: "28px",
@@ -69,7 +69,7 @@ export default function Course() {
               fontSize: "20px",
               color: "#7EBCE6",
               marginBottom: "20px",
-              fontWeight: "800",
+              fontWeight: "600",
               marginTop: "20px",
             }}>
             {data_month[m]}

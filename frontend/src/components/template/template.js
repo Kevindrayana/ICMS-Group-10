@@ -117,7 +117,7 @@ export default function Template({ sidebar_index, children }) {
     >
       <div
         style={{
-          width: "17%",
+          // width: "17%",
           padding: "32px",
           display: "flex",
           flexDirection: "column",
@@ -125,8 +125,8 @@ export default function Template({ sidebar_index, children }) {
           // minHeight: "90vh",
           height: "0px",
           minHeight: "100vh",
-          maxWidth: "240px",
-          minWidth: "240px",
+          maxWidth: "250px",
+          minWidth: "250px",
           overflow: "auto !important",
           // alignItems: "left",
         }}
@@ -287,8 +287,8 @@ export default function Template({ sidebar_index, children }) {
       <div
         style={{
           width: "25%",
-          minWidth: "360px",
-          maxWidth: "360px",
+          minWidth: "380px",
+          maxWidth: "380px",
           padding: "32px",
           height: "0px",
           minHeight: "100vh",
@@ -379,8 +379,8 @@ export default function Template({ sidebar_index, children }) {
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "space-between",
-                      marginBottom: "5px",
-                      paddingBottom: "5px",
+                      marginBottom: "10px",
+                      paddingBottom: "10px",
                       borderBottom:
                         index === latestAnnouncement.length - 1
                           ? "none"
@@ -459,7 +459,7 @@ export default function Template({ sidebar_index, children }) {
                     window.location.href = "/announcement";
                   }}
                 >
-                  See more
+                  See More
                 </div>
               </>
             )}
