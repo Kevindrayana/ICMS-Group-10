@@ -98,9 +98,7 @@ export default function Template({ sidebar_index, children }) {
     } else if (index === 1) {
       window.location.href = "/course";
     } else if (index === 2) {
-      window.location.href = "/timetable";
-    } else if (index === 3) {
-      window.location.href = "/message";
+      window.location.href = "/announcement";
     }
   };
   const handleLogout = () => {
@@ -197,24 +195,8 @@ export default function Template({ sidebar_index, children }) {
             }}
             onClick={() => handleClick(2)}
           >
-            <EventIcon sx={{ fontSize: 25, marginRight: "15px" }} />
-            <div>Timetable</div>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "left",
-              padding: "10px",
-              color: active === 3 ? "#48A8BC" : "#BCBCBC",
-              backgroundColor: active === 3 ? "#78C2D21A" : "#FFFFFF",
-              cursor: "pointer",
-              borderRadius: "10px",
-            }}
-            onClick={() => handleClick(3)}
-          >
             <ChatBubbleIcon sx={{ fontSize: 25, marginRight: "15px" }} />
-            <div>Message</div>
+            <div>Announcement</div>
           </div>
         </div>
         <div
@@ -474,7 +456,7 @@ export default function Template({ sidebar_index, children }) {
                 <div>&lt;- See Less</div>
                 <div
                   onClick={() => {
-                    window.location.href = "/message";
+                    window.location.href = "/announcement";
                   }}
                 >
                   See more
