@@ -22,7 +22,8 @@ const data_month = {
 
 
 export default function Course() {
-  const uid = sessionStorage.getItem("uid");
+  // const uid = sessionStorage.getItem("uid");
+  const [uid, setUid] = useState("");
 
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
@@ -32,7 +33,9 @@ export default function Course() {
   );
 
   const [message, setMessage] = useState(data);
-
+  useEffect(() => {
+    setUid(sessionStorage.getItem("uid"));
+  }, []);
   const searchMessage = (keyword) => {
     // fetch the message from backend
   ;

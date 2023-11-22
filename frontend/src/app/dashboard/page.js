@@ -2,7 +2,7 @@
 import { Template } from "src/components/template";
 import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
-import CircularProgress from "@mui/material";
+import {CircularProgress} from "@mui/material";
 import useSWR from "swr";
 import {
   Scheduler,

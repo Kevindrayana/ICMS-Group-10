@@ -20,6 +20,7 @@ export default function Template({ sidebar_index, children }) {
   const [input, setInput] = useState("");
   const [active, setActive] = useState(sidebar_index);
   const [isLoading, setIsLoading] = useState(false);
+  const [announcementLoading, setAnnouncementLoading] = useState(false);
   useEffect(() => {
     setActive(sidebar_index);
   }, [sidebar_index]);
@@ -60,17 +61,20 @@ export default function Template({ sidebar_index, children }) {
   });
 
   useEffect(() => {
+    setAnnouncementLoading(true);
     try {
       if (uid !== "") {
-
+        setTimeout(() => {
         axios.get(`http://127.0.0.1:5000/messages?uid=${uid}`).then((res) => {
           console.log(res)
           if (res.data != null) {
             setLatestAnnouncement(res.data);
+            setAnnouncementLoading(false);
           } else {
             alert("An error occurred.");
           }
         })
+      }, 3000);
       }
 
     }
@@ -338,6 +342,24 @@ export default function Template({ sidebar_index, children }) {
             }}>
             Latest Announcement
           </div>
+          {announcementLoading && (
+            <Box
+              sx={{
+                boxShadow: "0px 0px 8px 0px rgba(0,0,0,0.1)",
+                borderRadius: 2,
+                padding: "20px",
+                minWidth: "320px",
+              }}>
+
+                <div
+                  style={{
+                    color: "#76989F",
+                  }}>
+                  Fetching data...
+                </div>
+            </Box>
+          )
+          }
           {latestAnnouncement.length !== 0 && (
             <Box
               sx={{
@@ -460,6 +482,8 @@ export default function Template({ sidebar_index, children }) {
               )}
             </Box>
           )}
+          {announcementLoading ? (
+            <></>): (
           <div
             style={{
               fontSize: "14px",
@@ -485,6 +509,7 @@ export default function Template({ sidebar_index, children }) {
               </>
             )}
           </div>
+          )}
         </div>
         {hide ? (
           <>
