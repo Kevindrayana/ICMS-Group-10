@@ -79,10 +79,25 @@ export default function SignIn() {
   };
 
   return (
-    <Container component="main" maxWidth="sm">
+    <div style={{
+      height: "100vh",
+    }}
+    className="home-bg"
+    >
+      <div>
+      <div className="wave"></div>
+      <div className="wave"></div>
+      <div className="wave"></div>
+      </div>
+    <Container sx={{
+      position: "absolute",
+      top: "40%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+    }} maxWidth="sm" >
       <Box
         sx={{
-          boxShadow: 3,
+          boxShadow: "0px 0px 8px 0px rgba(0,0,0,0.1)",
           borderRadius: 2,
           padding: "40px",
           marginTop: 8,
@@ -90,10 +105,11 @@ export default function SignIn() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          backgroundColor: "#ffffff",
         }}
       >
         <img src="image/logo.png" alt="logo" width="350" height="70" />
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 4 }}>
           {/* login failed */}
           {loginFailed && (
             <Typography
@@ -190,5 +206,6 @@ export default function SignIn() {
         )}
       </Box>
     </Container>
+    </div>
   );
 }
