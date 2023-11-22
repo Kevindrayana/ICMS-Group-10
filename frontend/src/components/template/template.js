@@ -1,9 +1,9 @@
 import { Box, Button, Container } from "@mui/material";
 import React, { useEffect } from "react";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import CollectionsBookmarkIcon from "@mui/icons-material/CollectionsBookmark";
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
+import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
 import EventIcon from "@mui/icons-material/Event";
-import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import { Icon } from "@mui/material";
 import { useState } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -161,7 +161,7 @@ export default function Template({ sidebar_index, children }) {
             }}
             onClick={() => handleClick(0)}
           >
-            <DashboardIcon sx={{ fontSize: 22, marginRight: "15px" }} />
+            <DashboardOutlinedIcon sx={{ fontSize: 22, marginRight: "15px" }} />
             <div>Dashboard</div>
           </div>
           <div
@@ -174,11 +174,12 @@ export default function Template({ sidebar_index, children }) {
               backgroundColor: active === 1 ? "#78C2D21A" : "#FFFFFF",
               cursor: "pointer",
               borderRadius: "10px",
+              marginTop: "5px",
             }}
             onClick={() => handleClick(1)}
           >
-            <CollectionsBookmarkIcon
-              sx={{ fontSize: 25, marginRight: "15px" }}
+            <CollectionsBookmarkOutlinedIcon
+              sx={{ fontSize: 25, marginRight: "15px"}}
             />
             <div>Course</div>
           </div>
@@ -192,10 +193,11 @@ export default function Template({ sidebar_index, children }) {
               backgroundColor: active === 2 ? "#78C2D21A" : "#FFFFFF",
               cursor: "pointer",
               borderRadius: "10px",
+              marginTop: "5px",
             }}
             onClick={() => handleClick(2)}
           >
-            <ChatBubbleIcon sx={{ fontSize: 25, marginRight: "15px" }} />
+            <ChatBubbleOutlineOutlinedIcon sx={{ fontSize: 25, marginRight: "15px" }} />
             <div>Announcement</div>
           </div>
         </div>
@@ -308,7 +310,7 @@ export default function Template({ sidebar_index, children }) {
           </div>
           <Box
             sx={{
-              boxShadow: 1,
+              boxShadow: "0px 0px 8px 0px rgba(0,0,0,0.1)",
               borderRadius: 2,
               padding: "20px",
               minWidth: "320px",
@@ -484,7 +486,7 @@ export default function Template({ sidebar_index, children }) {
               <Box
                 sx={{
                   //use shadow
-                  boxShadow: 1,
+                  boxShadow: "0px 0px 8px 0px rgba(0,0,0,0.1)",
                   borderRadius: 2,
                   minWidth: "320px",
                 }}
@@ -517,7 +519,7 @@ export default function Template({ sidebar_index, children }) {
                 <Box
                   sx={{
                     //use shadow
-                    boxShadow: 1,
+                    boxShadow: "0px 0px 8px 0px rgba(0,0,0,0.1)",
                     borderRadius: 2,
                     padding: "20px",
                     minWidth: "320px",
