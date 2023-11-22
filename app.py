@@ -241,8 +241,6 @@ def latest_login():
 def get_courses():
     # get the student_id from request parameter
     student_id = request.args.get('uid')
-    if not student_id:
-        return Response(status=400)
 
     # get the courses for the student
     query = f'''
@@ -268,8 +266,7 @@ def get_courses():
 def upcoming_class():
     # get the student_id from request parameters
     student_id = request.args.get('uid')
-    if not student_id:
-        return Response(status=400)
+
     # get the class info for the student    
     query = f'''
     SELECT c.course_code, c.course_name, l.start_time, l.end_time, l.classroom_address, l.zoom_link, m.content AS last_message
@@ -285,7 +282,7 @@ def upcoming_class():
             GROUP BY course_code
         )
     ) m ON m.course_code = c.course_code
-    WHERE sac.student_id = '303500001'
+    WHERE sac.student_id = {student_id}
     AND l.start_time BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 HOUR)
     ORDER BY ABS(TIMEDIFF(l.start_time, NOW()))
     LIMIT 1;
@@ -457,4 +454,4 @@ def search_messages():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
