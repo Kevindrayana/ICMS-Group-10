@@ -7,7 +7,7 @@ COMP3278 Intelligent Course Management System Project
 ```
 $ git clone https://github.com/Kevindrayana/ICMS-Group-10.git
 ```
-### Install all dependencies for the backend:
+### Install all Dependencies for the Backend:
 ```
 $ pip3 install -r requirements.txt
 ```
@@ -41,7 +41,7 @@ $ python face_capture.py
 $ python train.py
 ```
 
-## importing the database
+## Importing the Database
 ```
 # login the mysql command
 mysql -u root –p
@@ -56,7 +56,7 @@ mysql> source make.sql
 # make sure there are 11 tables
 mysql> SHOW tables;
 ```
-### Setting up the backend
+### Setting Up the Backend
 ```
 # create .env file in root, write your sql password and openAPI key as such:
 SQL_PASSWORD=****
@@ -68,7 +68,7 @@ $ bash /Applications/Python*/Install\ Certificates.command
 $ export FLASK_DEBUG=1 && flask run
 ```
 
-### Setting up the frontend
+### Setting Up the Frontend
 ```
 # start next.js frontend
 $ cd frontend
@@ -76,7 +76,7 @@ $ npm install
 $ npm run dev
 ```
 
-## draw.io link for ERD
+## draw.io Link For ERD
 
 https://app.diagrams.net/#G1gjgNTLW7gVZwNqp7VPQu2kE5qAabhGFR
 
