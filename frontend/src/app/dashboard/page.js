@@ -46,18 +46,7 @@ const converter = (baseData) => {
 import "@progress/kendo-theme-default/dist/all.css";
 export default function Dashboard() {
   const [uid, setUid] = useState("");
-  const [baseData, setBaseData] = useState([
-    {
-      Title: "TESTINGGGGGG",
-      Start: "2023-11-23T07:00:00.000Z",
-      End: "2023-11-23T09:30:00.000Z",
-    },
-    {
-      Title: "weaewa",
-      Start: "2023-11-23T10:00:00.000Z",
-      End: "2023-11-23T11:30:00.000Z",
-    },
-  ]);
+  const [baseData, setBaseData] = useState([]);
   const [schedule, setSchedule] = useState(converter(baseData));
   const [isEmailLoading, setIsEmailLoading] = useState(false);
   const [timetable_schedule, setTimetable_schedule] = useState([
@@ -115,43 +104,44 @@ export default function Dashboard() {
   // );
   const [data, setData] = useState(null);
   const [tbData, setTbData] = useState(null);
-
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     setUid(sessionStorage.getItem("uid"));
-    const { dataTemp, tbDataTemp } = dataFetcher();
+    dataFetcher();
   }, []);
 
   const dataFetcher = async () => {
     try {
-      console.log("fetching 1");
+      if(data!=null) return;
+      setIsLoading(true);
       const response = await fetch(
         `http://127.0.0.1:5000/upcoming-class?uid=${sessionStorage.getItem(
           "uid"
         )}`
       );
-      const data = await response.json();
+      const datas = await response.json();
+      setIsLoading(false);
+      setData(datas);
 
-      setData(data);
-
-      console.log("fetching 2");
-      const response2 = await fetch(
-        `http://127.0.0.1:5000/timetable?uid=${sessionStorage.getItem("uid")}`
-      );
-      const data2 = await response2.json();
-
-      setTbData(data2);
-
-      formatter(data2);
-
-      return { data, data2 };
     } catch (error) {
-      return error;
+      setData([]);
     }
   };
-
+  useEffect(() => {
+    if (data!=null && schedule!=null &&!isLoading) {
+      fetch(
+        `http://127.0.0.1:5000/timetable?uid=${sessionStorage.getItem("uid")}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setTbData(data);
+          const temp = formatter(data);
+          setSchedule(converter(temp));
+        });
+    }
+  }, [data]);
   const formatter = (data) => {
     let tempBaseData = [];
-    console.log("data", data);
     data.forEach((item) => {
       const temp = {
         Title: item[5] + " " + item[0],
@@ -161,12 +151,9 @@ export default function Dashboard() {
       tempBaseData.push(temp);
     });
     // print tempBaseData
-    console.log("tempBaseData", tempBaseData);
-    console.log("here");
     setBaseData(tempBaseData);
-    console.log("baseData", baseData);
     setSchedule(converter(tempBaseData));
-    // return tempBaseData;
+    return tempBaseData;
   };
 
   const handleSendEmail = async () => {

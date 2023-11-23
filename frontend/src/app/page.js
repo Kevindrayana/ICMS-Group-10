@@ -56,7 +56,6 @@ export default function SignIn() {
         "http://127.0.0.1:5000/start-face-recognition"
       );
       if (res.data) {
-        console.log(res.data);
         sessionStorage.setItem("uid", res.data[0]);
         sessionStorage.setItem("name", res.data[1]);
         sessionStorage.setItem("year", res.data[2]);

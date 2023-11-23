@@ -66,7 +66,6 @@ export default function Template({ sidebar_index, children }) {
       if (uid !== "") {
         setTimeout(() => {
         axios.get(`http://127.0.0.1:5000/messages?uid=${uid}`).then((res) => {
-          console.log(res)
           if (res.data != null) {
             setLatestAnnouncement(res.data);
             setAnnouncementLoading(false);
