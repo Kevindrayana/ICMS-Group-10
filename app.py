@@ -52,7 +52,7 @@ def chatbot():
     with open('data.txt', 'r') as file:
         data = file.read()
 
-    prompt = f"Given the data from {data}, what is the answer to this question: {message}."
+    prompt = f"Given the data from {data}, what is the answer to this question: {message}. If the answer is not available, just answer the prompt casually, forget about the data."
 
     # Call the OpenAI API to generate a response
     response = openai.Completion.create(
