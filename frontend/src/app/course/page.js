@@ -98,7 +98,7 @@ export default function Course() {
               </Button>
               <Button
                 onClick={() => {
-                  window.open("https://moodle.hku.hk/mod/resource/view.php?id=3081895", "_blank");
+                  window.open("https://drive.google.com/drive/folders/1qq5LH-ECV5pUguFgVJd_LseVhkGLqiww?usp=share_link", "_blank");
                 }}>
                 Course Materials
               </Button>
