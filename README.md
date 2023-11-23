@@ -40,6 +40,22 @@ $ mkdir data
 $ python face_capture.py
 $ python train.py
 ```
+
+## importing the database
+```
+# login the mysql command
+mysql -u root –p
+
+# create database.
+mysql> CREATE DATABASE icms;
+mysql> USE icms;
+
+# import from sql file
+mysql> source make.sql
+
+# make sure there are 11 tables
+mysql> SHOW tables;
+```
 ### Setting up the backend
 ```
 # create .env file in root, write your sql password and openAPI key as such:
@@ -58,23 +74,6 @@ $ export FLASK_DEBUG=1 && flask run
 $ cd frontend
 $ npm install
 $ npm run dev
-```
-
-## importing the database
-cd to the project directory and run the following commands:
-```
-# login the mysql command
-mysql -u root –p
-
-# create database.
-mysql> CREATE DATABASE icms;
-mysql> USE icms;
-
-# import from sql file
-mysql> source make.sql
-
-# make sure there are 11 tables
-mysql> SHOW tables;
 ```
 
 ## draw.io link for ERD
