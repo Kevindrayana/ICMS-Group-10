@@ -181,7 +181,7 @@ def login():
             cursor.execute("UPDATE Student SET login_time = NOW() WHERE student_id = %s;", (student_id,))
             conn.commit()
             cursor.execute("SELECT * FROM Student WHERE student_id = %s AND password = %s;", (student_id, password))
-            values = cursor.fetchone()
+            cursor.fetchone()
 
     # JSONify the response
     response = Response(json.dumps(values, cls=CustomJSONEncoder), mimetype='application/json')
