@@ -3,28 +3,57 @@
 COMP3278 Intelligent Course Management System Project
 
 ## Getting Started
-
+### Clone the project
+```
+$ git clone https://github.com/Kevindrayana/ICMS-Group-10.git
+```
+### Install all dependencies for the backend:
+```
+$ pip3 install -r requirements.txt
+```
+### Create a Virtual Environment (MacOS)
 ```
 # create venv
 $ python3 -m venv icms
 
 # start venv
 $ source icms/bin/activate
-
-# install requirements
-$ pip3 install -r requirements.txt
-
-# create .env file in root, write your sql password as such:
+```
+### Create a Virtual Environment (Windows)
+```
+# Create a new directory for the venv
+$ mkdir project_directory
+$ cd project_directory
+$ python -m virtualenv venv
+# the code below is optional if the code preceding it can't be run
+$ Set-ExecutionPolicy Unrestricted -Scope Process
+# start venv
+$ .\venv\Scripts\activate
+```
+### To Train the FaceRecognition Model:
+```
+# In the face_capture.py file, specify the uid of the face you want to train:
+uid = "YOUR UID HERE"
+# Create a 'data' folder in the project directory:
+$ mkdir data
+# run the programs in sequential order, a .pickle and .yml file will be created as a result.
+$ python face_capture.py
+$ python train.py
+```
+### Setting up the backend
+```
+# create .env file in root, write your sql password and openAPI key as such:
 SQL_PASSWORD=****
-
+OPENAI_API_KEY=****
 # enable ssl certificate for email
 $ bash /Applications/Python*/Install\ Certificates.command
 
-# create an empty "data" folder in root
-
 # start flask backend
 $ export FLASK_DEBUG=1 && flask run
+```
 
+### Setting up the frontend
+```
 # start next.js frontend
 $ cd frontend
 $ npm install
@@ -32,9 +61,7 @@ $ npm run dev
 ```
 
 ## importing the database
-
 cd to the project directory and run the following commands:
-
 ```
 # login the mysql command
 mysql -u root –p
