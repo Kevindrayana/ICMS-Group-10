@@ -1,57 +1,50 @@
-from flask import Flask, jsonify, request, Response, session
+from flask import Flask, jsonify, request, Response
 import mysql.connector
 import os
-import json
-from datetime import timedelta, date
 from dotenv import load_dotenv
-import urllib
-import numpy as np
-import cv2          
-import pickle
-from datetime import datetime
-import sys
 from flask_cors import CORS
 from email.message import EmailMessage
 import ssl
 import smtplib
 import openai
-
-# Custom JSON encoder to handle timedelta and date objects
-class CustomJSONEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, timedelta):
-            return str(obj)
-        elif isinstance(obj, date):
-            return obj.isoformat()
-        return super().default(obj)
+from recognition import start_face_recognition_process
 
 app = Flask(__name__)
 app.secret_key = "Hello"
+
+# Enable CORS
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
-load_dotenv() # Load environment variables from .env file
 
+# Load environment variables from .env file
+load_dotenv() 
+
+# Create connection to MySQL database
 config = {
     'user': 'root',
     'password': os.getenv('SQL_PASSWORD'),
     'host': '127.0.0.1',
     'port': 3306,
     'database': 'icms',
-    'ssl_disabled': True  # Disable SSL/TLS
+    'ssl_disabled': True  # Disable SSL/TLS to enable email sending
 }
-
 conn = mysql.connector.connect(**config) # Connect to MySQL database
 cursor = conn.cursor()
 
 # OpenAI API key
 openai.api_key = os.getenv('OPENAI_API_KEY')
+
+# ***** API Endpoints *****
 @app.route('/chatbot', methods=['POST'])
 def chatbot():
     # Retrieve the user's message from the request
     message = request.json['message']
+
+    # Feed the data (table) to the prompt
     with open('data.txt', 'r') as file:
         data = file.read()
 
+    # Give static prompt
     prompt = f"Given the data from {data}, what is the answer to this question: {message}. If the answer is not available, just answer the prompt casually, forget about the data."
 
     # Call the OpenAI API to generate a response
@@ -70,103 +63,10 @@ def chatbot():
     # Return the response as a JSON object
     return jsonify({'reply': reply})
 
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
-
 @app.route("/start-face-recognition", methods=['GET'])
 def start_face_recognition():
     result = start_face_recognition_process()
     return result
-
-def start_face_recognition_process():
-    #Load recognize and read label from model 
-    recognizer = cv2.face.LBPHFaceRecognizer_create()
-    recognizer.read("train.yml")
-    labels = {"person_name": 1}
-    with open("labels.pickle", "rb") as f:
-        labels = pickle.load(f)
-        labels = {v: k for k, v in labels.items()}
-    
-    # print labels
-    for i in labels.keys():
-        print(i)
-    # Define camera and detect face
-    face_cascade = cv2.CascadeClassifier('haarcascade/haarcascade_frontalface_default.xml')
-    cap = cv2.VideoCapture(0)
-
-    response = {'signin': False}
-
-    #Open the camera and start face recognition
-    while True:
-        flag = 0
-        ret, frame = cap.read()
-        if frame is None:
-            print("Error reading frame from camera")
-            continue  # Skip the current iteration and move to the next one
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        faces = face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5)
-
-        for (x, y, w, h) in faces:
-            roi_gray = gray[y:y + h, x:x + w]
-            # predict the id and confidence for faces
-            id_, conf = recognizer.predict(roi_gray)
-            print(id_)
-
-            # If the face is recognized
-            print(conf)
-            if conf >= 60:
-                font = cv2.QT_FONT_NORMAL
-                student_id = labels[id_]
-                color = (255, 0, 0)
-                stroke = 2
-                cv2.putText(frame, student_id, (x, y), font, 1, color, stroke, cv2.LINE_AA)
-                cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), (2))
-
-                # Find the student's information in the database.
-                cursor.execute("SELECT * FROM Student WHERE student_id = %s", (student_id,))
-                values = cursor.fetchone()
-                print(values)
-
-                if values:
-                    response = {
-                        'signin': True,
-                        'student_id': student_id
-                    }
-                else:
-                    response = {'signin': False}
-                    color = (255, 0, 0)
-                    stroke = 2
-                    font = cv2.QT_FONT_NORMAL
-                    cv2.putText(frame, "UNKNOWN", (x, y), font, 1, color, stroke, cv2.LINE_AA)
-                    cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), (2))
-                    hello = ("Your face is not recognized")
-                    print(hello)
-                
-                flag =  1
-        
-
-        cv2.imshow('Attendance System', frame)
-        cv2.setWindowProperty("Attendance System", cv2.WND_PROP_TOPMOST, 1)
-
-        k = cv2.waitKey(100) & 0xff
-        if k == ord('q') or flag:
-            break
-                
-    cap.release()
-    cv2.destroyAllWindows()
- 
-    if response['signin'] == True:
-        print("Updating login_time...")
-        cursor.execute("UPDATE Student SET login_time = NOW() WHERE student_id = %s;", (student_id,))
-        conn.commit()
-        cursor.execute("SELECT * FROM Student WHERE student_id = %s;", (student_id,))
-        values = cursor.fetchone()
-
-    # return the response
-    response = Response(json.dumps(values, cls=CustomJSONEncoder), mimetype='application/json')
-    return response
-
 
 @app.route("/login", methods=['POST'])
 def login():
@@ -184,37 +84,41 @@ def login():
             cursor.fetchone()
 
     # JSONify the response
-    response = Response(json.dumps(values, cls=CustomJSONEncoder), mimetype='application/json')
-    return response
-    
-@app.route("/logout", methods=['GET'])
-def logout():
-    student_id = request.args.get('uid')
-
-@app.route("/signin", methods=['POST'])
-def signin():
-    return "<p>Signin</p>"
-    
-
-@app.route("/signout", methods=['GET'])
-def signout():
-    return "<p>Signout</p>"
+    values = {
+        'uid': values[0],
+        'name': values[1],
+        'year': values[2],
+        'program': values[3],
+        'latest-login': str(values[4]),
+        'email': values[5]
+    }
+    return jsonify(values)
 
 @app.route("/timetable", methods=['GET'])
 def timetable():
-    student_id = request.args.get('uid')
+    student_id = request.args.get('uid') if request.args.get('uid') else "0000000000"
     query = f"SELECT * FROM Lesson WHERE course_code IN (\
     SELECT course_code FROM Student_asoc_course\
     WHERE student_id = '{student_id}');"
+    
     cursor.execute(query)
     values = cursor.fetchall()
-    # JSONify the response dictionary
-    response = Response(json.dumps(values, cls=CustomJSONEncoder), mimetype='application/json')
-    return response
+
+    res = []
+    for r in values:
+        res.append({
+            "lesson_id": r[0],
+            "classroom_address": r[1],
+            "start_time": r[2].isoformat(),
+            "end_time": r[3].isoformat(),
+            "zoom_link": r[4],
+            "course_code": r[5]
+        })
+    return jsonify(res)
 
 @app.route("/latest-login", methods=['GET'])
 def latest_login():
-    student_id = request.args.get('uid')
+    student_id = request.args.get('uid') if request.args.get('uid') else "0000000000"
     if not student_id:
         return Response(status=400)
 
@@ -225,17 +129,15 @@ def latest_login():
     if values:
         response = {
             'student_id': values[0],
-            'login_time': values[1]
+            'login_time': values[1].isoformat()
         }
 
-    # JSONify the response
-    response = Response(json.dumps(response, cls=CustomJSONEncoder), mimetype='application/json')
-    return response
+    return jsonify(response)
 
 @app.route("/courses", methods=['GET'])
 def get_courses():
     # get the student_id from request parameter
-    student_id = request.args.get('uid')
+    student_id = request.args.get('uid') if request.args.get('uid') else "0000000000"
 
     # get the courses for the student
     query = f'''
@@ -255,12 +157,12 @@ def get_courses():
             "course_link": r[2],
             "course_image": r[3]
         })
-    return res
+    return jsonify(res)
 
 @app.route("/upcoming-class", methods=['GET'])
 def upcoming_class():
     # get the student_id from request parameters
-    student_id = request.args.get('uid')
+    student_id = request.args.get('uid') if request.args.get('uid') else "0000000000"
 
     # get the class info for the student    
     query = f'''
@@ -283,31 +185,30 @@ def upcoming_class():
     LIMIT 1;
     '''
     cursor.execute(query)
-    result = cursor.fetchall()
+    result = cursor.fetchone()
+    
     if not result:
-        return {"success": False}
+        response = {
+            "success": False,
+        }
+    else:
+        response = {
+            "success": True,
+            "course_code": result[0],
+            "course_name": result[1],
+            "start_time": str(result[2]),
+            "end_time": str(result[3]),
+            "venue": result[4],
+            "zoom_link": result[5],
+            "latest_announcement": result[6]
+        }
 
-    result = result[0] # only one result is returned
-    response = {
-        "success": True,
-        "course_code": result[0],
-        "course_name": result[1],
-        "start_time": result[2],
-        "end_time": result[3],
-        "venue": result[4],
-        "zoom_link": result[5],
-        "latest_announcement": result[6]
-    }
-
-    # JSONify the response
-    response = Response(json.dumps(response, cls=CustomJSONEncoder), mimetype='application/json')
-
-    return response
+    return jsonify(response)
 
 @app.route("/mail", methods=['GET'])
 def mail():
     # get the student_id from request parameters
-    student_id = request.args.get('uid')
+    student_id = request.args.get('uid') if request.args.get('uid') else "0000000000"
     if not student_id:
         return Response(status=400)
     
@@ -347,20 +248,21 @@ def mail():
         )
     ) m ON m.course_code = c.course_code
     WHERE sac.student_id = "{student_id}"
-    AND l.start_time BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 HOUR);
+    AND l.start_time BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 HOUR)
+    ORDER BY ABS(TIMEDIFF(l.start_time, NOW()))
+    LIMIT 1;
     '''
     cursor.execute(query)
-    values = cursor.fetchall()
+    value = cursor.fetchone()
 
     email_body = f"Dear {student_name},\n\nHere is your upcoming schedule for the next hour:\n\n"
-    for value in values:
-        email_body += f"Course Code: {value[0]}\n"
-        email_body += f"Course Name: {value[1]}\n"
-        email_body += f"Start Time: {value[2]}\n"
-        email_body += f"End Time: {value[3]}\n"
-        email_body += f"Classroom Address: {value[4]}\n"
-        email_body += f"Zoom Link: {value[5]}\n"
-        email_body += f"Last Message: {value[6]}\n\n"
+    email_body += f"Course Code: {value[0]}\n"
+    email_body += f"Course Name: {value[1]}\n"
+    email_body += f"Start Time: {value[2]}\n"
+    email_body += f"End Time: {value[3]}\n"
+    email_body += f"Classroom Address: {value[4]}\n"
+    email_body += f"Zoom Link: {value[5]}\n"
+    email_body += f"Last Message: {value[6]}\n\n"
 
     email_body += "Please make sure to attend the scheduled sessions on time and utilize the provided resources effectively.\n\n"
     email_body += "Best regards,\nICMS"
@@ -383,7 +285,7 @@ def mail():
 @app.route("/messages", methods=['GET'])
 def messages():
     # get the student_id from request parameter
-    student_id = request.args.get('uid')
+    student_id = request.args.get('uid') if request.args.get('uid') else "0000000000"
     if not student_id:
         return Response(status=400)
 
@@ -409,16 +311,16 @@ def messages():
             "course": r[2],
             "instructor": r[3]
         })
-    return res
+    return jsonify(res)
 
 @app.route("/search-messages", methods=['GET'])
 def search_messages():
     # get the student_id from request parameter
-    student_id = request.args.get('uid')
+    student_id = request.args.get('uid') if request.args.get('uid') else "0000000000"
     if not student_id:
         return Response(status=400)
     # get the search keyword from request parameter
-    keyword = request.args.get('keyword')
+    keyword = request.args.get('keyword') if request.args.get('keyword') else ""
 
     # get the messages for the student that contains the keyword
     query = f'''
@@ -443,7 +345,7 @@ def search_messages():
             "course": r[2],
             "instructor": r[3]
         })
-    return res
+    return jsonify(res)
 
 
 if __name__ == "__main__":

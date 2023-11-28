@@ -8,7 +8,6 @@ import useSWR from "swr";
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 export default function Course() {
-  // let uid = sessionStorage.getItem("uid");
   const [uid, setUid] = useState("");
   const { data, error } = useSWR(
     `http://127.0.0.1:5000/courses?uid=${uid}`,
@@ -18,9 +17,6 @@ export default function Course() {
   useEffect(() => {
     setUid(sessionStorage.getItem("uid"));
   }, []);
-
-  // if (error) return <div>Failed to load</div>;
-  // if (!data) return <div>Loading...</div>;
     
   return (
     <Template sidebar_index={1}>

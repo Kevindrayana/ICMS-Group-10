@@ -7,16 +7,13 @@ COMP3278 Intelligent Course Management System Project
 ```
 $ git clone https://github.com/Kevindrayana/ICMS-Group-10.git
 ```
-### Install all Dependencies for the Backend:
-```
-$ pip3 install -r requirements.txt
-```
 ### Create a Virtual Environment (MacOS)
 ```
 # create venv
 $ python3 -m venv icms
 
 # start venv
+
 $ source icms/bin/activate
 ```
 ### Create a Virtual Environment (Windows)
@@ -30,6 +27,10 @@ $ Set-ExecutionPolicy Unrestricted -Scope Process
 # start venv
 $ .\venv\Scripts\activate
 ```
+### Install all Dependencies for the Backend:
+```
+$ pip3 install -r requirements.txt
+```
 ### To Train the FaceRecognition Model:
 ```
 # In the face_capture.py file, specify the uid of the face you want to train:
@@ -40,7 +41,6 @@ $ mkdir data
 $ python face_capture.py
 $ python train.py
 ```
-
 ## Importing the Database
 ```
 # login the mysql command
@@ -65,7 +65,7 @@ OPENAI_API_KEY=****
 $ bash /Applications/Python*/Install\ Certificates.command
 
 # start flask backend
-$ export FLASK_DEBUG=1 && flask run
+$ export flask run
 ```
 
 ### Setting Up the Frontend

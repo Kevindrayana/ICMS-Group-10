@@ -20,9 +20,7 @@ const data_month = {
   12: "December",
 };
 
-
 export default function Course() {
-  // const uid = sessionStorage.getItem("uid");
   const [uid, setUid] = useState("");
 
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -37,20 +35,9 @@ export default function Course() {
     setUid(sessionStorage.getItem("uid"));
   }, []);
   const searchMessage = (keyword) => {
-    // fetch the message from backend
-  ;
-
     fetch(`http://127.0.0.1:5000/search-messages?uid=${uid}&keyword=${keyword}`)
       .then((res) => res.json())
       .then((data) => {
-        // // filter the data
-        // let temp = data.filter((item) => {
-        //   return (
-        //     item.content.toLowerCase().includes(keyword.toLowerCase()) ||
-        //     item.course.toLowerCase().includes(keyword.toLowerCase()) ||
-        //     item.instructor.toLowerCase().includes(keyword.toLowerCase())
-        //   );
-        // });
         setMessage(data);
       });
   };
@@ -91,7 +78,6 @@ export default function Course() {
         }}>
         Message Board
       </div>
-      {/* create an input box for searching message */}
       <div
         style={{
           display: "flex",
@@ -135,7 +121,9 @@ export default function Course() {
                     marginBottom: "20px",
                     paddingBottom: "20px",
                     borderBottom:
-                      index === message.length - 1 ? "none" : "1px solid #E9E9E9",
+                      index === message.length - 1
+                        ? "none"
+                        : "1px solid #E9E9E9",
                   }}>
                   <div
                     style={{

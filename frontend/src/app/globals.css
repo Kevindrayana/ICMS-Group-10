@@ -23,29 +23,7 @@ div {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
-/* .timetable .MuiButton-root {
-  background-color: white !important;
-  color: #48A8BC 
-}
-.timetable .rs__event__item .MuiButtonBase-root {
-  background-color: #48A8BC !important;
-  color: white !important
-}
-.timetable .rs__event__item .MuiButtonBase-root .MuiTypography-root{
-  color: white !important
-}
-.timetable .MuiTypography-root {
-  color: #48A8BC
-}
-.timetable .rs__multi_day .MuiButtonBase-root {
-  background-color: #48A8BC !important;
-}
-.timetable .rs__multi_day .MuiButtonBase-root .MuiTypography-root{
-  color: white !important
-}
-.timetable .rs__today_cell .MuiTypography-root {
-  color: #1C6D7E !important;
-} */
+
 .timetable .k-toolbar {
   background-color: #fff !important;
 

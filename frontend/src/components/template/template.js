@@ -11,7 +11,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
-//import { uid } from "@/app/page";
 import axios from "axios";
 
 export default function Template({ sidebar_index, children }) {
@@ -73,7 +72,7 @@ export default function Template({ sidebar_index, children }) {
             alert("An error occurred.");
           }
         })
-      }, 3000);
+      }, 1000);
       }
 
     }
@@ -89,8 +88,6 @@ export default function Template({ sidebar_index, children }) {
 
   const handleSend = () => {
     setIsLoading(true);
-    // send the message to backend
-    //sleep 3 s
     let temp = chat;
     temp.push(input);
     setInput("");
@@ -120,16 +117,6 @@ export default function Template({ sidebar_index, children }) {
       setIsLoading(false);
       alert("An error occurred.");
     }
-
-    // setTimeout(() => {
-    //   temp.push("I am a bot");
-    //   setIsLoading(false);
-    // }, 3000);
-    // let temp = chat;
-    // temp.push(input);
-    // setInput("");
-    // setChat(temp);
-    // setIsLoading(false);
   };
   const handleClick = (index) => {
     setActive(index);
@@ -159,25 +146,17 @@ export default function Template({ sidebar_index, children }) {
       }}>
       <div
         style={{
-          // width: "17%",
           padding: "32px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          // minHeight: "90vh",
           height: "0px",
           minHeight: "100vh",
           maxWidth: "250px",
           minWidth: "250px",
           overflow: "auto !important",
-          // alignItems: "left",
         }}>
-        <div
-          style={
-            {
-              // marginBottom: "20px",
-            }
-          }>
+        <div>
           <img
             src="image/logo.png"
             alt="logo"
@@ -192,7 +171,6 @@ export default function Template({ sidebar_index, children }) {
             style={{
               display: "flex",
               flexDirection: "row",
-              // justifyContent: "space-between",
               padding: "10px",
               color: active === 0 ? "#48A8BC" : "#BCBCBC",
               backgroundColor: active === 0 ? "#78C2D21A" : "#FFFFFF",
@@ -319,7 +297,6 @@ export default function Template({ sidebar_index, children }) {
         }}>
         {children}
       </div>
-      {/* right sidebar */}
 
       <div
         style={{
@@ -470,7 +447,6 @@ export default function Template({ sidebar_index, children }) {
                           color: "#BCBCBC",
                           marginTop: "10px",
                           maxWidth: "300px",
-                          //make the gap between the two lines smaller
                           lineHeight: "1.2",
                         }}>
                         {item.content}
@@ -527,7 +503,6 @@ export default function Template({ sidebar_index, children }) {
               </div>
               <Box
                 sx={{
-                  //use shadow
                   boxShadow: "0px 0px 8px 0px rgba(0,0,0,0.1)",
                   borderRadius: 2,
                   minWidth: "320px",
@@ -553,7 +528,6 @@ export default function Template({ sidebar_index, children }) {
                     style={{
                       display: "flex",
                       flexDirection: "column",
-                      // justifyContent: "space-between",
                     }}>
                     {chat.map((item, index) => (
                       <>
@@ -563,7 +537,6 @@ export default function Template({ sidebar_index, children }) {
                               fontSize: "14px",
                               color: "#BCBCBC",
                               marginTop: "5px",
-                              //make the gap between the two lines smaller
                               lineHeight: "1.2",
                               marginLeft: "auto",
                               backgroundColor: "#EFF8FB",
