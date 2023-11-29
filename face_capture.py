@@ -1,18 +1,21 @@
 import cv2
 import os
 
+# load the model
 faceCascade = cv2.CascadeClassifier('haarcascade/haarcascade_frontalface_default.xml')
 
+# open camera
 video_capture = cv2.VideoCapture(0)
 video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 840)
 video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 840)
 
-# Specify the `uid` and `NUM_IMGS` here.
-uid = "3035000002"
-NUM_IMGS = 200
+# create the directory if it does not exist
+uid = "3035918701" # Specify the `uid` and `NUM_IMGS` here.
+NUM_IMGS = 1000
 if not os.path.exists('data/{}'.format(uid)):
     os.mkdir('data/{}'.format(uid))
 
+# Capture 1000 images
 cnt = 1
 font = cv2.FONT_HERSHEY_SIMPLEX
 bottomLeftCornerOfText = (50, 50)
@@ -23,11 +26,12 @@ lineType = 2
 # Open camera
 while cnt <= NUM_IMGS:
     # Capture frame-by-frame
-    ret, frame = video_capture.read()
+    _, frame = video_capture.read()
 
     if frame is None:
         continue
     
+    # convert to grayscale
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     faces = faceCascade.detectMultiScale(
@@ -53,7 +57,7 @@ while cnt <= NUM_IMGS:
 
     # Display the resulting frame
     cv2.imshow('Video', frame)
-    # Store the captured images in `data/Jack`
+    # Store the captured images in `data/{uid}`
     cv2.imwrite("data/{}/{}{:03d}.jpg".format(uid, uid, cnt), frame)
     cnt += 1
 

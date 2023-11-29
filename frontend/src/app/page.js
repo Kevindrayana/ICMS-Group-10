@@ -5,13 +5,13 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { CircularProgress } from "@mui/material";
 import Container from "@mui/material/Container";
-import axios from "axios";
 import { useState } from "react";
 export default function SignIn() {
   const [isLoadingFace, setisLoadingFace] = useState(false);
   const [isLoading, setisLoading] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
   const [uid, setUid] = useState("");
+
   const handleSubmit = async (event) => {
     setisLoading(true);
     event.preventDefault();
@@ -30,22 +30,19 @@ export default function SignIn() {
       });
 
       const res = await response.json();
-      console.log("res", res);
 
-      if (res != null) {
-        sessionStorage.setItem("uid", res["uid"]);
-        sessionStorage.setItem("name", res["name"]);
-        sessionStorage.setItem("year", res["year"]);
-        sessionStorage.setItem("program", res["program"]);
-        sessionStorage.setItem("latest-login", res["latest-login"]);
-        setisLoading(false);
-        setLoginFailed(false);
-        window.location.href = "/dashboard";
-      } else {
-        setisLoading(false);
-        setLoginFailed(true);
-        setUid("");
+      if (res == null) {
+        throw new Error("Login failed");
       }
+
+      sessionStorage.setItem("uid", res["uid"]);
+      sessionStorage.setItem("name", res["name"]);
+      sessionStorage.setItem("year", res["year"]);
+      sessionStorage.setItem("program", res["program"]);
+      sessionStorage.setItem("latest-login", res["latest-login"]);
+      setisLoading(false);
+      setLoginFailed(false);
+      window.location.href = "/dashboard";
     } catch (error) {
       console.error(error);
       setisLoading(false);
@@ -56,27 +53,28 @@ export default function SignIn() {
   const handleFaceRecognition = async () => {
     setisLoadingFace(true);
     try {
-      const res = await axios.get(
+      const response = await fetch(
         "http://127.0.0.1:5000/start-face-recognition"
       );
-      if (res != null) {
-        sessionStorage.setItem("uid", res["uid"]);
-        sessionStorage.setItem("name", res["name"]);
-        sessionStorage.setItem("year", res["year"]);
-        sessionStorage.setItem("program", res["program"]);
-        sessionStorage.setItem("latest-login", res["latest-login"]);
-        setisLoadingFace(false);
-        setLoginFailed(false);
-        window.location.href = "/dashboard";
-      } else {
-        setisLoadingFace(false);
-        setLoginFailed(true);
-        alert("Face recognition failed. Please try again.");
+      const res = await response.json();
+
+      if (res == null) {
+        throw new Error("Login failed");
       }
+
+      sessionStorage.setItem("uid", res["uid"]);
+      sessionStorage.setItem("name", res["name"]);
+      sessionStorage.setItem("year", res["year"]);
+      sessionStorage.setItem("program", res["program"]);
+      sessionStorage.setItem("latest-login", res["latest-login"]);
+      setisLoading(false);
+      setLoginFailed(false);
+      window.location.href = "/dashboard";
     } catch (error) {
-      setLoginFailed(true);
       console.error(error);
-      alert("An error occurred while trying to login via face recognition.");
+      setisLoading(false);
+      setLoginFailed(true);
+      alert("An error occurred.");
     }
     setisLoadingFace(false);
   };

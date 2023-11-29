@@ -80,8 +80,6 @@ def login():
         if values:
             cursor.execute("UPDATE Student SET login_time = NOW() WHERE student_id = %s;", (student_id,))
             conn.commit()
-            cursor.execute("SELECT * FROM Student WHERE student_id = %s AND password = %s;", (student_id, password))
-            cursor.fetchone()
 
     # JSONify the response
     values = {

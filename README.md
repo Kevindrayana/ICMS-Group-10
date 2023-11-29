@@ -21,10 +21,13 @@ $ source icms/bin/activate
 # Create a new directory for the venv
 $ mkdir project_directory
 $ cd project_directory
+
+# Create Virtual Environment
 $ python -m virtualenv venv
 # the code below is optional if the code preceding it can't be run
 $ Set-ExecutionPolicy Unrestricted -Scope Process
-# start venv
+
+# Start venv
 $ .\venv\Scripts\activate
 ```
 ### Install all Dependencies for the Backend:
@@ -35,8 +38,10 @@ $ pip3 install -r requirements.txt
 ```
 # In the face_capture.py file, specify the uid of the face you want to train:
 uid = "YOUR UID HERE"
+
 # Create a 'data' folder in the project directory:
 $ mkdir data
+
 # run the programs in sequential order, a .pickle and .yml file will be created as a result.
 $ python face_capture.py
 $ python train.py
@@ -61,6 +66,7 @@ mysql> SHOW tables;
 # create .env file in root, write your sql password and openAPI key as such:
 SQL_PASSWORD=****
 OPENAI_API_KEY=****
+
 # enable ssl certificate for email
 $ bash /Applications/Python*/Install\ Certificates.command
 
