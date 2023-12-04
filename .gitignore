@@ -3,4 +3,6 @@ icms
 data
 tables.txt
 tempCodeRunnerFile.py
-```
+__pycache__
+train.yml
+labels.pickle
