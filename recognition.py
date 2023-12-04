@@ -48,7 +48,6 @@ def start_face_recognition_process():
             # predict the id and confidence for faces
             id_, conf = recognizer.predict(roi_gray)
             # If the face is recognized with more than 35% confidence
-            print(conf)
             if conf >= 35:
                 student_id = labels[id_]
 

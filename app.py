@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, Response
 import mysql.connector
+from mysql.connector import errorcode
 import os
 from dotenv import load_dotenv
 from flask_cors import CORS
@@ -8,6 +9,7 @@ import ssl
 import smtplib
 import openai
 from recognition import start_face_recognition_process
+import sys
 
 app = Flask(__name__)
 app.secret_key = "Hello"
@@ -28,8 +30,19 @@ config = {
     'database': 'icms',
     'ssl_disabled': True  # Disable SSL/TLS to enable email sending
 }
-conn = mysql.connector.connect(**config) # Connect to MySQL database
-cursor = conn.cursor()
+try:
+    conn = mysql.connector.connect(**config) # Connect to MySQL database
+    cursor = conn.cursor()
+except mysql.connector.Error as err:
+    if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+        print("Something is wrong with your username or password.")
+        sys.exit(1)
+    elif err.errno == errorcode.ER_BAD_DB_ERROR:
+        print("Database does not exist.")
+        sys.exit(1)
+    else:
+        print(err)
+        sys.exit(1)
 
 # OpenAI API key
 openai.api_key = os.getenv('OPENAI_API_KEY')
@@ -39,6 +52,10 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 def chatbot():
     # Retrieve the user's message from the request
     message = request.json['message']
+
+    # handle the case where the user's message is empty
+    if not message:
+        return jsonify({'reply': 'Sorry, I did not understand your question. Please try again.'})
 
     # Feed the data (table) to the prompt
     with open('data.txt', 'r') as file:
@@ -65,8 +82,7 @@ def chatbot():
 
 @app.route("/start-face-recognition", methods=['GET'])
 def start_face_recognition():
-    result = start_face_recognition_process()
-    return result
+    return start_face_recognition_process()
 
 @app.route("/login", methods=['POST'])
 def login():
@@ -94,7 +110,9 @@ def login():
 
 @app.route("/timetable", methods=['GET'])
 def timetable():
+    # get the student_id from request parameter
     student_id = request.args.get('uid') if request.args.get('uid') else "0000000000"
+    
     query = f"SELECT * FROM Lesson WHERE course_code IN (\
     SELECT course_code FROM Student_asoc_course\
     WHERE student_id = '{student_id}');"
@@ -116,9 +134,8 @@ def timetable():
 
 @app.route("/latest-login", methods=['GET'])
 def latest_login():
+    # get the student_id from request parameter
     student_id = request.args.get('uid') if request.args.get('uid') else "0000000000"
-    if not student_id:
-        return Response(status=400)
 
     query = f"SELECT student_id, login_time FROM Student WHERE student_id = {student_id};"
     cursor.execute(query)
@@ -207,8 +224,6 @@ def upcoming_class():
 def mail():
     # get the student_id from request parameters
     student_id = request.args.get('uid') if request.args.get('uid') else "0000000000"
-    if not student_id:
-        return Response(status=400)
     
     # get student name
     query = f"SELECT name FROM Student WHERE student_id = {student_id};"
@@ -284,8 +299,6 @@ def mail():
 def messages():
     # get the student_id from request parameter
     student_id = request.args.get('uid') if request.args.get('uid') else "0000000000"
-    if not student_id:
-        return Response(status=400)
 
     # get the messages for the student
     query = f'''
@@ -315,8 +328,7 @@ def messages():
 def search_messages():
     # get the student_id from request parameter
     student_id = request.args.get('uid') if request.args.get('uid') else "0000000000"
-    if not student_id:
-        return Response(status=400)
+
     # get the search keyword from request parameter
     keyword = request.args.get('keyword') if request.args.get('keyword') else ""
 

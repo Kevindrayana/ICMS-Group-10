@@ -11,11 +11,11 @@ video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 840)
 
 # create the directory if it does not exist
 uid = "3035918701" # Specify the `uid` and `NUM_IMGS` here.
-NUM_IMGS = 1000
 if not os.path.exists('data/{}'.format(uid)):
     os.mkdir('data/{}'.format(uid))
 
 # Capture 1000 images
+NUM_IMGS = 1000
 cnt = 1
 font = cv2.FONT_HERSHEY_SIMPLEX
 bottomLeftCornerOfText = (50, 50)
