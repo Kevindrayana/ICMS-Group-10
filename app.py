@@ -28,7 +28,6 @@ config = {
     'host': '127.0.0.1',
     'port': 3306,
     'database': 'icms',
-    'ssl_disabled': True  # Disable SSL/TLS to enable email sending
 }
 try:
     conn = mysql.connector.connect(**config) # Connect to MySQL database
@@ -274,8 +273,7 @@ def mail():
     email_body += f"Start Time: {value[2]}\n"
     email_body += f"End Time: {value[3]}\n"
     email_body += f"Classroom Address: {value[4]}\n"
-    email_body += f"Zoom Link: {value[5]}\n"
-    email_body += f"Last Message: {value[6]}\n\n"
+    email_body += f"Zoom Link: {value[5]}\n\n"
 
     email_body += "Please make sure to attend the scheduled sessions on time and utilize the provided resources effectively.\n\n"
     email_body += "Best regards,\nICMS"
