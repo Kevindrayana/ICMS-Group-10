@@ -1,23 +1,6 @@
-from flask import jsonify
 import cv2          
 import pickle
-import mysql.connector
-import os
-import sys
 import time
-
-
-# Create connection to MySQL database
-config = {
-    'user': 'root',
-    'password': os.getenv('SQL_PASSWORD'),
-    'host': '127.0.0.1',
-    'port': 3306,
-    'database': 'icms',
-    'ssl_disabled': True  # Disable SSL/TLS to enable email sending
-}
-conn = mysql.connector.connect(**config) # Connect to MySQL database
-cursor = conn.cursor()
 
 def start_face_recognition_process():
     # Load recognize and read label from model 
@@ -50,20 +33,4 @@ def start_face_recognition_process():
             # If the face is recognized with more than 35% confidence
             if conf >= 35:
                 student_id = labels[id_]
-
-                # Find the student's information in the database.
-                cursor.execute("SELECT * FROM Student WHERE student_id = %s", (student_id,))
-                values = cursor.fetchone()
-
-                if values:
-                    cursor.execute("UPDATE Student SET login_time = NOW() WHERE student_id = %s;", (student_id,))
-                    conn.commit()
-                    res = {
-                        'uid': values[0],
-                        'name': values[1],
-                        'year': values[2],
-                        'program': values[3],
-                        'latest-login': str(values[4]),
-                        'email': values[5]
-                    }
-                    return jsonify(res)
+                return student_id

@@ -31,11 +31,13 @@ export default function Course() {
   );
 
   const [message, setMessage] = useState(data);
+  
   useEffect(() => {
     setUid(sessionStorage.getItem("uid"));
   }, []);
+
   const searchMessage = (keyword) => {
-    fetch(`http://127.0.0.1:5000/search-messages?uid=${uid}&keyword=${keyword}`)
+    fetch(`http://127.0.0.1:5000/specific-messages?uid=${uid}&keyword=${keyword}`)
       .then((res) => res.json())
       .then((data) => {
         setMessage(data);

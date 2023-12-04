@@ -11,45 +11,42 @@ import {
   WeekView,
   MonthView,
 } from "@progress/kendo-react-scheduler";
+import "@progress/kendo-theme-default/dist/all.css";
 
 const currentYear = new Date().getFullYear();
+const now = new Date(Date.now());
+
 const parseAdjust = (eventDate) => {
   const date = new Date(eventDate);
   date.setFullYear(currentYear);
   return date;
 };
-const displayDate = new Date(Date.now());
-const converter = (baseData) => {
-  const temp = baseData.map((dataItem) => ({
-    id: 1,
-    start: parseAdjust(dataItem.Start),
+
+const schedulerConverter = (data) =>
+  data.map((item, id) => ({
+    id: id,
+    start: parseAdjust(item["start_time"]),
     startTimezone: null,
-    end: parseAdjust(dataItem.End),
+    end: parseAdjust(item["end_time"]),
     endTimezone: null,
     isAllDay: false,
-    title: dataItem.Title,
+    title: item["course_code"] + " " + item["lesson_id"],
     description: "",
     recurrenceRule: "FREQ=WEEKLY",
     recurrenceId: null,
     recurrenceExceptions: null,
-    roomId: "MWT",
+    roomId: item["classroom_address"],
     ownerID: null,
     personId: null,
   }));
-  return temp;
-};
 
-import "@progress/kendo-theme-default/dist/all.css";
 
 export default function Dashboard() {
   const [uid, setUid] = useState("");
-  const [baseData, setBaseData] = useState([]);
-  const [schedule, setSchedule] = useState(converter(baseData));
+  const [schedule, setSchedule] = useState(schedulerConverter([]));
   const [isEmailLoading, setIsEmailLoading] = useState(false);
   const [upcomingClass, setUpcomingClass] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  
-  
+
   useEffect(() => {
     setUid(sessionStorage.getItem("uid"));
     getUpcomingClassAndTimetable();
@@ -57,41 +54,22 @@ export default function Dashboard() {
 
   const getUpcomingClassAndTimetable = async () => {
     try {
-      setIsLoading(true);
       const response = await fetch(
         `http://127.0.0.1:5000/upcoming-class?uid=${sessionStorage.getItem(
           "uid"
         )}`
       );
       const res = await response.json();
-      setIsLoading(false);
       setUpcomingClass(res);
 
-      const response2 = await fetch(`http://127.0.0.1:5000/timetable?uid=${sessionStorage.getItem("uid")}`);
+      const response2 = await fetch(
+        `http://127.0.0.1:5000/timetable?uid=${sessionStorage.getItem("uid")}`
+      );
       const data = await response2.json();
-      const temp = formatter(data);
-      setSchedule(converter(temp));
-
+      setSchedule(schedulerConverter(data));
     } catch (error) {
       console.error(error);
-      setIsLoading(false);
     }
-  };
-
-  const formatter = (data) => {
-    let tempBaseData = [];
-    data.forEach((item) => {
-      const temp = {
-        Title: item["course_code"] + " " + item["lesson_id"],
-        Start: item["start_time"],
-        End: item["end_time"]
-      };
-      tempBaseData.push(temp);
-    });
-    // print tempBaseData
-    setBaseData(tempBaseData);
-    setSchedule(converter(tempBaseData));
-    return tempBaseData;
   };
 
   const handleSendEmail = async () => {
@@ -274,7 +252,9 @@ export default function Dashboard() {
                           style: "none",
                           textDecoration: "none",
                         }}>
-                        <a href={upcomingClass.zoom_link}>{upcomingClass.zoom_link}</a>
+                        <a href={upcomingClass.zoom_link}>
+                          {upcomingClass.zoom_link}
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -327,11 +307,7 @@ export default function Dashboard() {
             Class Timetable
           </div>
           <div className="timetable">
-            <Scheduler
-              data={schedule}
-              defaultDate={displayDate}
-              defaultView="week">
-              {/* <AgendaView /> */}
+            <Scheduler data={schedule} defaultDate={now} defaultView="week">
               <DayView />
               <WeekView />
               <MonthView />

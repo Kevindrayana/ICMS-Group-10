@@ -61,7 +61,8 @@ def chatbot():
         data = file.read()
 
     # Give static prompt
-    prompt = f"Given the data from {data}, what is the answer to this question: {message}. If the answer is not available, just answer the prompt casually, forget about the data."
+    prompt = f"Given the data from {data}, what is the answer to this question: {message}.\
+          If the answer is not available, just answer the prompt casually, forget about the data."
 
     # Call the OpenAI API to generate a response
     response = openai.Completion.create(
@@ -79,9 +80,25 @@ def chatbot():
     # Return the response as a JSON object
     return jsonify({'reply': reply})
 
-@app.route("/start-face-recognition", methods=['GET'])
-def start_face_recognition():
-    return start_face_recognition_process()
+@app.route("/face-recognition", methods=['GET'])
+def face_recognition():
+    student_id =  start_face_recognition_process()
+
+    # Find the student's information in the database
+    cursor.execute("SELECT * FROM Student WHERE student_id = %s", (student_id,))
+    values = cursor.fetchone()
+
+    cursor.execute("UPDATE Student SET login_time = NOW() WHERE student_id = %s;", (student_id,))
+    conn.commit()
+    res = {
+        'uid': values[0],
+        'name': values[1],
+        'year': values[2],
+        'program': values[3],
+        'latest-login': str(values[4]),
+        'email': values[5]
+    }
+    return jsonify(res)
 
 @app.route("/login", methods=['POST'])
 def login():
@@ -96,16 +113,16 @@ def login():
             cursor.execute("UPDATE Student SET login_time = NOW() WHERE student_id = %s;", (student_id,))
             conn.commit()
 
-    # JSONify the response
-    values = {
-        'uid': values[0],
-        'name': values[1],
-        'year': values[2],
-        'program': values[3],
-        'latest-login': str(values[4]),
-        'email': values[5]
-    }
-    return jsonify(values)
+        # JSONify the response
+        res = {
+            'uid': values[0],
+            'name': values[1],
+            'year': values[2],
+            'program': values[3],
+            'latest-login': str(values[4]),
+            'email': values[5]
+        }
+        return jsonify(res)
 
 @app.route("/timetable", methods=['GET'])
 def timetable():
@@ -119,16 +136,7 @@ def timetable():
     cursor.execute(query)
     values = cursor.fetchall()
 
-    res = []
-    for r in values:
-        res.append({
-            "lesson_id": r[0],
-            "classroom_address": r[1],
-            "start_time": r[2].isoformat(),
-            "end_time": r[3].isoformat(),
-            "zoom_link": r[4],
-            "course_code": r[5]
-        })
+    res = [{"lesson_id": r[0], "classroom_address": r[1], "start_time": r[2].isoformat(), "end_time": r[3].isoformat(), "zoom_link": r[4], "course_code": r[5]} for r in values]
     return jsonify(res)
 
 @app.route("/latest-login", methods=['GET'])
@@ -140,13 +148,12 @@ def latest_login():
     cursor.execute(query)
     values = cursor.fetchone()
 
-    if values:
-        response = {
-            'student_id': values[0],
-            'login_time': values[1].isoformat()
-        }
+    res = {
+        'student_id': values[0],
+        'login_time': values[1].isoformat()
+    }
 
-    return jsonify(response)
+    return jsonify(res)
 
 @app.route("/courses", methods=['GET'])
 def get_courses():
@@ -163,14 +170,7 @@ def get_courses():
     cursor.execute(query)
     result = cursor.fetchall()
 
-    res = []
-    for r in result:
-        res.append({
-            "course_code": r[0],
-            "course_name": r[1],
-            "course_link": r[2],
-            "course_image": r[3]
-        })
+    res = [{"course_code": r[0], "course_name": r[1], "course_link": r[2], "course_image": r[3]} for r in result]
     return jsonify(res)
 
 @app.route("/upcoming-class", methods=['GET'])
@@ -312,17 +312,10 @@ def messages():
     cursor.execute(query)
     result = cursor.fetchall()
 
-    res = []
-    for r in result:
-        res.append({
-            "time": r[0],
-            "content": r[1],
-            "course": r[2],
-            "instructor": r[3]
-        })
+    res = [{"time": r[0], "content": r[1], "course": r[2], "instructor": r[3]} for r in result]
     return jsonify(res)
 
-@app.route("/search-messages", methods=['GET'])
+@app.route("/specific-messages", methods=['GET'])
 def search_messages():
     # get the student_id from request parameter
     student_id = request.args.get('uid') if request.args.get('uid') else "0000000000"
@@ -330,7 +323,7 @@ def search_messages():
     # get the search keyword from request parameter
     keyword = request.args.get('keyword') if request.args.get('keyword') else ""
 
-    # get the messages for the student that contains the keyword
+    # query the messages for the student that contains the keyword
     query = f'''
     SELECT m.sent_time, m.content, m.course_code, t.name
     FROM Message as m
@@ -345,16 +338,9 @@ def search_messages():
     cursor.execute(query)
     result = cursor.fetchall()
 
-    res = []
-    for r in result:
-        res.append({
-            "time": r[0],
-            "content": r[1],
-            "course": r[2],
-            "instructor": r[3]
-        })
+    res = [{"time": r[0], "content": r[1], "course": r[2], "instructor": r[3]} for r in result]
     return jsonify(res)
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True) 

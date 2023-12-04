@@ -34,6 +34,7 @@ while cnt <= NUM_IMGS:
     # convert to grayscale
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
+    # face detection
     faces = faceCascade.detectMultiScale(
         gray,
         scaleFactor=1.1,
