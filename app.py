@@ -23,10 +23,10 @@ load_dotenv()
 
 # Create connection to MySQL database
 config = {
-    'user': 'root',
+    'user': os.getenv('SQL_USERNAME'),
     'password': os.getenv('SQL_PASSWORD'),
-    'host': '127.0.0.1',
-    'port': 3306,
+    'host': os.getenv('SQL_HOST'),
+    'port': os.getenv('SQL_PORT'),
     'database': 'icms',
 }
 try:

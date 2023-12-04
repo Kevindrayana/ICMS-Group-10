@@ -6,7 +6,7 @@ def start_face_recognition_process():
     # Load recognize and read label from model 
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     recognizer.read("train.yml")
-    labels = {"person_name": 1}
+
     with open("labels.pickle", "rb") as f:
         labels = pickle.load(f)
         labels = {v: k for k, v in labels.items()}
@@ -19,6 +19,7 @@ def start_face_recognition_process():
     start_time = time.time() # get the current time
     while True:
         if time.time() - start_time >= 60: break
+        
         _, frame = cap.read()
         if frame is None:
             print("Error reading frame from camera")
@@ -28,8 +29,10 @@ def start_face_recognition_process():
 
         for (x, y, w, h) in faces:
             roi_gray = gray[y:y + h, x:x + w]
+            
             # predict the id and confidence for faces
             id_, conf = recognizer.predict(roi_gray)
+
             # If the face is recognized with more than 35% confidence
             if conf >= 35:
                 student_id = labels[id_]
