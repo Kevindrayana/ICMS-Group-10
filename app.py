@@ -61,8 +61,8 @@ def chatbot():
         data = file.read()
 
     # Give static prompt
-    prompt = f"Given the data from {data}, what is the answer to this question: {message}.\
-          If the answer is not available, just answer the prompt casually, forget about the data."
+    prompt = f"Act as an assistant for a student. Refuse to anwer questions that are not related to the student's academic life. \
+    Given the data from {data}, what is the answer to this question: {message}."
 
     # Call the OpenAI API to generate a response
     response = openai.Completion.create(
