@@ -63,8 +63,12 @@ mysql> SHOW tables;
 ```
 ### Setting Up the Backend
 ```
-# create .env file in root, write your sql password and openAPI key as such:
-SQL_PASSWORD=****
+# create .env file in root, fill in the blanks as such:
+SQL_USERNAME=*****
+SQL_PASSWORD=*****
+SQL_HOST=*****
+SQL_PORT=*****
+EMAIL_PASSWORD=*****
 OPENAI_API_KEY=****
 
 # enable ssl certificate for email
